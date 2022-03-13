@@ -54,6 +54,10 @@ app.get('/play', async (req, res) =>{
 	res.render('play', {questions: questions});
 })
 
+app.post('/contactus', async (req, res) => {
+	// Testing out the push feature
+})
+
 
 
 /////////////////////////////////////////////
