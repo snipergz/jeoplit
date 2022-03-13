@@ -60,6 +60,20 @@ app.post('/play', async (req, res) => {
 	res.render('play', {questions: questions})
 });
 
+app.get('/contactPage', async(req, res) => {
+	res.render('contactpage');
+});
+
+app.get('/aboutPage', async(req, res) => {
+	res.render('aboutPage');
+});
+
+app.get('/loginPage', async(req, res) => {
+	res.render('loginPage');
+});
+
+
+
 
 
 /////////////////////////////////////////////
