@@ -1,0 +1,22 @@
+{
+  "name": "materials-ajax",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs":"3.1.6",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "puppeteer": "^13.5.1",
+    "sqlite": "^4.0.23",
+    "sqlite3": "^5.0.2"
+  }
+}

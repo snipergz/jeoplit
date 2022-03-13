@@ -1,0 +1,29 @@
+.bp-gradient{
+    background-image: linear-gradient(to right, #00003d, #1c006e)
+}
+.color-lavender{
+    color:#8170f4;
+}
+.home-cta{
+    position: absolute;
+    top: 35%;
+    text-align: center;
+    width: 100%;
+}
+.link-box{
+    width: 500px;
+    height: 35px;
+    background-color: #071834;
+    margin: auto;
+}
+input{
+    color: white;
+    border: 1px solid #2a00a9;
+}
+button{
+    height: 35px;
+}
+#logo{
+    display: block;
+    margin: auto;
+}
