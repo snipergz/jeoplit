@@ -72,6 +72,12 @@ app.get('/loginPage', async(req, res) => {
 	res.render('loginPage');
 });
 
+app.post('/loginPage', async(req, res) => {
+
+	console.log(req.body.uname);
+	console.log(req.body.pw);
+})
+
 
 
 
