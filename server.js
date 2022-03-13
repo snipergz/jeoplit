@@ -26,21 +26,15 @@ app.use(express.static(path.join(__dirname, 'static')));
 /////////////////////////////////////////////
 // routes
 
-app.get('/home', async (req, res) =>{
-	console.log("At home page");
-	res.render('home');
-});
-
-app.get('/play', async (req, res) =>{
-	console.log("Person is now playing");
-	// questions = ["What is a dog", "Where is the fish", "Are we there ye"];
-	async function scrapeProduct(url){
-		console.log("Scraping Browser Started...");
+//Scraper Function
+async function scrapeProduct(url){
+	console.log("Scraping Browser Started...");
+	try{
 		const browser = await puppeteer.launch();
 		const page = await browser.newPage();
 		await page.goto(url);
 		console.log("Scraping in progress...");
-	 	wordText = await page.$$eval('a.SetPageTerm-wordText > span.TermText', el => el.map(el => el.textContent));
+		 wordText = await page.$$eval('a.SetPageTerm-wordText > span.TermText', el => el.map(el => el.textContent));
 		console.log("Got the questions...");
 		// defText = await page.$$eval('a.SetPageTerm-definitionText > span.TermText', el => el.map(el => el.textContent));
 		console.log(wordText);
@@ -48,16 +42,23 @@ app.get('/play', async (req, res) =>{
 		console.log("Finished Scraping...");
 		browser.close();
 		return wordText;
+	}catch(e){
+		console.log(e);
 	}
-	
-	const questions = await scrapeProduct('https://quizlet.com/675591396/se1-midterm-flash-cards/')
-	res.render('play', {questions: questions});
-})
+}
 
-app.post('/contactus', async (req, res) => {
-	// Testing out the push feature
-	// Testing it out again because i need permission
-})
+app.get('/home', async (req, res) =>{
+	console.log("At home page");
+	res.render('home');
+});
+
+app.post('/play', async (req, res) => {
+	console.log("Person is now playing");
+	console.log("Quizlet Link is: " , req.body.quizletLink);
+	const questions = await scrapeProduct(req.body.quizletLink);
+	// questions = ["What does the fox say", "Woof WOof?", "what's Up"];
+	res.render('play', {questions: questions})
+});
 
 
 
