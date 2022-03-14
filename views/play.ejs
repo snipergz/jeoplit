@@ -8,14 +8,16 @@
     <title>Document</title>
 </head>
 <body>
-    <%if(locals.questions){%>
-        <%for(let q of questions){%>
-        <div class="card w-100">
-            <div class="card-body"><%=q%></div>
+    <%if(locals.set){%>
+        <%for(let i = 0; i < set.q.length; i++){%>
+        <div class="card w-50">
+            <div class="card-body"><%=set.q[i]%></div>
+        </div>
+        <div class="card w-50">
+            <div class="card-body"><%=set.a[i]%></div>
         </div>
         <% }%>
-    <%}%>
-    <%else {%>
+    <%}else{%>
         <div class="card w-100">
             <div class="class-body">Sorry:(</div>
         </div>

@@ -44,17 +44,18 @@ async function scrapeProduct(url){
 		const browser = await puppeteer.launch();
 		const page = (await browser.pages())[0];
 		console.log("Browser Opened...")
+		await page.setDefaultNavigationTimeout(0);
 		await page.goto(url);
 		console.log("Scraping in progress...");
-		wordText = await page.$$eval('a.SetPageTerm-wordText > span.TermText', el => el.map(el => el.textContent));
+		questions = await page.$$eval('a.SetPageTerm-wordText > span.TermText', el => el.map(el => el.textContent));
 		console.log("Questions Scraped...");
-		defText = await page.$$eval('a.SetPageTerm-definitionText > span.TermText', el => el.map(el => el.textContent));
+		answers = await page.$$eval('a.SetPageTerm-definitionText > span.TermText', el => el.map(el => el.textContent));
 		console.log("Answers Scraped");
 		// console.log(wordText);
 		// console.log(defText);
 		console.log("Finished Scraping...");
 		browser.close();
-		return wordText;
+		return [questions, answers];
 	}catch(e){
 		console.log(e);
 	}
@@ -69,10 +70,17 @@ app.get('/home', async (req, res) =>{
 app.post('/play', async (req, res) => {
 	console.log("Person is now playing");
 	console.log("Quizlet Link is: " , req.body.quizletLink);
-	const questions = await scrapeProduct(req.body.quizletLink);
+	const [questions, answers] = await scrapeProduct(req.body.quizletLink);
+	const set = {
+		q: questions,
+		a: answers
+	};
+	// console.log(questions);
+	// console.log(answers);
 	if(questions == undefined || questions == null)
 		return res.send("Scraping did not work :(");
-	res.render('play', {questions: questions})
+	console.log(set);
+	res.render('play', {set: set});
 });
 
 app.get('/contactPage', async(req, res) => {
