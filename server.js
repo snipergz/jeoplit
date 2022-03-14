@@ -14,10 +14,10 @@ const User = require('./models/user');
 console.log(`Directory is ${static_dir}`);
 
 // Connecting to the database
-let db;
+let userDB;
 (async () => {
-	db = await open({
-		filename: 'users.db',
+	userDB = await open({
+		filename: 'users.sqlite',
 		driver: sqlite3.Database
 	});
 })();
@@ -113,7 +113,7 @@ app.get('/loginPage', async(req, res) => {
 
 app.post('/loginPage', async(req, res) => {
 
-	let user = await User.login(req.body.username, req.body.password, db);
+	let user = await User.login(req.body.username, req.body.password, userDB);
 	if (user) {
 		req.session.user = user;
 		res.redirect('/home'); // and then add user object
@@ -131,7 +131,7 @@ app.get('/signup', async(req, res) => {
 
 app.post('/signup', async(req, res) => {
 
-	let [success, user, errors] = await User.signup(req.body.username, req.body.password, db);
+	let [success, user, errors] = await User.signup(req.body.username, req.body.password, userDB);
 	
 	if(success) {
 		req.session.user = user
