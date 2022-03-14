@@ -9,7 +9,10 @@ const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
 // const req = require('express/lib/request');
 const session = require('express-session');
+
+// Models that are used to create sets and keep track of user
 const User = require('./models/user');
+const Set = require('./models/sets');
 
 console.log(`Directory is ${static_dir}`);
 
@@ -158,6 +161,23 @@ app.post('/signup', async(req, res) => {
 app.get('/logout', async(req, res) => {
 	delete req.session.user;
 	res.redirect('/home');
+})
+
+// Testing the sets stuff
+app.get('/set', async(req, res) => {
+
+	let fquestions = ["q1", "q2", "q3", "q4", "q5"];
+	let fanswers = ["a1", "a2", "a3", "a4", "q5"];
+
+	let [success, set] = await Set.createRandomSet(fquestions, fanswers);
+
+	if (success) {
+		console.log(set);
+
+		res.send("<h1>Works</h1>");
+	}
+	else
+		res.send("<h1>There was an error</h1>");
 })
 
 
