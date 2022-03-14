@@ -79,6 +79,12 @@ app.get('/contactPage', async(req, res) => {
 	res.render('contactpage');
 });
 
+app.post('/contactPage', async(req, res) => {
+	
+	console.log(req.body.name, req.body.emailAddress, req.body.message);
+	res.send("<h1>Works</h1>");
+})
+
 app.get('/aboutPage', async(req, res) => {
 	res.render('aboutPage');
 });
