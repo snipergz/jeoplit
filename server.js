@@ -62,9 +62,10 @@ async function scrapeProduct(url){
 }
 
 app.get('/home', async (req, res) =>{
-	// if(req.session.user)
-		// res.render('home', user: req.session.user);
-	res.render('home');
+	if(req.session.user)
+		res.render('home', {user: req.session.user});
+	else 
+		res.render('home');
 });
 
 app.post('/play', async (req, res) => {
@@ -84,7 +85,10 @@ app.post('/play', async (req, res) => {
 });
 
 app.get('/contactPage', async(req, res) => {
-	res.render('contactpage');
+	if (req.session.user)
+		res.render('contactpage', {user: req.session.user});
+	else 
+		res.render('contactpage');
 });
 
 app.post('/contactPage', async(req, res) => {
@@ -94,7 +98,10 @@ app.post('/contactPage', async(req, res) => {
 })
 
 app.get('/aboutPage', async(req, res) => {
-	res.render('aboutPage');
+	if (req.session.user)
+		res.render('aboutPage', {user: req.session.user});
+	else
+		res.render('aboutPage');
 });
 
 app.get('/loginPage', async(req, res) => {
@@ -107,9 +114,10 @@ app.get('/loginPage', async(req, res) => {
 app.post('/loginPage', async(req, res) => {
 
 	let user = await User.login(req.body.username, req.body.password, db);
-	if (user) 
+	if (user) {
+		req.session.user = user;
 		res.redirect('/home'); // and then add user object
-	
+	}
 	else 
 		res.render('loginPage'); // and then include errors
 })
@@ -132,6 +140,11 @@ app.post('/signup', async(req, res) => {
 		
 	else 
 		res.render('signup'); // and then include errors
+})
+
+app.get('/logout', async(req, res) => {
+	delete req.session.user;
+	res.redirect('/home');
 })
 
 

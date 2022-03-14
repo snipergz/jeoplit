@@ -10,20 +10,29 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
   rel="stylesheet"  type='text/css'>
 <body class="bp-gradient">
-    <nav class="navbar navbar-expand-lg navbar-dark bp-gradient text-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">JeopLit</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="home">Home</a>
-              <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
-            </div>
-          </div>
+  <nav class="navbar navbar-expand-lg navbar-dark bp-gradient text-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">JeopLit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="home">Home</a>
+          <a class="nav-link" href="aboutPage">About</a>
+          <a class="nav-link active" aria-current="page">Contact</a>
+          <% if (locals.user) { %>
+            <a class="nav-link" href="logout">Logout</a>
+          <% } else { %>
+            <a class="nav-link" href="loginPage">Login</a>
+            <a class="nav-link" href="signup">Sign up</a>
+          <% } %>
+          
+          <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
         </div>
-      </nav>
+      </div>
+    </div>
+  </nav>
       <div class="home-cta text-light p-2">
             <h1>Test Contact Page</h1>
             <div class="container py-4">
