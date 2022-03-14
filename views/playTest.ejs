@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="playTest.css">
+    <link rel="stylesheet" href="home.css">
+    <title>Document</title>
+</head>
+<body class="bp-gradient">
+    <nav class="navbar navbar-expand-lg navbar-dark bp-gradient text-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">JeopLit</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page">Home</a>
+              <a class="nav-link" href="aboutPage">About</a>
+              <a class="nav-link" href="contactPage">Contact</a>
+              <% if (locals.user) { %>
+                <a class="nav-link">Welcome, <%= user.username %>!</a>
+                <a class="nav-link" href="logout">Logout</a>
+              <% } else { %>
+                <a class="nav-link" href="loginPage">Login</a>
+                <a class="nav-link" href="signup">Sign up</a>
+              <% } %>
+              
+              <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
+            </div>
+          </div>
+        </div>
+      </nav>
+    <div class="categories bp-gradient p-2">
+        <h1 class="text-center text-white">Study Smart with JeoPlit</h1>
+    </div>
+    <div class="d-flex flex-row justify-content-evenly bp-gradient p-2">
+        <div class="d-flex flex-column">
+            <h4 class="category text-white align-self-center">Category 1</h4>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+        </div>
+        <div class="d-flex flex-column">
+            <h4 class="category text-white align-self-center">Category 2</h4>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+        </div>
+        <div class="d-flex flex-column">
+            <h4 class="category text-white align-self-center">Category 3</h4>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+        </div>
+        <div class="d-flex flex-column">
+            <h4 class="category text-white align-self-center">Category 4</h4>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+        </div>
+        <div class="d-flex flex-column">
+            <h4 class="category text-white align-self-center">Category 5</h4>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+            <div class="question-box">Test</div>
+        </div>
+    </div>
+</body>
+</html>

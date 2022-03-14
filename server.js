@@ -70,6 +70,11 @@ async function scrapeProduct(url){
 	}
 }
 
+//PRACTICE ROUTE FOR PLAY TEST
+app.get('/playTest', async(req, res) => {
+	res.render('playTest');
+})
+
 app.get('/home', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
@@ -159,8 +164,6 @@ app.get('/logout', async(req, res) => {
 	delete req.session.user;
 	res.redirect('/home');
 })
-
-
 
 
 
