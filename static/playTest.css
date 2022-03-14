@@ -4,4 +4,10 @@
   margin-bottom: 20px;
   text-align: center;
   background-color: rgb(235, 235, 235);
+  position: relative;
+}
+.question-text {
+  position: absolute;
+  top: 38%;
+  right: 44%;
 }

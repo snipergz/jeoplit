@@ -3,6 +3,16 @@ function getRandomInt(num) {
 }
 
 class Set {
+    static async findLink(link, db) {
+        // look up the link in the database
+        const set = await db.get("SELECT * FROM sets WHERE link = ?" , [link]);
+        // if they exist, create and return a new User object with that data
+        if(set)
+          createGame();
+        // otherwise, return null
+        return null;
+    }
+    
     static async createRandomSet(questions, answers) {
 
         let questionsArray = [];
