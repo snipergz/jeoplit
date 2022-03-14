@@ -18,11 +18,17 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="">Home</a>
+              <a class="nav-link active" aria-current="page">Home</a>
               <a class="nav-link" href="aboutPage">About</a>
               <a class="nav-link" href="contactPage">Contact</a>
-              <a class="nav-link" href="loginPage">Login</a>
-              <a class="nav-link" href="signup">Sign up</a>
+              <% if (locals.user) { %>
+                <a class="nav-link">Welcome, <%= user.username %>!</a>
+                <a class="nav-link" href="logout">Logout</a>
+              <% } else { %>
+                <a class="nav-link" href="loginPage">Login</a>
+                <a class="nav-link" href="signup">Sign up</a>
+              <% } %>
+              
               <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
             </div>
           </div>
