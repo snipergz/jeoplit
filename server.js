@@ -30,6 +30,7 @@ let setsDB;
 		driver: sqlite3.Database
 	});
 })();
+console.log("Sets database connected: true");
 /////////////////////////////////////////////
 // express and middleware setup
 
@@ -84,8 +85,12 @@ app.post('/play', async (req, res) => {
 		q: questions,
 		a: answers
 	};
-	// console.log(questions);
-	// console.log(answers);
+	const questionsString = questions.join();
+	const answersString = answers.join();
+	const newSet = await setsDB.run(
+		`INSERT INTO sets (link, questions, answers)
+		VALUES(?, ?, ?);`, [req.body.quizletLink, questionsString, answersString]
+		);
 	if(questions == undefined || questions == null)
 		return res.send("Scraping did not work :(");
 	console.log(set);
