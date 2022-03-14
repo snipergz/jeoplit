@@ -10,10 +10,10 @@
 <body>
     <%if(locals.set){%>
         <%for(let i = 0; i < set.q.length; i++){%>
-        <div class="card w-50">
+        <div class="card w-100 bg-primary text-dark">
             <div class="card-body"><%=set.q[i]%></div>
         </div>
-        <div class="card w-50">
+        <div class="card w-100 bg-success text-dark">
             <div class="card-body"><%=set.a[i]%></div>
         </div>
         <% }%>
