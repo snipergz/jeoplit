@@ -5,12 +5,22 @@ const path = require('path');
 const PORT=8080;
 const static_dir = path.join(__dirname, 'static');
 
-// const sqlite3 = require('sqlite3');
-// const { open } = require('sqlite');
+const sqlite3 = require('sqlite3');
+const { open } = require('sqlite');
 // const req = require('express/lib/request');
+const session = require('express-session');
+const User = require('./models/user');
 
 console.log(`Directory is ${static_dir}`);
 
+// Connecting to the database
+let db;
+(async () => {
+	db = await open({
+		filename: 'users.db',
+		driver: sqlite3.Database
+	});
+})();
 
 /////////////////////////////////////////////
 // express and middleware setup
@@ -19,6 +29,7 @@ const app = express();
 app.use(express.static(static_dir));
 app.use(express.urlencoded({extended: false})); 
 app.set('view engine', 'ejs');
+app.use(session({secret: 'superSecret', resave: false, saveUninitialized: false}));
 
 // serve static files
 app.use(express.static(path.join(__dirname, 'static')));
@@ -48,7 +59,8 @@ async function scrapeProduct(url){
 }
 
 app.get('/home', async (req, res) =>{
-	console.log("At home page");
+	// if(req.session.user)
+		// res.render('home', user: req.session.user);
 	res.render('home');
 });
 
@@ -69,13 +81,40 @@ app.get('/aboutPage', async(req, res) => {
 });
 
 app.get('/loginPage', async(req, res) => {
-	res.render('loginPage');
+	if (req.session.user)
+		res.redirect('/home');
+	else
+		res.render('loginPage');
 });
 
 app.post('/loginPage', async(req, res) => {
 
-	console.log(req.body.uname);
-	console.log(req.body.pw);
+	let user = await User.login(req.body.username, req.body.password, db);
+	if (user) 
+		res.redirect('/home'); // and then add user object
+	
+	else 
+		res.render('loginPage'); // and then include errors
+})
+
+app.get('/signup', async(req, res) => {
+	if(req.session.user) 
+		res.redirect('/home');
+	else
+		res.render('signup');
+});
+
+app.post('/signup', async(req, res) => {
+
+	let [success, user, errors] = await User.signup(req.body.username, req.body.password, db);
+	
+	if(success) {
+		req.session.user = user
+		res.redirect('/home');
+	}
+		
+	else 
+		res.render('signup'); // and then include errors
 })
 
 
