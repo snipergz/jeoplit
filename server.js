@@ -13,7 +13,7 @@ const User = require('./models/user');
 
 console.log(`Directory is ${static_dir}`);
 
-// Connecting to the database
+// Connecting to the databases
 let userDB;
 (async () => {
 	userDB = await open({
@@ -21,7 +21,15 @@ let userDB;
 		driver: sqlite3.Database
 	});
 })();
+console.log("User database connected: true");
 
+let setsDB;
+(async () => {
+	setsDB = await open({
+		filename: 'sets.sqlite',
+		driver: sqlite3.Database
+	});
+})();
 /////////////////////////////////////////////
 // express and middleware setup
 
