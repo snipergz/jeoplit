@@ -75,7 +75,17 @@ async function scrapeProduct(url){
 
 //PRACTICE ROUTE FOR PLAY TEST
 app.get('/playTest', async(req, res) => {
-	res.render('playTest');
+	let questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
+	console.log(questions);
+	questionsArray = {
+		q1: questions.splice(0,5),
+		q2: questions.splice(0,5),
+		q3: questions.splice(0,5),
+		q4: questions.splice(0,5),
+		q5: questions.splice(0,5)
+	}
+	console.log(questionsArray);
+	res.render('playTest', {questions: questionsArray});
 })
 
 app.get('/home', async (req, res) =>{
@@ -171,8 +181,8 @@ app.get('/logout', async(req, res) => {
 // Testing the sets stuff
 app.get('/set', async(req, res) => {
 
-	let fquestions = ["q1", "q2", "q3", "q4", "q5"];
-	let fanswers = ["a1", "a2", "a3", "a4", "q5"];
+	let fquestions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10"];
+	let fanswers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10"];
 
 	let [success, set] = await Set.createRandomSet(fquestions, fanswers);
 

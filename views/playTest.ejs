@@ -36,47 +36,39 @@
       </nav>
     <div class="categories bp-gradient p-2">
         <h1 class="text-center text-white">Study Smart with JeoPlit</h1>
+        <div class="d-flex text-white justify-content-evenly">
+          <h4>Category 1</h4>
+          <h4>Category 2</h4>
+          <h4>Category 3</h4>
+          <h4>Category 4</h4>
+          <h4>Category 5</h4>
+        </div>
     </div>
-    <div class="d-flex flex-row justify-content-evenly bp-gradient p-2">
-        <div class="d-flex flex-column">
-            <h4 class="category text-white align-self-center">Category 1</h4>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
+    <div class="gameset d-flex container flex-row flex-wrap justify-content-start bp-gradient p-2 mr-45px">
+        <div class="d-flex gap-2">
+          <%for (q of questions.q1){%>
+            <div class="question-box"><h3 class="question-text">100</h3></div>
+          <%}%>
         </div>
-        <div class="d-flex flex-column">
-            <h4 class="category text-white align-self-center">Category 2</h4>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
+        <div class="d-flex gap-2">
+          <%for (q of questions.q2){%>
+            <div class="question-box"><h3 class="question-text">200</h3></div>
+          <%}%>
         </div>
-        <div class="d-flex flex-column">
-            <h4 class="category text-white align-self-center">Category 3</h4>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
+        <div class="d-flex gap-2">
+          <%for (q of questions.q3){%>
+            <div class="question-box"><h3 class="question-text">300</h3></div>
+          <%}%>
         </div>
-        <div class="d-flex flex-column">
-            <h4 class="category text-white align-self-center">Category 4</h4>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
+        <div class="d-flex gap-2">
+          <%for (q of questions.q4){%>
+            <div class="question-box"><h3 class="question-text">400</h3></div>
+          <%}%>
         </div>
-        <div class="d-flex flex-column">
-            <h4 class="category text-white align-self-center">Category 5</h4>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
-            <div class="question-box"><h3 class="question-text">Test</h3></div>
+        <div class="d-flex gap-2">
+          <%for (q of questions.q5){%>
+            <div class="question-box"><h3 class="question-text">500</h3></div>
+          <%}%>
         </div>
     </div>
 </body>
