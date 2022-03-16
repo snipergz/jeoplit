@@ -10,30 +10,36 @@
     <title>Document</title>
 </head>
 <body class="bp-gradient">
-    <nav class="navbar navbar-expand-lg navbar-dark bp-gradient text-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">JeopLit</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page">Home</a>
-              <a class="nav-link" href="aboutPage">About</a>
-              <a class="nav-link" href="contactPage">Contact</a>
-              <% if (locals.user) { %>
-                <a class="nav-link">Welcome, <%= user.username %>!</a>
-                <a class="nav-link" href="logout">Logout</a>
-              <% } else { %>
-                <a class="nav-link" href="loginPage">Login</a>
-                <a class="nav-link" href="signup">Sign up</a>
-              <% } %>
-              
-              <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
-            </div>
-          </div>
+  <nav class="navbar navbar-expand-lg navbar-dark bp-gradient text-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="home">JeopLit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="home">Home</a>
+          <a class="nav-link" href="about">About</a>
+          <a class="nav-link" href="contact">Contact</a>
+          <% if (locals.user) { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Profile
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="logout">Logout</a>
+              </div>
+            </li>
+          <% } else { %>
+            <a class="nav-link" href="login">Login</a>
+            <a class="nav-link" href="signup">Sign up</a>
+          <% } %>
+          
+          <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
         </div>
-      </nav>
+      </div>
+    </div>
+  </nav>
     <div class="categories bp-gradient p-2">
         <h1 class="text-center text-white">Study Smart with JeoPlit</h1>
         <div class="d-flex text-white justify-content-evenly">
@@ -47,27 +53,27 @@
     <div class="gameset d-flex container flex-row flex-wrap justify-content-start bp-gradient p-2 mr-45px">
         <div class="d-flex w-100 gap-2">
           <%for (q of questions.q1){%>
-            <div class="w-20 question-box"><h3 class="question-text">100</h3></div>
+            <div class="w-20 question-box" tabindex="0"><h3 class="question-text">100</h3></div>
           <%}%>
         </div>
         <div class="d-flex w-100 gap-2">
           <%for (q of questions.q2){%>
-            <div class="w-20 question-box"><h3 class="question-text">200</h3></div>
+            <div class="w-20 question-box" tabindex="0"><h3 class="question-text">200</h3></div>
           <%}%>
         </div>
         <div class="d-flex w-100 gap-2">
           <%for (q of questions.q3){%>
-            <div class="w-20 question-box"><h3 class="question-text">300</h3></div>
+            <div class="w-20 question-box" tabindex="0"><h3 class="question-text">300</h3></div>
           <%}%>
         </div>
         <div class="d-flex w-100 gap-2">
           <%for (q of questions.q4){%>
-            <div class="w-20 question-box"><h3 class="question-text">400</h3></div>
+            <div class="w-20 question-box" tabindex="0"><h3 class="question-text">400</h3></div>
           <%}%>
         </div>
         <div class="d-flex w-100 gap-2">
           <%for (q of questions.q5){%>
-            <div class="w-20 question-box"><h3 class="question-text">500</h3></div>
+            <div class="w-20 question-box" tabindex="0"><h3 class="question-text">500</h3></div>
           <%}%>
         </div>
     </div>
