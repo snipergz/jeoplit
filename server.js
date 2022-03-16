@@ -143,15 +143,26 @@ app.get('/login', async(req, res) => {
 });
 
 app.post('/login', async(req, res) => {
-
-	let user = await User.login(req.body.username, req.body.password, userDB);
+	const username = req.body.username;
+	const password = req.body.password;
+	let user = await User.login(username, password, userDB);
 	if (user) {
+		console.log(`${username} just logged in`);
 		req.session.user = user;
 		res.redirect('/home'); // and then add user object
 	}
-	else 
-		res.render('login'); // and then include errors
-})
+	else{ 
+		const errors = [];
+		// rule 1: Username cannot be blank
+		// rule 2: Username cannot already be used (hint: use findByUsername to check this)
+		// rule 3: Password must be at least eight characters
+		if(!await User.findByUsername(username, userDB))
+		  errors.push("Username does not exist");
+		if(await User.findByUsername(username, userDB))
+		  errors.push("Incorrect Password please try again");
+		res.render('login', {errors: errors});
+	}
+});
 
 app.get('/signup', async(req, res) => {
 	if(req.session.user) 
@@ -161,16 +172,16 @@ app.get('/signup', async(req, res) => {
 });
 
 app.post('/signup', async(req, res) => {
-
-	let [success, user, errors] = await User.signup(req.body.username, req.body.password, userDB);
+	const username = req.body.username;
+	const password = req.body.password;
+	let [success, user, errors] = await User.signup(username, password, userDB);
 	
 	if(success) {
 		req.session.user = user
-		res.redirect('/home');
+		res.render('home', {user: newuser});
 	}
-		
 	else 
-		res.render('signup'); // and then include errors
+		res.render('signup', {errors: errors}); // and then include errors
 })
 
 app.get('/logout', async(req, res) => {
