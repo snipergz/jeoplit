@@ -7,9 +7,7 @@
   position: relative;
 }
 .question-text {
-  position: absolute;
-  top: 38%;
-  right: 44%;
+  margin-top: 50px;
 }
 
 .gameset {
