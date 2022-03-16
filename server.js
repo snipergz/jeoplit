@@ -75,8 +75,10 @@ async function scrapeProduct(url){
 
 //PRACTICE ROUTE FOR PLAY TEST
 app.get('/playTest', async(req, res) => {
-	let questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
+	const questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
+	const answers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20", "a21", "a22", "a23", "a24", "a25"];
 	console.log(questions);
+	console.log(answers);
 	questionsArray = {
 		q1: questions.splice(0,5),
 		q2: questions.splice(0,5),
@@ -84,8 +86,15 @@ app.get('/playTest', async(req, res) => {
 		q4: questions.splice(0,5),
 		q5: questions.splice(0,5)
 	}
-	console.log(questionsArray);
-	res.render('playTest', {questions: questionsArray});
+	// answersArray = {
+	// 	a1: answers.splice(0,5),
+	// 	a2: answers.splice(0,5),
+	// 	a3: answers.splice(0,5),
+	// 	a4: answers.splice(0,5),
+	// 	a5: answers.splice(0,5)
+	// }
+	// console.log(questionsArray);
+	res.render('playTest', {questions: questionsArray, answers: answers});
 })
 
 app.get('/home', async (req, res) =>{
