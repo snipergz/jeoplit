@@ -115,34 +115,34 @@ app.post('/play', async (req, res) => {
 	res.render('play', {set: set});
 });
 
-app.get('/contactPage', async(req, res) => {
+app.get('/contact', async(req, res) => {
 	if (req.session.user)
-		res.render('contactpage', {user: req.session.user});
+		res.render('contact', {user: req.session.user});
 	else 
-		res.render('contactpage');
+		res.render('contact');
 });
 
-app.post('/contactPage', async(req, res) => {
+app.post('/contact', async(req, res) => {
 	
 	console.log(req.body.name, req.body.emailAddress, req.body.message);
 	res.send("<h1>Works</h1>");
 })
 
-app.get('/aboutPage', async(req, res) => {
+app.get('/about', async(req, res) => {
 	if (req.session.user)
-		res.render('aboutPage', {user: req.session.user});
+		res.render('about', {user: req.session.user});
 	else
-		res.render('aboutPage');
+		res.render('about');
 });
 
-app.get('/loginPage', async(req, res) => {
+app.get('/login', async(req, res) => {
 	if (req.session.user)
 		res.redirect('/home');
 	else
-		res.render('loginPage');
+		res.render('login');
 });
 
-app.post('/loginPage', async(req, res) => {
+app.post('/login', async(req, res) => {
 
 	let user = await User.login(req.body.username, req.body.password, userDB);
 	if (user) {
@@ -150,7 +150,7 @@ app.post('/loginPage', async(req, res) => {
 		res.redirect('/home'); // and then add user object
 	}
 	else 
-		res.render('loginPage'); // and then include errors
+		res.render('login'); // and then include errors
 })
 
 app.get('/signup', async(req, res) => {
