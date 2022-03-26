@@ -51,11 +51,14 @@
         </div>
     </div>
     <div class="gameset d-flex container flex-row flex-wrap justify-content-start bp-gradient p-2 mr-45px">
-      <div class="text-white" id="index"><h1 style="color:white!important;">1</h1></div>
+      <div class="hidden" id="index">1</div>
+      <div class="text-white">Score: <span id="score">0</span></div>
+      <div class="hidden" id="cardCount"><%= size%></div>
         <%for (e of rows){%>
           <div class="d-flex w-100 gap-2">
             <%for (s of e.s){%>
-              <div class="w-20 question-box" question="<%= s.q%>" answer="<%= s.a%>" tabindex="0">
+              <div class="w-20 question-box" id='card<%= s.id%>' tabindex="0">
+                <span class='hidden id'> <%= s.id%> </span>
                 <span class='hidden question'> <%= s.q%> </span> 
                 <span class='hidden answer'> <%= s.a%> </span>
                 <h3 class="question-text"><%= e.v %></h3>
@@ -73,7 +76,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalTitle">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" id="modalClose" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -83,6 +86,7 @@
               <div id="modalQuestion"></div>
               <div id="modalAnswer" class="hidden"></div>
               <div id="modalValue" class="hidden"></div>
+              <div id="modalId" class="hidden"></div>
               <form>
                 <div class="form-group">
                   <label for="aInput" style="color: black">Answer: </label>

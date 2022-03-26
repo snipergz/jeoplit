@@ -2,6 +2,10 @@
   display: none;
 }
 
+.cardHidden {
+  visibility: hidden;
+}
+
 .question-box {
   width: 250px;
   height: 130px;
