@@ -34,23 +34,31 @@ class Set {
             numOfSets++;
         }
 
-        let badSet = {q: questionsArray, a: answersArray}
+        let set = [];
 
         // If there are less than 5 sets, no point in playing the game...
         if(numOfSets < 5) 
-            return [false, badSet];
+            return [false, set];
 
         // Otherwise, if there are an uneven number of sets, make it possible to have 5 categories
         else if (numOfSets % 5 != 0) {
-            for(i = 0; i < numOfSets%5; i++) {
+            for(let i = 0; i < numOfSets%5; i++) {
                 questionsArray.pop();
                 answersArray.pop();
             }
         } 
 
-        let set = {q: questionsArray, a: answersArray}
+        numOfSets = questionsArray.length;
+
+        // Map each question/answer to a new set array
+        for (let i = 0; i < numOfSets; i++) {
+            set.push({
+                q: questionsArray[i], 
+                a: answersArray[i]
+            });
+        }
         
-        // Return success, question/answer arrays
+        // Return success, set array
         return [true, set];
     }
 }
