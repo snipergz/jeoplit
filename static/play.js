@@ -69,13 +69,6 @@ document.querySelector('#modalButton').addEventListener('click', (e) => {
 
     // Add one to index
     index.innerText = parseInt(index.innerText) + 1;
-
-    let cardCount = parseInt(document.querySelector('#cardCount').innerText);
-    if(parseInt(index.innerText) === cardCount) {
-
-        // End the game, pass the score in
-        endGame(parseInt(document.querySelector('#score').innerText));
-    }
 })
 
 document.querySelector('#modalClose').addEventListener('click', (e) => {
@@ -102,6 +95,13 @@ document.querySelector('#checkModalClose').addEventListener('click', (e) => {
 
     $('#checkModal').modal('hide');
 
+    let cardCount = parseInt(document.querySelector('#cardCount').innerText);
+    if(parseInt(index.innerText) === cardCount) {
+
+        // End the game, pass the score in
+        endGame(parseInt(document.querySelector('#score').innerText));
+    }
+
 })
 
 document.querySelector('#checkIssueButton').addEventListener('click', (e) => {
@@ -112,6 +112,13 @@ document.querySelector('#checkIssueButton').addEventListener('click', (e) => {
     // Overwriting score if correct answer
     document.querySelector('#score').innerText = parseInt(document.querySelector('#score').innerText) + parseInt(value);
     $('#checkModal').modal('hide');
+
+    let cardCount = parseInt(document.querySelector('#cardCount').innerText);
+    if(parseInt(index.innerText) === cardCount) {
+
+        // End the game, pass the score in
+        endGame(parseInt(document.querySelector('#score').innerText));
+    }
 })
 
 function endGame(score) {
@@ -122,15 +129,3 @@ function endGame(score) {
     document.querySelector('#endModalScore').innerText = "Score: " + score;
 }
 
-document.querySelector('#yesButton').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    // Rerender with same questions
-
-})
-
-document.querySelector('#noButton').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    // Render home page
-})
