@@ -51,9 +51,9 @@
         </div>
     </div>
     <div class="d-flex container flex-row flex-wrap justify-content-start bp-gradient p-2 mr-45px">
-      <div class="hidden" id="index">1</div>
+      <div class="hidden" id="index">0</div>
       <div class="text-white">Score: <span id="score">0</span></div>
-      <div class="hidden" id="cardCount"><%= size%></div>
+      <div class="hidden" id="cardCount"><%= numCards%></div>
         <%for (e of rows){%>
           <div class="d-flex w-100 gap-2">
             <%for (s of e.s){%>
@@ -136,9 +136,10 @@
           <div class="modal-body">
             <div class="modal-inner">
               <div class="question-side d-none">Question Side</div>
-              <div>Play again?</div>
-              <button type="submit" id="yesButton" class="btn btn-primary">Yes!</button>
-              <button type="submit" id="noButton" class="btn btn-primary">Yes!</button>
+              <div>Thank you for playing!</div>
+              <form method="POST">
+                <button type="submit" class="btn btn-primary">Home</button>
+              </form>
             </div>
           </div>
         </div>

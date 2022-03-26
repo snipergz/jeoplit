@@ -84,8 +84,11 @@ async function scrapeProduct(url){
 
 //PRACTICE ROUTE FOR PLAY TEST
 app.get('/playTest', async(req, res) => {
-	const questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
-	const answers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20", "a21", "a22", "a23", "a24", "a25"];
+	// const questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
+	// const answers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20", "a21", "a22", "a23", "a24", "a25"];
+	
+	const questions = ["q1", "q2", "q3", "q4", "q5"];
+	const answers = ["a1", "a2", "a3", "a4", "a5"];
 	
 	let size = questions.length / 5;
 	let rows = [];
@@ -104,8 +107,8 @@ app.get('/playTest', async(req, res) => {
 	else {
 		// Do something with error handling idk
 	}
-	
-	res.render('playTest', {rows: rows, size: questions.length});
+	numOfCards = parseInt(size) * 5;
+	res.render('playTest', {rows: rows, numCards: numOfCards});
 })
 
 app.post('/play', async(req, res) => {
@@ -155,7 +158,7 @@ app.get('/home', async (req, res) =>{
 });
 
 app.post('/playTest', async(req, res) => {
-	
+	res.redirect('/home');
 })
 
 app.get('/contact', async(req, res) => {
