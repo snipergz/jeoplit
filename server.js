@@ -99,6 +99,10 @@ app.get('/playTest', async(req, res) => {
 	res.render('playTest', {rows: rows, size: questions.length});
 })
 
+app.post('/playTest', async(req, res) => {
+	
+})
+
 app.get('/home', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
