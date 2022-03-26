@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 .question-box {
   width: 250px;
   height: 130px;

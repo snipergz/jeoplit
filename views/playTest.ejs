@@ -72,7 +72,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="modalTitle">Modal title</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -80,7 +80,16 @@
           <div class="modal-body">
             <div class="modal-inner">
               <div class="question-side d-none">Question Side</div>
-              <div class="answer-side">Test</div>
+              <div id="modalQuestion"></div>
+              <div id="modalAnswer" class="hidden"></div>
+              <div id="modalValue" class="hidden"></div>
+              <form>
+                <div class="form-group">
+                  <label for="aInput" style="color: black">Answer: </label>
+                  <input type="textbox" id="aInput" name="aInput" class="form-control">
+                </div>
+                <button type="submit" id="modalButton" class="btn btn-primary">Submit</button>
+              </form>
             </div>
           </div>
         </div>
