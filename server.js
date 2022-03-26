@@ -154,6 +154,7 @@ app.get('/home', async (req, res) =>{
 		res.render('home');
 });
 
+<<<<<<< HEAD
 // app.post('/play', async (req, res) => {
 // 	console.log("Person is now playing");
 // 	console.log("Quizlet Link is: " , req.body.quizletLink);
@@ -174,6 +175,8 @@ app.get('/home', async (req, res) =>{
 // 	res.render('play', {set: set});
 // });
 
+=======
+>>>>>>> 972e9e3f75a09b3699a9a9d19dd35ece4b08305c
 app.post('/playTest', async(req, res) => {
 	res.redirect('/home');
 })
