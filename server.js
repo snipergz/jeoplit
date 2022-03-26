@@ -154,26 +154,6 @@ app.get('/home', async (req, res) =>{
 		res.render('home');
 });
 
-app.post('/play', async (req, res) => {
-	console.log("Person is now playing");
-	console.log("Quizlet Link is: " , req.body.quizletLink);
-	const [questions, answers] = await scrapeProduct(req.body.quizletLink);
-	const set = {
-		q: questions,
-		a: answers
-	};
-	const questionsString = questions.join();
-	const answersString = answers.join();
-	const newSet = await setsDB.run(
-		`INSERT INTO sets (link, questions, answers)
-		VALUES(?, ?, ?);`, [req.body.quizletLink, questionsString, answersString]
-		);
-	if(questions == undefined || questions == null)
-		return res.send("Scraping did not work :(");
-	console.log(set);
-	res.render('play', {set: set});
-});
-
 app.post('/playTest', async(req, res) => {
 	
 })
