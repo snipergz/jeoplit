@@ -108,7 +108,7 @@ app.get('/playTest', async(req, res) => {
 	res.render('playTest', {rows: rows, size: questions.length});
 })
 
-app.post('/playTest', async(req, res) => {
+app.post('/play', async(req, res) => {
 	//Game begins
 	console.log("\nPerson is now playing");
 	console.log("Quizlet Link is: " , req.body.quizletLink);

@@ -103,7 +103,54 @@
         </div>
       </div>
     </div>
-<script src="playTest.js"></script>
+    <!-- Modal for correct answer/answer input-->
+    <div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="checkModalTitle">Modal title</h5>
+            <button type="button" class="close" id="checkModalClose" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-inner">
+              <div class="question-side d-none">Question Side</div>
+              <div id="checkModalQuestion"></div>
+              <div id="checkModalInputAnswer"></div>
+              <div id="checkModalAnswer"></div>
+              <div id="checkModalValue" class="hidden"></div>
+              <div id="checkModalId" class="hidden"></div>
+              <div id="checkIssue"></div>
+              <button type="submit" id="checkIssueButton" class="btn btn-primary hidden">Yes!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for end game-->
+    <div class="modal fade" id="endModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="endModalScore">Modal title</h5>
+            <button type="button" class="close hidden" id="endModalClose" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-inner">
+              <div class="question-side d-none">Question Side</div>
+              <div>Play again?</div>
+              <button type="submit" id="yesButton" class="btn btn-primary">Yes!</button>
+              <button type="submit" id="noButton" class="btn btn-primary">Yes!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<script src="play.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
