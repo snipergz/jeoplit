@@ -96,7 +96,7 @@ app.get('/playTest', async(req, res) => {
 		// Do something with error handling idk
 	}
 	
-	res.render('playTest', {rows: rows});
+	res.render('playTest', {rows: rows, size: questions.length});
 })
 
 app.get('/home', async (req, res) =>{

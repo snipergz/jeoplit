@@ -53,6 +53,7 @@ class Set {
         // Map each question/answer to a new set array
         for (let i = 0; i < numOfSets; i++) {
             set.push({
+                id: i,
                 q: questionsArray[i], 
                 a: answersArray[i]
             });
