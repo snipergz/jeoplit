@@ -109,7 +109,42 @@ app.get('/playTest', async(req, res) => {
 })
 
 app.post('/playTest', async(req, res) => {
-	
+	//Game begins
+	console.log("\nPerson is now playing");
+	console.log("Quizlet Link is: " , req.body.quizletLink);
+
+	//Scrape the Set
+	console.log("\nBeginning the Scrape...");
+	[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
+	if(questions == undefined || questions == null)
+		return res.send("Bad Link");
+	const set = {
+		q: questions,
+		a: answers,
+		t: setTitle
+	};
+	console.log("Scrape Succeeded...\n");
+
+	//Get the Length of the Set
+	const size = set.q.length / 5;
+	let rows = [];
+
+	// Randomize the Set
+	console.log("Randomizing the Set...\n");
+	let [success, deck] = await Set.createRandomSet(set.q, set.a);
+	if(success) {
+		for (let i = 0; i < size; i++) {
+			rows.push({
+				s: deck.splice(0, 5),
+				v: ((i + 1)*100)
+			})
+		}
+	}else{
+		res.send("Bad Set\n");
+	}
+	console.log("Game Started...\n")
+	//Render the playing page
+	res.render('play', {title: set.t, rows: rows, size: size});
 })
 
 app.get('/home', async (req, res) =>{
