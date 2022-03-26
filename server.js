@@ -84,8 +84,11 @@ async function scrapeProduct(url){
 
 //PRACTICE ROUTE FOR PLAY TEST
 app.get('/playTest', async(req, res) => {
-	const questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
-	const answers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20", "a21", "a22", "a23", "a24", "a25"];
+	// const questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
+	// const answers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20", "a21", "a22", "a23", "a24", "a25"];
+	
+	const questions = ["q1", "q2", "q3", "q4", "q5"];
+	const answers = ["a1", "a2", "a3", "a4", "a5"];
 	
 	let size = questions.length / 5;
 	let rows = [];
@@ -104,8 +107,8 @@ app.get('/playTest', async(req, res) => {
 	else {
 		// Do something with error handling idk
 	}
-	
-	res.render('playTest', {rows: rows, size: questions.length});
+	numOfCards = parseInt(size) * 5;
+	res.render('playTest', {rows: rows, numCards: numOfCards});
 })
 
 app.post('/play', async(req, res) => {
@@ -154,29 +157,6 @@ app.get('/home', async (req, res) =>{
 		res.render('home');
 });
 
-<<<<<<< HEAD
-// app.post('/play', async (req, res) => {
-// 	console.log("Person is now playing");
-// 	console.log("Quizlet Link is: " , req.body.quizletLink);
-// 	const [questions, answers] = await scrapeProduct(req.body.quizletLink);
-// 	const set = {
-// 		q: questions,
-// 		a: answers
-// 	};
-// 	const questionsString = questions.join();
-// 	const answersString = answers.join();
-// 	const newSet = await setsDB.run(
-// 		`INSERT INTO sets (link, questions, answers)
-// 		VALUES(?, ?, ?);`, [req.body.quizletLink, questionsString, answersString]
-// 		);
-// 	if(questions == undefined || questions == null)
-// 		return res.send("Scraping did not work :(");
-// 	console.log(set);
-// 	res.render('play', {set: set});
-// });
-
-=======
->>>>>>> 972e9e3f75a09b3699a9a9d19dd35ece4b08305c
 app.post('/playTest', async(req, res) => {
 	res.redirect('/home');
 })
