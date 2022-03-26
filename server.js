@@ -13,6 +13,7 @@ const session = require('express-session');
 // Models that are used to create sets and keep track of user
 const User = require('./models/user');
 const Set = require('./models/sets');
+const { title } = require('process');
 
 console.log(`Directory is ${static_dir}`);
 
@@ -58,16 +59,24 @@ async function scrapeProduct(url){
 		console.log("Browser Opened...")
 		await page.setDefaultNavigationTimeout(0);
 		await page.goto(url);
-		console.log("Scraping in progress...");
+		console.log("\nScraping in progress...");
+		console.log("Scraping Title...");
+		try{
+			setTitle = await page.$$eval('h1.UIHeading', el => el.map(el => el.textContent));
+		}catch(e){
+			console.log(e);
+			setTitle = "FAILED";
+		}
+		console.log(`Title of the set is: ${setTitle}`);
 		questions = await page.$$eval('a.SetPageTerm-wordText > span.TermText', el => el.map(el => el.textContent));
 		console.log("Questions Scraped...");
 		answers = await page.$$eval('a.SetPageTerm-definitionText > span.TermText', el => el.map(el => el.textContent));
 		console.log("Answers Scraped");
 		// console.log(wordText);
 		// console.log(defText);
-		console.log("Finished Scraping...");
+		console.log("Finished Scraping...\n");
 		browser.close();
-		return [questions, answers];
+		return [questions, answers, setTitle];
 	}catch(e){
 		console.log(e);
 	}
@@ -99,6 +108,45 @@ app.get('/playTest', async(req, res) => {
 	res.render('playTest', {rows: rows, size: questions.length});
 })
 
+app.post('/playTest', async(req, res) => {
+	//Game begins
+	console.log("\nPerson is now playing");
+	console.log("Quizlet Link is: " , req.body.quizletLink);
+
+	//Scrape the Set
+	console.log("\nBeginning the Scrape...");
+	[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
+	if(questions == undefined || questions == null)
+		return res.send("Bad Link");
+	const set = {
+		q: questions,
+		a: answers,
+		t: setTitle
+	};
+	console.log("Scrape Succeeded...\n");
+
+	//Get the Length of the Set
+	const size = set.q.length / 5;
+	let rows = [];
+
+	// Randomize the Set
+	console.log("Randomizing the Set...\n");
+	let [success, deck] = await Set.createRandomSet(set.q, set.a);
+	if(success) {
+		for (let i = 0; i < size; i++) {
+			rows.push({
+				s: deck.splice(0, 5),
+				v: ((i + 1)*100)
+			})
+		}
+	}else{
+		res.send("Bad Set\n");
+	}
+	console.log("Game Started...\n")
+	//Render the playing page
+	res.render('play', {title: set.t, rows: rows, size: size});
+})
+
 app.get('/home', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
@@ -125,6 +173,10 @@ app.post('/play', async (req, res) => {
 	console.log(set);
 	res.render('play', {set: set});
 });
+
+app.post('/playTest', async(req, res) => {
+	
+})
 
 app.get('/contact', async(req, res) => {
 	if (req.session.user)
