@@ -122,15 +122,3 @@ function endGame(score) {
     document.querySelector('#endModalScore').innerText = "Score: " + score;
 }
 
-document.querySelector('#yesButton').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    // Rerender with same questions
-
-})
-
-document.querySelector('#noButton').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    // Render home page
-})
