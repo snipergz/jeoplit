@@ -145,12 +145,31 @@ app.post('/play', async(req, res) => {
 	}else{
 		res.send("Bad Set\n");
 	}
+	
+	//Insert into database
+	console.log("Inserting into the sets database...");
+	// const questionsString = set.q.join();
+	// const answersString = set.a.join();
+	// const newSet = await setsDB.run(
+	// 	`INSERT INTO sets (link, questions, answers)
+	// 	VALUES(?, ?, ?);`, [req.body.quizletLink, questionsString, answersString]
+	// 	);
+	// if(questions == undefined || questions == null)
+	// 	return res.send("Scraping did not work :(");
+	
 	console.log("Game Started...\n")
 	//Render the playing page
 	res.render('play', {title: set.t, rows: rows, size: size});
 })
 
 app.get('/home', async (req, res) =>{
+	if(req.session.user)
+		res.render('home', {user: req.session.user});
+	else 
+		res.render('home');
+});
+
+app.get('/play', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
 	else 
