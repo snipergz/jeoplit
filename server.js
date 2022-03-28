@@ -116,6 +116,39 @@ app.post('/play', async(req, res) => {
 	console.log("\nPerson is now playing");
 	console.log("Quizlet Link is: " , req.body.quizletLink);
 
+	//Check first if the set is in the database
+	console.log("Checking Database");
+	const dbSet = await Set.findLink(req.body.quizletLink , setsDB);
+	if(dbSet){
+		// console.log(dbSet);
+		const dbQuestions = dbSet.questions.split(',');
+		const dbAnswers = dbSet.answers.split(',');
+		// console.log(dbQuestions);
+		// console.log(dbAnswers);
+
+		//Get the Length of the Set
+		const size = dbQuestions.length / 5;
+		let rows = [];
+
+		// Randomize the Set
+		console.log("Randomizing the Set...\n");
+		let [success, deck] = await Set.createRandomSet(dbQuestions, dbAnswers);
+		if(success) {
+			for (let i = 0; i < size; i++) {
+				rows.push({
+					s: deck.splice(0, 5),
+					v: ((i + 1)*100)
+				})
+			}
+		}else{
+			res.send("Bad Set\n");
+		}
+
+		res.render('play', {title: dbSet.title, rows: rows, size: size});
+	}
+
+	console.log("Set is not in Database\n");
+
 	//Scrape the Set
 	console.log("\nBeginning the Scrape...");
 	[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
@@ -148,14 +181,15 @@ app.post('/play', async(req, res) => {
 	
 	//Insert into database
 	console.log("Inserting into the sets database...");
-	// const questionsString = set.q.join();
-	// const answersString = set.a.join();
-	// const newSet = await setsDB.run(
-	// 	`INSERT INTO sets (link, questions, answers)
-	// 	VALUES(?, ?, ?);`, [req.body.quizletLink, questionsString, answersString]
-	// 	);
-	// if(questions == undefined || questions == null)
-	// 	return res.send("Scraping did not work :(");
+	const questionsString = set.q.join();
+	const answersString = set.a.join();
+	const deckTitle = set.t;
+	const newSet = await setsDB.run(
+		`INSERT INTO sets (link, questions, answers, title)
+		VALUES(?, ?, ?, ?);`, [req.body.quizletLink, questionsString, answersString, deckTitle]
+		);
+	console.log("Set inserted into database...\n");
+
 	
 	console.log("Game Started...\n")
 	//Render the playing page
