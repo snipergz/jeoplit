@@ -165,6 +165,18 @@ app.post('/play', async(req, res) => {
 	const size = set.q.length / 5;
 	let rows = [];
 
+	//Insert into database
+	console.log("Inserting into the sets database...");
+	const questionsString = set.q.join();
+	const answersString = set.a.join();
+	const deckTitle = set.t;
+	if(questionsString != "" && answersString != "" && deckTitle != ""){
+		const newSet = await setsDB.run(
+			`INSERT INTO sets (link, questions, answers, title)
+			VALUES(?, ?, ?, ?);`, [req.body.quizletLink, questionsString, answersString, deckTitle]
+			);
+	}
+
 	// Randomize the Set
 	console.log("Randomizing the Set...\n");
 	let [success, deck] = await Set.createRandomSet(set.q, set.a);
@@ -178,16 +190,7 @@ app.post('/play', async(req, res) => {
 	}else{
 		res.send("Bad Set\n");
 	}
-	
-	//Insert into database
-	console.log("Inserting into the sets database...");
-	const questionsString = set.q.join();
-	const answersString = set.a.join();
-	const deckTitle = set.t;
-	const newSet = await setsDB.run(
-		`INSERT INTO sets (link, questions, answers, title)
-		VALUES(?, ?, ?, ?);`, [req.body.quizletLink, questionsString, answersString, deckTitle]
-		);
+
 	console.log("Set inserted into database...\n");
 
 	
@@ -287,25 +290,6 @@ app.get('/logout', async(req, res) => {
 	delete req.session.user;
 	res.redirect('/home');
 })
-
-// Testing the sets stuff
-app.get('/set', async(req, res) => {
-
-	let fquestions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10"];
-	let fanswers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10"];
-
-	let [success, set] = await Set.createRandomSet(fquestions, fanswers);
-
-	if (success) {
-		console.log(set);
-
-		res.send("<h1>Works</h1>");
-	}
-	else
-		res.send("<h1>There was an error</h1>");
-})
-
-
 
 /////////////////////////////////////////////
 // start up server
