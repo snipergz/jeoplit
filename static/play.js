@@ -90,6 +90,7 @@ document.querySelector('#modalButton').addEventListener('click', (e) => {
     // Add one to index
     index.innerText = parseInt(index.innerText) + 1;
 
+
     modalClickCounter += 1;
     console.log(modalClickCounter);
 })
@@ -118,6 +119,7 @@ document.querySelector('#checkModalClose').addEventListener('click', (e) => {
 
     $('#checkModal').modal('hide');
 
+    // If at the end of the game, call the endgame function
     let cardCount = parseInt(document.querySelector('#cardCount').innerText);
     if(parseInt(index.innerText) === cardCount) {
 
@@ -134,8 +136,10 @@ document.querySelector('#checkIssueButton').addEventListener('click', (e) => {
 
     // Overwriting score if correct answer
     document.querySelector('#score').innerText = parseInt(document.querySelector('#score').innerText) + parseInt(value);
+
     $('#checkModal').modal('hide');
 
+    // If at the end of the game, call endgame function
     let cardCount = parseInt(document.querySelector('#cardCount').innerText);
     if(parseInt(index.innerText) === cardCount) {
 
@@ -150,5 +154,6 @@ function endGame(score) {
 
     // Update the values for the modal
     document.querySelector('#endModalScore').innerText = "Score: " + score;
+}
 }
 

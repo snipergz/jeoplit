@@ -82,34 +82,34 @@ async function scrapeProduct(url){
 	}
 }
 
-//PRACTICE ROUTE FOR PLAY TEST
-app.get('/playTest', async(req, res) => {
-	// const questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
-	// const answers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20", "a21", "a22", "a23", "a24", "a25"];
+// PRACTICE ROUTE FOR PLAY TEST
+// app.get('/playTest', async(req, res) => {
+// 	// const questions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16", "q17", "q18", "q19", "q20", "q21", "q22", "q23", "q24", "q25"];
+// 	// const answers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20", "a21", "a22", "a23", "a24", "a25"];
 	
-	const questions = ["q1", "q2", "q3", "q4", "q5"];
-	const answers = ["a1", "a2", "a3", "a4", "a5"];
+// 	const questions = ["q1", "q2", "q3", "q4", "q5"];
+// 	const answers = ["a1", "a2", "a3", "a4", "a5"];
 	
-	let size = questions.length / 5;
-	let rows = [];
+// 	let size = questions.length / 5;
+// 	let rows = [];
 
-	let [success, set] = await Set.createRandomSet(questions, answers);
+// 	let [success, set] = await Set.createRandomSet(questions, answers);
 
-	if(success) {
-		for (let i = 0; i < size; i++) {
-			rows.push({
-				s: set.splice(0, 5),
-				v: ((i + 1)*100)
-			})
-		}
-	} 
+// 	if(success) {
+// 		for (let i = 0; i < size; i++) {
+// 			rows.push({
+// 				s: set.splice(0, 5),
+// 				v: ((i + 1)*100)
+// 			})
+// 		}
+// 	} 
 
-	else {
-		// Do something with error handling idk
-	}
-	numOfCards = parseInt(size) * 5;
-	res.render('playTest', {rows: rows, numCards: numOfCards});
-})
+// 	else {
+// 		// Do something with error handling idk
+// 	}
+// 	numOfCards = parseInt(size) * 5;
+// 	res.render('playTest', {rows: rows, numCards: numOfCards});
+// })
 
 app.post('/play', async(req, res) => {
 	//Game begins
@@ -154,15 +154,17 @@ app.post('/play', async(req, res) => {
 	[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
 	if(questions == undefined || questions == null)
 		return res.send("Bad Link");
-	const set = {
-		q: questions,
-		a: answers,
-		t: setTitle
-	};
+	// const set = {
+	// 	q: questions,
+	// 	a: answers,
+	// 	t: setTitle
+	// };
 	console.log("Scrape Succeeded...\n");
 
 	//Get the Length of the Set
-	const size = set.q.length / 5;
+	// const size = set.q.length / 5;
+
+	const size = questions.length / 5;
 	let rows = [];
 
 	//Insert into database
@@ -179,7 +181,9 @@ app.post('/play', async(req, res) => {
 
 	// Randomize the Set
 	console.log("Randomizing the Set...\n");
-	let [success, deck] = await Set.createRandomSet(set.q, set.a);
+	// let [success, deck] = await Set.createRandomSet(set.q, set.a);
+	let [success, deck] = await Set.createRandomSet(questions, answers);
+
 	if(success) {
 		for (let i = 0; i < size; i++) {
 			rows.push({
@@ -195,7 +199,10 @@ app.post('/play', async(req, res) => {
 	
 	console.log("Game Started...\n")
 	//Render the playing page
-	res.render('play', {title: set.t, rows: rows, size: size});
+	// res.render('play', {title: set.t, rows: rows, size: size});
+	const numOfCards = parseInt(size) * 5;
+	res.render('play', {title: setTitle, rows: rows, size: numOfCards});
+
 })
 
 app.get('/home', async (req, res) =>{
@@ -250,6 +257,7 @@ app.get('/data/:link', async (req, res) =>{
 
 
 
+app.post('/returnHome', async(req, res) => {
 app.get('/play', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
