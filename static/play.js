@@ -1,5 +1,7 @@
 index = document.querySelector('#index');
 boxes = document.querySelectorAll('.question-box');
+let modalClickCounter = 0;
+
 boxes.forEach(box => box.addEventListener('click', () => {
     
     // Grab information from the clicked box
@@ -28,6 +30,15 @@ document.querySelector('#modalButton').addEventListener('click', (e) => {
     let value = document.querySelector('#modalValue').innerText.trim();
     let id = document.querySelector('#modalId').innerText.trim();
 
+    //Modal
+    let checkModalTitle = document.querySelector('#checkModalTitle');
+    let checkModalQuestion = document.querySelector('#checkModalQuestion');
+    let checkModalInputAnswer = document.querySelector('#checkModalInputAnswer');
+    let checkModalAnswer = document.querySelector('#checkModalAnswer');
+    let checkModalValue = document.querySelector('#checkModalValue');
+    let checkIssue = document.querySelector('#checkIssue');
+    let checkIssueButton = document.querySelector('#checkIssueButton');
+
     // Hide the modal
     $('#exampleModal').modal('hide');
 
@@ -39,36 +50,49 @@ document.querySelector('#modalButton').addEventListener('click', (e) => {
         // Show the check answer modal
         $('#checkModal').modal('show');
 
-        document.querySelector('#checkModalTitle').innerText = "Correct!";
-        document.querySelector('#checkModalQuestion').innerText = "Question: " + question;
-        document.querySelector('#checkModalInputAnswer').innerText = "Your answer: " + inputAnswer;
-        document.querySelector('#checkModalAnswer').innerText = "Correct answer: " + answer;
+        checkModalTitle.innerText = "Correct!";
+        checkModalQuestion.innerText = question;
+        checkModalInputAnswer.innerHTML = `<span style="color:#00c9ff">Your answer: </span>` + inputAnswer;
+        checkModalAnswer.innerHTML += `<span style="color:#2FEB00">Correct answer: </span>` + answer;
     }
     else {
 
         // Show the check answer modal
         $('#checkModal').modal('show');
-
-        document.querySelector('#checkModalTitle').innerText = "Incorrect!";
-        document.querySelector('#checkModalQuestion').innerText = "Question: " + question;
-        document.querySelector('#checkModalInputAnswer').innerText = "Your answer: " + inputAnswer;
-        document.querySelector('#checkModalAnswer').innerText = "Correct answer: " + answer;
-        document.querySelector('#checkModalValue').innerText = value;
-        document.querySelector('#checkIssue').innerText = "Think there is an issue? To override this, click the button below";
-        document.querySelector('#checkIssueButton').classList.remove('hidden');
+        checkModalTitle.innerText = "Incorrect!";
+        checkModalQuestion.innerText = question;
+        checkModalInputAnswer.innerHTML = `<span style="color:#00c9ff">Your answer: </span>` + inputAnswer;
+        checkModalAnswer.innerHTML += `<span style="color:#2FEB00">Correct answer: </span>` + answer;
+        checkModalValue.innerText = value;
+        checkIssue.innerText = "Think there is an issue? To override this, click the button 👉";
+        checkIssueButton.classList.remove('hidden');
     }
 
     // Reset all of the passed data
-    document.querySelector('#aInput').value = "";
-    document.querySelector('#modalAnswer').innerText = "";
-    document.querySelector('#modalId').innerText = "";
-    document.querySelector('#modalValue').innerText = "";
+    inputAnswer.value = "";
+    answer.innerText = "";
+    id.innerText = "";
+    value.innerText = "";
+
+    //Remove the added nodes first
+    // if(checkModalInputAnswer.hasChildNodes && modalClickCounter != 0){
+    //     checkModalAnswer.removeChild(checkModalAnswer.firstChild);
+    //     // checkModalAnswer.removeChild(checkModalAnswer.firstChild);
+    // }
+    if(checkModalAnswer.hasChildNodes && modalClickCounter != 0){
+        checkModalAnswer.removeChild(checkModalAnswer.firstChild);
+        checkModalAnswer.removeChild(checkModalAnswer.firstChild);
+    }
 
     // Hide the card that was picked
     document.querySelector(`#card${id}`).classList.add('cardHidden');
 
     // Add one to index
     index.innerText = parseInt(index.innerText) + 1;
+
+
+    modalClickCounter += 1;
+    console.log(modalClickCounter);
 })
 
 document.querySelector('#modalClose').addEventListener('click', (e) => {
@@ -131,3 +155,5 @@ function endGame(score) {
     // Update the values for the modal
     document.querySelector('#endModalScore').innerText = "Score: " + score;
 }
+}
+

@@ -8,7 +8,8 @@ class Set {
         const set = await db.get("SELECT * FROM sets WHERE link = ?" , [link]);
         // if they exist, create and return a new User object with that data
         if(set)
-          createGame();
+            return set
+        //   createGame();
         // otherwise, return null
         return null;
     }

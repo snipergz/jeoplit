@@ -1,33 +1,61 @@
-.bp-gradient{
-    background-image: linear-gradient(to right, #00003d, #1c006e)
+.bp-gradient {
+  background-image: linear-gradient(to right, #00003d, #1c006e);
 }
-.color-lavender{
-    color:#8170f4;
+.color-lavender {
+  color: #8170f4;
 }
-.home-cta{
-    position: absolute;
-    top: 35%;
-    text-align: center;
+
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  width: 100%;
+}
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #27427c;
+  color: white;
+  text-align: center;
+  height: 2em;
+}
+.home-cta {
+  position: absolute;
+  top: 15rem;
+  text-align: center;
+  width: 100%;
+}
+@media screen and (max-width: 768px) {
+  .home-cta {
+    top: 11rem;
+  }
+}
+.link-box {
+  width: 500px;
+  height: 35px;
+  background-color: #071834;
+  margin: auto;
+}
+@media screen and (max-width: 500px) {
+  .link-box {
     width: 100%;
+  }
 }
-.link-box{
-    width: 500px;
-    height: 35px;
-    background-color: #071834;
-    margin: auto;
+input {
+  color: white;
+  border: 1px solid #2a00a9;
 }
-input{
-    color: white;
-    border: 1px solid #2a00a9;
+button {
+  height: 35px;
 }
-button{
-    height: 35px;
-}
-#logo{
-    display: block;
-    margin: auto;
+#logo {
+  display: block;
+  margin: auto;
 }
 
 .center-box {
-    margin: auto;
+  margin: auto;
 }
