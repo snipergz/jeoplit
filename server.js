@@ -192,7 +192,6 @@ app.post('/play', async(req, res) => {
 	}
 
 	console.log("Set inserted into database...\n");
-
 	
 	console.log("Game Started...\n")
 	//Render the playing page
@@ -206,6 +205,51 @@ app.get('/home', async (req, res) =>{
 		res.render('home');
 });
 
+//Database API
+app.get('/data/:link', async (req, res) =>{
+	const url = req.params['link'];
+	let link = url.split('%');
+	let finalLink = link.join();
+	console.log("final link is:", finalLink);
+	let found = await Set.findLink(finalLink, setsDB);
+	if(found){
+		data = await setsDB.get(`SELECT * FROM sets WHERE link = '${finalLink}' `);
+	}else{
+		console.log("Link was not Found\n");
+		//Scrape the Set
+		console.log("\nBeginning the Scrape...");
+		[questions, answers, setTitle] = await scrapeProduct(finalLink);
+		if(questions == undefined || questions == null)
+			return res.send("Bad Link");
+		const set = {
+			q: questions,
+			a: answers,
+			t: setTitle
+		};
+		console.log("Scrape Succeeded...\n");
+
+		//Insert into database
+		console.log("Inserting into the sets database...");
+		const questionsString = set.q.join();
+		const answersString = set.a.join();
+		const deckTitle = set.t;
+		if(questionsString != "" && answersString != "" && deckTitle != ""){
+			const newSet = await setsDB.run(
+				`INSERT INTO sets (link, questions, answers, title)
+				VALUES(?, ?, ?, ?);`, [finalLink, questionsString, answersString, deckTitle]
+				);
+		}
+
+		//Fetch it back
+		data = await setsDB.get(`SELECT * FROM sets WHERE link = '${finalLink}' `);
+	}
+	console.log(data);
+	res.json(data);
+});
+
+
+
+
 app.get('/play', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
@@ -217,6 +261,11 @@ app.post('/playTest', async(req, res) => {
 	res.redirect('/home');
 })
 
+
+
+
+
+//ROUTES AT THE MOMENT DO NOT NEED CHANGE
 app.get('/contact', async(req, res) => {
 	if (req.session.user)
 		res.render('contact', {user: req.session.user});
