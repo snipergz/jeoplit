@@ -155,5 +155,4 @@ function endGame(score) {
     // Update the values for the modal
     document.querySelector('#endModalScore').innerText = "Score: " + score;
 }
-}
 

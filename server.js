@@ -81,6 +81,7 @@ async function scrapeProduct(url){
 		console.log(e);
 	}
 }
+
 app.post('/play', async(req, res) => {
 	//Game begins
 	console.log("\nPerson is now playing");
@@ -115,64 +116,57 @@ app.post('/play', async(req, res) => {
 		}
 
 		res.render('play', {title: dbSet.title, rows: rows, size: size});
-	}
-
-	console.log("Set is not in Database\n");
-
-	//Scrape the Set
-	console.log("\nBeginning the Scrape...");
-	[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
-	if(questions == undefined || questions == null)
-		return res.send("Bad Link");
-	// const set = {
-	// 	q: questions,
-	// 	a: answers,
-	// 	t: setTitle
-	// };
-	console.log("Scrape Succeeded...\n");
-
-	//Get the Length of the Set
-	// const size = set.q.length / 5;
-
-	const size = questions.length / 5;
-	let rows = [];
-
-	//Insert into database
-	console.log("Inserting into the sets database...");
-	const questionsString = set.q.join();
-	const answersString = set.a.join();
-	const deckTitle = set.t;
-	if(questionsString != "" && answersString != "" && deckTitle != ""){
-		const newSet = await setsDB.run(
-			`INSERT INTO sets (link, questions, answers, title)
-			VALUES(?, ?, ?, ?);`, [req.body.quizletLink, questionsString, answersString, deckTitle]
-			);
-	}
-
-	// Randomize the Set
-	console.log("Randomizing the Set...\n");
-	// let [success, deck] = await Set.createRandomSet(set.q, set.a);
-	let [success, deck] = await Set.createRandomSet(questions, answers);
-
-	if(success) {
-		for (let i = 0; i < size; i++) {
-			rows.push({
-				s: deck.splice(0, 5),
-				v: ((i + 1)*100)
-			})
-		}
 	}else{
-		res.send("Bad Set\n");
+		console.log("Set is not in Database\n");
+
+		//Scrape the Set
+		console.log("\nBeginning the Scrape...");
+		[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
+		if(questions == undefined || questions == null)
+			return res.send("Bad Link");
+		const set = {
+			q: questions,
+			a: answers,
+			t: setTitle
+		};
+		console.log("Scrape Succeeded...\n");
+
+		//Get the Length of the Set
+		const size = set.q.length / 5;
+		let rows = [];
+
+		//Insert into database
+		console.log("Inserting into the sets database...");
+		const questionsString = set.q.join();
+		const answersString = set.a.join();
+		const deckTitle = set.t;
+		if(questionsString != "" && answersString != "" && deckTitle != ""){
+			const newSet = await setsDB.run(
+				`INSERT INTO sets (link, questions, answers, title)
+				VALUES(?, ?, ?, ?);`, [req.body.quizletLink, questionsString, answersString, deckTitle]
+				);
+		}
+
+		// Randomize the Set
+		console.log("Randomizing the Set...\n");
+		let [success, deck] = await Set.createRandomSet(set.q, set.a);
+		if(success) {
+			for (let i = 0; i < size; i++) {
+				rows.push({
+					s: deck.splice(0, 5),
+					v: ((i + 1)*100)
+				})
+			}
+		}else{
+			res.send("Bad Set\n");
+		}
+
+		console.log("Set inserted into database...\n");
+		
+		console.log("Game Started...\n")
+		//Render the playing page
+		res.render('play', {title: set.t, rows: rows, size: size});
 	}
-
-	console.log("Set inserted into database...\n");
-	
-	console.log("Game Started...\n")
-	//Render the playing page
-	// res.render('play', {title: set.t, rows: rows, size: size});
-	const numOfCards = parseInt(size) * 5;
-	res.render('play', {title: setTitle, rows: rows, size: numOfCards});
-
 })
 
 app.get('/home', async (req, res) =>{
@@ -226,9 +220,6 @@ app.get('/data/:link', async (req, res) =>{
 
 
 
-app.post('/returnHome', async(req, res) => {
-	res.redirect('/home');
-})
 
 app.get('/play', async (req, res) =>{
 	if(req.session.user)
