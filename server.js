@@ -115,7 +115,9 @@ app.post('/play', async(req, res) => {
 			res.send("Bad Set\n");
 		}
 
-		res.render('play', {title: dbSet.title, rows: rows, size: size});
+		const numOfCards = parseInt(size) * 5;
+
+		res.render('play', {title: dbSet.title, rows: rows, size: numOfCards});
 	}else{
 		console.log("Set is not in Database\n");
 
@@ -165,7 +167,8 @@ app.post('/play', async(req, res) => {
 		
 		console.log("Game Started...\n")
 		//Render the playing page
-		res.render('play', {title: set.t, rows: rows, size: size});
+		const numOfCards = parseInt(size) * 5;
+		res.render('play', {title: set.t, rows: rows, size: numOfCards});
 	}
 })
 
