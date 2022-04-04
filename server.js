@@ -221,9 +221,6 @@ app.get('/data/:link', async (req, res) =>{
 	res.json(data);
 });
 
-
-
-
 app.get('/play', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
@@ -231,13 +228,9 @@ app.get('/play', async (req, res) =>{
 		res.render('home');
 });
 
-app.post('/playTest', async(req, res) => {
+app.post('/returnHome', async(req, res) => {
 	res.redirect('/home');
 })
-
-
-
-
 
 //ROUTES AT THE MOMENT DO NOT NEED CHANGE
 app.get('/contact', async(req, res) => {
