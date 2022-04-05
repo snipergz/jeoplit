@@ -43,6 +43,7 @@ app.use(express.static(static_dir));
 app.use(express.urlencoded({extended: false})); 
 app.set('view engine', 'ejs');
 app.use(session({secret: 'superSecret', resave: false, saveUninitialized: false}));
+app.use('/favicon.ico', express.static('images/favicon.ico'));
 
 // serve static files
 app.use(express.static(path.join(__dirname, 'static')));
