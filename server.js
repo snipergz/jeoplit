@@ -1,6 +1,7 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
 const puppeteer = require('puppeteer');
+const nodemailer = require('nodemailer');
+
 
 const path = require('path');
 const PORT=8080;
@@ -245,7 +246,47 @@ app.get('/contact', async(req, res) => {
 app.post('/contact', async(req, res) => {
 	
 	console.log(req.body.name, req.body.emailAddress, req.body.message);
-	res.send("<h1>Works</h1>");
+	const output = `
+		<p>You have a new contact request</p>
+		<h3>Contact Details</h3>
+		<ul>
+			<li>Name: ${req.body.name}</li>
+			<li>Email: ${req.body.emailAddress}</li>
+		</ul>
+		<h3>Message</h3>
+		<p>${req.body.message}</p>
+	`;
+
+	//https://www.youtube.com/watch?v=nF9g1825mwk
+	let transporter = nodemailer.createTransport({
+		service: 'gmail',
+		host: 'smtp.gmail.com',
+		port: 587,
+		secure: false,
+		auth:{
+			user: 'jeoplitContact@gmail.com',
+			pass: 'QuizletJeopardy3!!!'
+		},
+		tls: {
+			rejectUnauthorized: false
+		  },
+	});
+
+	var message = {
+		from: 'jeoplitContact@gmail.com',
+		to: 'rknobel27@gmail.com, mikepanuelos928@gmail.com',
+		subject: 'Quack Quack',
+		text: 'You have been chosen to be a Beta Tester for JeoPlit',
+		html: output
+	  };
+
+	transporter.sendMail(message, (error, info) => {
+	if (error) {
+		return console.log(error);
+	}
+	console.log('Message sent: %s', info.messageId);
+	res.render('contact', {msg: true});
+	});
 })
 
 app.get('/about', async(req, res) => {
