@@ -256,7 +256,7 @@ app.post('/contact', async(req, res) => {
 		<h3>Message</h3>
 		<p>${req.body.message}</p>
 	`;
-
+	//FIX ME FOR SECURITY 
 	//https://www.youtube.com/watch?v=nF9g1825mwk
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
