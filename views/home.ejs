@@ -10,7 +10,7 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
 </head>
 <body class="bp-starry-gradient">
-  <nav class="navbar navbar-expand-lg navbar-dark bp-gradient text-light">
+  <nav class="navbar navbar-expand-lg navbar-dark text-light" style="background-image: linear-gradient(to right, #051834, #051834);">
     <div class="container-fluid">
       <a class="navbar-brand" href="home">JeopLit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,10 +47,15 @@
       <div class="home-cta text-light p-2">
             <h1>Let's Learn it with JeopLit</h1>
             <h3>👇Paste a Quizlet Link Below👇</h3>
-            <form method="POST" action="/play">
+            <form method="POST" action="/play" class="d-inline">
               <input type="text" placeholder="Quizlet Link: " id="link-box" class="link-box" name = "quizletLink"></input>
             </form>
-            <button id="play-button">Play</button>
+            <button style="width: 75px;
+            color: white;
+            background-color: #5600ff;
+            height: 37px;
+            border: none;
+            border-radius: 5px;" id="play-button">Play</button>
             <img id="logo" src="/images/jeoplit-logo-v2.png">
       </div>
   </section>
