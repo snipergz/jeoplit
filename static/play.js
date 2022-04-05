@@ -76,13 +76,13 @@ document.querySelector('#modalButton').addEventListener('click', (e) => {
 
     //Remove the added nodes first
     // if(checkModalInputAnswer.hasChildNodes && modalClickCounter != 0){
-    //     checkModalAnswer.removeChild(checkModalAnswer.firstChild);
-    //     // checkModalAnswer.removeChild(checkModalAnswer.firstChild);
+        // checkModalAnswer.removeChild(checkModalAnswer.firstChild);
+        // checkModalAnswer.removeChild(checkModalAnswer.firstChild);
     // }
-    if(checkModalAnswer.hasChildNodes && modalClickCounter != 0){
-        checkModalAnswer.removeChild(checkModalAnswer.firstChild);
-        checkModalAnswer.removeChild(checkModalAnswer.firstChild);
-    }
+    // if(checkModalAnswer.hasChildNodes && modalClickCounter != 0){
+    //     checkModalAnswer.removeChild(checkModalAnswer.firstChild);
+    //     checkModalAnswer.removeChild(checkModalAnswer.firstChild);
+    // }
 
     // Hide the card that was picked
     document.querySelector(`#card${id}`).classList.add('cardHidden');
