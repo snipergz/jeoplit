@@ -1,4 +1,5 @@
 const express = require('express');
+const nodemailer = require('nodemailer');
 const puppeteer = require('puppeteer');
 
 const path = require('path');
