@@ -339,10 +339,10 @@ app.post('/signup', async(req, res) => {
 	
 	if(success) {
 		req.session.user = user
-		res.render('home', {user: newuser});
+		res.render('home', {user: user});
 	}
 	else 
-		res.render('signup', {errors: errors}); // and then include errors
+		res.render('signup', {errors: errors, uname: req.body.username}); // and then include errors
 })
 
 app.get('/logout', async(req, res) => {
