@@ -1,0 +1,30 @@
+.headshot-container{
+    width: 28%; 
+    min-height:300px; 
+    background-color: black; 
+    border-radius: 15px;
+}
+.person-bio, .person-bio-flip{
+    width: 70%; 
+    min-height: 300px; 
+    background-color: #42536c; 
+    border-radius: 15px
+}
+
+@media screen and (max-width:991px){
+    .headshot-container{
+        width: 100%;
+        height: auto;
+    }
+    .person-bio{
+        width: 100%;
+        height: auto;
+        order: 1;
+    }
+    
+    .person-bio-flip{
+        order: 2;
+        width: 100%;
+        height: auto;
+    }
+}
