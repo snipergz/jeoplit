@@ -46,6 +46,7 @@ app.use(express.urlencoded({extended: false}));
 app.set('view engine', 'ejs');
 app.use(session({secret: 'superSecret', resave: false, saveUninitialized: false}));
 app.use('/favicon.ico', express.static('images/favicon.ico'));
+app.use(express.json())
 
 // serve static files
 app.use(express.static(path.join(__dirname, 'static')));
@@ -84,6 +85,62 @@ async function scrapeProduct(url){
 		console.log(e);
 	}
 }
+
+// Messing around with displaying questions and answers -------------------------------------------------------------------------------
+app.get('/testing', async(req, res) => {
+	res.render('TESTING');
+})
+
+app.post('/testing', async(req, res) => {
+	
+	let size = 5;
+	let rows = [];
+	
+	dbQuestions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"];
+	dbAnswers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15"];
+
+	let [success, deck] = await Set.createRandomSet(dbQuestions, dbAnswers);
+	if(success) {
+		for (let i = 0; i < size; i++) {
+			rows.push({
+				s: deck.splice(0, 5),
+				v: ((i + 1)*100)
+			})
+		}
+	}
+
+	numOfCards = 15;
+
+	res.render('TESTINGCHECK', {success: success, rows: rows});
+})
+
+app.post('/testingWithNewSet', async (req, res) => {
+	//Get the Length of the Set
+	const size = req.body.questions.length / 5;
+	let rows = [];
+
+	// Randomize the Set
+	let [success, deck] = await Set.createRandomSet(req.body.questions, req.body.answers);
+	if(success) {
+		for (let i = 0; i < size; i++) {
+			rows.push({
+				s: deck.splice(0, 5),
+				v: ((i + 1)*100)
+			})
+		}
+	}else{
+		res.send("Bad Set\n");
+	}
+
+	const numOfCards = parseInt(size) * 5;
+
+	req.session.set = rows;
+	req.session.size = numOfCards;
+
+	res.json({status: "ok"})
+})
+
+// ----------------------------------------------------------------------------------------------------------------------------------
 
 app.post('/play', async(req, res) => {
 	//Game begins
