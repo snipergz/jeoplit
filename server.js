@@ -136,7 +136,7 @@ app.post('/testingWithNewSet', async (req, res) => {
 
 	req.session.set = rows;
 	req.session.size = numOfCards;
-
+	console.log(rows);
 	res.json({status: "ok"})
 })
 

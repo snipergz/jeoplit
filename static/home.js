@@ -13,14 +13,14 @@ const link_box = document.getElementById('link-box');
 button.addEventListener('click', async () => 
 {
     console.log("Btn Clicked");
-    let url = link_box.value;
-    let response = "";
-    let encURIComp = encodeURIComponent(`${url}`);
-	console.log(encURIComp);
-    console.log(url);
-    while(!response.ok){
-        showError();
-    }
-    const data = await response.json();
-    console.log(data);
+    // let url = link_box.value;
+    // let response = "";
+    // let encURIComp = encodeURIComponent(`${url}`);
+	// console.log(encURIComp);
+    // console.log(url);
+    // while(!response.ok){
+    //     showError();
+    // }
+    // const data = await response.json();
+    // console.log(data);
 });
