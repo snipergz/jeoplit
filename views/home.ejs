@@ -45,19 +45,25 @@
     </div>
   </div>
   <section>
-      <div class="home-cta text-light p-2">
-            <h1 style="color:#a3caff">Let's Learn it with JeopLit</h1>
-            <h3>👇Paste a Quizlet Link Below👇</h3>
-            <form method="POST" action="/play" class="d-inline">
-              <input type="text" placeholder="Quizlet Link: " id="link-box" class="link-box" name = "quizletLink"></input>
-              <button style="width: 75px;
-              color: white;
-              background-color: #5600ff;
-              height: 37px;
-              border: none;
-              border-radius: 5px;" id="play-button">Play</button>
-            </form>
-            <img id="logo" src="/images/jeoplit-logo-v2.png">
+      <div class="home-cta text-light p-2" id="playForm">
+          <h1 style="color:#a3caff">Let's Learn it with JeopLit</h1>
+          <h3>👇Paste a Quizlet Link Below👇</h3>
+          <form method="POST" action="/play" class="d-inline">
+            <input type="text" placeholder="Quizlet Link: " id="link-box" class="link-box" name = "quizletLink"></input>
+            <button style="width: 75px;
+            color: white;
+            background-color: #5600ff;
+            height: 37px;
+            border: none;
+            border-radius: 5px;" id="play-button">Play</button>
+          </form>
+          <img id="logo" src="/images/jeoplit-logo-v2.png">
+      </div>
+
+      <btn style="width: 50px; color:white" id="practice">Play</btn>
+      <div class="home-cta text-light p-2 d-none"  id="notice">
+          <h1 style="color:#a3caff">Your Set Is currently being loaded...</h1>
+          <img id="logo" src="/images/jeoplit-logo-v2.png">
       </div>
   </section>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
