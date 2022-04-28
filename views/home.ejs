@@ -45,7 +45,7 @@
     </div>
   </div>
   <section>
-      <div class="home-cta text-light p-2" id="playForm">
+      <div class="home-cta text-light p-2 d-none" id="playForm">
           <h1 style="color:#a3caff">Let's Learn it with JeopLit</h1>
           <h3>👇Paste a Quizlet Link Below👇</h3>
           <form method="POST" action="/play" class="d-inline">
@@ -59,10 +59,15 @@
           </form>
           <img id="logo" src="/images/jeoplit-logo-v2.png">
       </div>
-
-      <btn style="width: 50px; color:white" id="practice">Play</btn>
-      <div class="home-cta text-light p-2 d-none"  id="notice">
+      <div class="home-cta text-light p-2"  id="notice">
+        <div class="spin"></div>
+        <div>
           <h1 style="color:#a3caff">Your Set Is currently being loaded...</h1>
+          <h2>You're seeing this message because you are creating history 🎉</h2>
+          <h2>You're the first person to use this quizlet set</h2>
+          <h2>Anyone who uses this quizlet link after it has been loaded today</h2>
+          <h2>will not have to wait for it to be loaded next time.</h2>
+        </div>
           <img id="logo" src="/images/jeoplit-logo-v2.png">
       </div>
   </section>
