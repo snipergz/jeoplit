@@ -185,7 +185,10 @@ app.post('/play', async(req, res) => {
 
 		const numOfCards = parseInt(size) * 5;
 
-		res.render('play', {title: dbSet.title, rows: rows, size: numOfCards});
+		// Send it to user checking
+		res.render('TESTINGCHECK', {success: success, rows:rows});
+
+		// res.render('play', {title: dbSet.title, rows: rows, size: numOfCards});
 	}else{
 		console.log("Set is not in Database\n");
 
