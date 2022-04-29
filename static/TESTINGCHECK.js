@@ -26,23 +26,10 @@ document.querySelector('#confirmationButton').addEventListener('click', async fu
         headers: {'Content-Type': 'application/json'},
         method: 'POST',
         body: JSON.stringify({questions: questionArr, answers: answerArr})
-    }).then(function(res) {
-
-        console.log(res);
-
-        if (res.statusText === "OK") {
-            // Ready to play
-            
-            document.querySelector("#modalTitle").innerText = "Ready to play!";
-        }
-
-        else {
-            // Not ready to play
-
-            document.querySelector("#modalTitle").innerText = "Oops! Something went wrong!";
-        }
-
-        $("#finalConfirmationModal").modal("show");
+    }).then(async (res) => {
+        window.location.assign('/testingPlay');
+    }).catch(async (res) => {
+        window.location.assign('/returnHome');
     })
-    .catch(function(res) {console.log("not ok")})
+
 }); 

@@ -114,6 +114,13 @@ app.post('/testing', async(req, res) => {
 	res.render('TESTINGCHECK', {success: success, rows: rows});
 })
 
+app.get('/testingPlay', async (req, res) => {
+	if (req.session.set)
+		res.render('play', {rows: req.session.set, size: req.session.size})
+	else
+		res.redirect('home');
+})
+
 app.post('/testingWithNewSet', async (req, res) => {
 	//Get the Length of the Set
 	const size = req.body.questions.length / 5;
@@ -136,13 +143,14 @@ app.post('/testingWithNewSet', async (req, res) => {
 
 	req.session.set = rows;
 	req.session.size = numOfCards;
-	console.log(rows);
-	res.json({status: "ok"})
+
+	res.json({status: "OK"})
 })
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 
 app.post('/play', async(req, res) => {
+	
 	//Game begins
 	console.log("\nPerson is now playing");
 	console.log("Quizlet Link is: " , req.body.quizletLink);
@@ -289,6 +297,8 @@ app.get('/play', async (req, res) =>{
 });
 
 app.post('/returnHome', async(req, res) => {
+	delete req.session.set;
+	delete req.session.size;
 	res.redirect('/home');
 })
 
