@@ -3,20 +3,8 @@
 }
 
 .checkQAEntry {
-    margin-bottom: 20px;
-    margin-right: 10 px;
-    margin-top: 10 px;
-    margin-left: 20 px;
-
-    position: relative;
-
-    width: 100%;
-    height: 100%;
     background-color: whitesmoke;
-    text-align: center;
-
-    border-bottom: black;
-    border-bottom-width: 5 px;
+    border-bottom-width: 1px;
 }
 
 .checkQAEntry:hover {
