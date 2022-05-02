@@ -12,6 +12,32 @@ function deletePair(pair) {
     pair.parentNode.remove();
 }
 
+document.querySelector('#flipQA').addEventListener('click', function() {
+    let questions = document.querySelectorAll('.question');
+    let answers = document.querySelectorAll('.answer');
+
+    let questionArr = [];
+    let answerArr = [];
+
+    questions.forEach(question => questionArr.push(question.innerText));
+    answers.forEach(answer => answerArr.push(answer.innerText));
+
+    //console.log(questionArr);
+    //console.log(answerArr);
+
+    let i = 0;
+    questions.forEach(question => (function() {
+        question.innerText = answerArr[i];
+        i++;
+    })());
+
+    i = 0;
+    answers.forEach(answer => (function() {
+        answer.innerText = questionArr[i];
+        i++;
+    })());
+})
+
 document.querySelector('#confirmationButton').addEventListener('click', async function() {
     let questions = document.querySelectorAll('.question');
     let answers = document.querySelectorAll('.answer');
