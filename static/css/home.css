@@ -37,6 +37,53 @@ footer {
   width: 100%;
   z-index: -1;
 }
+/* IN PROGRESS */
+
+/* (A) OUTER CONTAINER */
+.hwrap {
+  width: 100%;
+  overflow: hidden;
+  max-width: 750px;
+  margin: auto;
+  color: white;
+}
+
+/* (B) MIDDLE CONTAINER - FLEX LAYOUT */
+.hmove {
+  display: flex;
+  position: relative;
+  top: 0; right: 0;
+}
+
+/* (C) SLIDES - FORCE INTO ONE LONG HORIZONTAL ROW */
+.hslide {
+  width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+/* (D) SLIDE ANIMATION */
+@keyframes slideh {
+  /* (D0) THE IDEA - USE KEYFRAMES TO SHIFT SLIDES *
+  0% { right: 0; }
+  33% { right: 100%; }
+  66% { right: 200%; }
+  100% { right: 0; }
+ 
+  /* (D1) BUT THE ABOVE WILL SHIFT NON-STOP */
+  /* SO WE ADD PAUSES BETWEEN EACH SLIDE */
+  0% { right: 0; }
+  30% { right: 0; }
+  33% { right: 100%; }
+  63% { right: 100%; }
+  66% { right: 200%; }
+  97% { right: 200%; }
+  100% { right: 0; }
+}
+.hmove { animation: slideh linear 20s infinite; }
+.hmove:hover { animation-play-state: paused; }
+/* IN PROGRESS */
 
 @keyframes spinner {
   0% {
@@ -46,10 +93,16 @@ footer {
     transform: translate3d(-50%, -50%, 0) rotate(360deg);
   }
 }
+
+.spinner{
+  position: relative;
+  margin-bottom: 5rem;  
+}
+
 .spin::before {
   animation: 1.5s linear infinite spinner;
   animation-play-state: inherit;
-  border: solid 15px #cfd0d1;
+  border: solid 15px #25477b;
   border-bottom-color: #1c87c9;
   border-radius: 50%;
   content: "";
@@ -57,7 +110,6 @@ footer {
   width: 150px;
   position: absolute;
   top: -17%;
-  /* left: 10%; */
   transform: translate3d(-50%, -50%, 0);
   will-change: transform;
 }
