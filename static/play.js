@@ -117,6 +117,8 @@ document.querySelector('#checkModalClose').addEventListener('click', (e) => {
     if(!document.querySelector('#checkIssueButton').classList.contains('hidden'))
         document.querySelector('#checkIssueButton').classList.add('hidden');
 
+    document.querySelector('#aInput').value = "";
+
     $('#checkModal').modal('hide');
 
     // If at the end of the game, call the endgame function
@@ -132,7 +134,19 @@ document.querySelector('#checkModalClose').addEventListener('click', (e) => {
 document.querySelector('#checkIssueButton').addEventListener('click', (e) => {
     e.preventDefault();
 
+    document.querySelector('#checkModalTitle').innerText = "";
+    document.querySelector('#checkModalQuestion').innerText = "";
+    document.querySelector('#checkModalAnswer').innerText = "";
+    document.querySelector('#checkModalInputAnswer').innerText = "";
+
+    // Remove the issue text and hide the button if needed
+    document.querySelector('#checkIssue').innerText = "";
+    if(!document.querySelector('#checkIssueButton').classList.contains('hidden'))
+        document.querySelector('#checkIssueButton').classList.add('hidden');
+
     let value = document.querySelector('#checkModalValue').innerText.trim();
+    document.querySelector('#checkModalValue').innerText = "";
+    document.querySelector('#aInput').value = "";
 
     // Overwriting score if correct answer
     document.querySelector('#score').innerText = parseInt(document.querySelector('#score').innerText) + parseInt(value);
