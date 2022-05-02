@@ -60,7 +60,7 @@
                   <tr id='card<%= s.id%>' onmouseover="displayX(this)" onmouseleave="hideX(this)" class="checkQAEntry" id='card<%= s.id%>' tabindex="0">
                     <td contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="color: black; font-size: 20px; width:500px;" class='question'> <%= s.q%> </td> 
                     <td contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="color: black; font-size: 20px; width: 500px;" class='answer'> <%= s.a%> </td>
-                    <td onclick="deletePair(this)" contenteditable="false" style="color: red; font-size: 40px; width: 4%"> <span class="hidden xButton" ><b>X</b></span> </td>
+                    <td onclick="deletePair(this)" contenteditable="false" style="cursor: default; color: red; font-size: 40px; width: 4%"> <span class="hidden xButton" ><b>X</b></span> </td>
                   </tr>
                 <%}%>
               <%}%>
