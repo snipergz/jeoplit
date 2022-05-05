@@ -202,6 +202,8 @@ app.post('/play', async(req, res) => {
 			a: answers,
 			t: setTitle
 		};
+		console.log("Questions Scraped ", set.q);
+		console.log("Answers Scraped ", set.a);
 		console.log("Scrape Succeeded...\n");
 
 		//Get the Length of the Set
@@ -239,7 +241,9 @@ app.post('/play', async(req, res) => {
 		console.log("Game Started...\n")
 		//Render the playing page
 		const numOfCards = parseInt(size) * 5;
-		res.render('play', {title: set.t, rows: rows, size: numOfCards});
+		// Send it to user checking
+		res.render('TESTINGCHECK', {success: success, rows:rows});
+		// res.render('play', {title: set.t, rows: rows, size: numOfCards});
 	}
 })
 
