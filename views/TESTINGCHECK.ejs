@@ -56,10 +56,10 @@
             <tbody>
             <%for (e of rows){%>
               <%for (s of e.s){%>
-                <tr id='card<%= s.id%>' onmouseover="displayX(this)" onmouseleave="hideX(this)" class="checkQAEntry" id='card<%= s.id%>' tabindex="0">
-                  <td class="align-middle question" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="font-size: 1.25rem; width:48%"> <%= s.q%> </td> 
-                  <td class="align-middle answer" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="font-size: 1.25rem; width: 48%;"> <%= s.a%> </td>
-                  <td onclick="deletePair(this)" contenteditable="false" style="cursor: default; color: red; font-size: 40px; width: 4%"> <span class="hidden xButton" ><b>X</b></span> </td>
+                <tr id='card<%= s.id%>' onmouseover="displayX(this)" onmouseleave="hideX(this)" class="checkQAEntry" id='card<%= s.id%>'>
+                  <td tabindex="0" onfocus="displayXTab(this)" onblur="hideXTab(this)" class="align-middle question" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="font-size: 1.25rem; width:48%"> <%= s.q%> </td> 
+                  <td tabindex="0" onfocus="displayXTab(this)" onblur="hideXTab(this)" class="align-middle answer" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="font-size: 1.25rem; width: 48%;"> <%= s.a%> </td>
+                  <td tabindex="0" onclick="deletePair(this)" onfocus="displayX(this)" onblur="hideX(this)" contenteditable="false" style="cursor: default; color: red; font-size: 40px; width: 4%"> <span class="hidden xButton" ><b>X</b></span> </td>
                 </tr>
               <%}%>
             <%}%>

@@ -1,15 +1,31 @@
 function displayX(pair) {
+
     if (pair.querySelector(".xButton").classList.contains('hidden'))
         pair.querySelector(".xButton").classList.remove('hidden');
 }
 
 function hideX(pair) {
+
     if (!pair.querySelector(".xButton").classList.contains('hidden'))
         pair.querySelector(".xButton").classList.add('hidden');
 }
 
+function displayXTab(pair) {
+    if (pair.parentNode.querySelector(".xButton").classList.contains('hidden'))
+    pair.parentNode.querySelector(".xButton").classList.remove('hidden');
+}
+
+function hideXTab(pair) {
+    if (!pair.parentNode.querySelector(".xButton").classList.contains('hidden'))
+        pair.parentNode.querySelector(".xButton").classList.add('hidden');
+}
+
 function deletePair(pair) {
     pair.parentNode.remove();
+}
+
+function deletePairTab(e, pair) { 
+    console.log(e);
 }
 
 document.querySelector('#flipQA').addEventListener('click', function() {
