@@ -210,10 +210,20 @@ app.post('/play', async(req, res) => {
 		const size = set.q.length / 5;
 		let rows = [];
 
+		//Adjust the data
+		for(let question of set.q){
+			question += "$%&*!@#";
+		}
+		for(let answer of set.a){
+			answer += "$%&*!@#";
+		}
+		// console.log("Questions Adjusted ", set.q);
+		// console.log("Answers Adjusted ", set.a);
+
 		//Insert into database
 		console.log("Inserting into the sets database...");
-		const questionsString = set.q.join();
-		const answersString = set.a.join();
+		const questionsString = set.q.join("$%&*!@#");
+		const answersString = set.a.join("$%&*!@#");
 		const deckTitle = set.t;
 		if(questionsString != "" && answersString != "" && deckTitle != ""){
 			const newSet = await setsDB.run(
