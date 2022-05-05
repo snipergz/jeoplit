@@ -37,6 +37,16 @@ footer {
   width: 100%;
   z-index: -1;
 }
+
+.jeoplit-btn{
+  min-width: 75px;
+  width: auto;
+  color: white;
+  background-color: #5600ff;
+  height: 37px;
+  border: none;
+  border-radius: 5px;
+}
 /* IN PROGRESS */
 
 /* (A) OUTER CONTAINER */

@@ -8,6 +8,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/TESTINGCHECK.css"> 
+    <link rel="stylesheet" href="/css/home.css">
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
 </head>
 <body class="bp-starry-gradient">
@@ -39,73 +40,61 @@
       </div>
     </div>
   </nav>
-  <div class="row m-4 d-flex justify-content-center">
-    <div class="alert alert-danger w-75 d-none" role="alert" id="error_msg">
-      Error message here
-    </div>
-  </div>
-  <section>
-      <div class="text-center text-light p-2">
+  <section">
+      <div class="text-center text-light p-2" id="qaTable">
         <%if (locals.success) {%>
-            <h1 style="color:#a3caff; font-size: 32px;">Check answers:</h1>
-            <div class="d-flex container flex-row flex-wrap justify-content-start bp-gradient p-2 mr-45px">
-            <table id="checkQATable">
+          <h1 style="color:#a3caff;">Check answers:</h1>
+          <div class="container">
+          <table class="table table-dark table-bordered table-striped">
+            <thead>
               <tr>
-                <th style="font-size: 28px;">Question</th>
-                <th style="font-size: 28px;">Answer</th>
+                <th scope="col" ><h3>Questions</h3></th>
+                <th scope="col"><h3>Answers</h3></th>
+                <th scope="col"></th>
               </tr>
-              
-              <%for (e of rows){%>
-                <%for (s of e.s){%>
-                  <tr id='card<%= s.id%>' onmouseover="displayX(this)" onmouseleave="hideX(this)" class="checkQAEntry" id='card<%= s.id%>' tabindex="0">
-                    <td contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="color: black; font-size: 20px; width:500px;" class='question'> <%= s.q%> </td> 
-                    <td contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="color: black; font-size: 20px; width: 500px;" class='answer'> <%= s.a%> </td>
-                    <td onclick="deletePair(this)" contenteditable="false" style="cursor: default; color: red; font-size: 40px; width: 4%"> <span class="hidden xButton" ><b>X</b></span> </td>
-                  </tr>
-                <%}%>
+            </thead>
+            <tbody>
+            <%for (e of rows){%>
+              <%for (s of e.s){%>
+                <tr id='card<%= s.id%>' onmouseover="displayX(this)" onmouseleave="hideX(this)" class="checkQAEntry" id='card<%= s.id%>' tabindex="0">
+                  <td class="align-middle question" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="font-size: 1.25rem; width:48%"> <%= s.q%> </td> 
+                  <td class="align-middle answer" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="font-size: 1.25rem; width: 48%;"> <%= s.a%> </td>
+                  <td onclick="deletePair(this)" contenteditable="false" style="cursor: default; color: red; font-size: 40px; width: 4%"> <span class="hidden xButton" ><b>X</b></span> </td>
+                </tr>
               <%}%>
-            </table> 
-            </div>
+            <%}%>
+          </tbody>
+          </table> 
+          </div>
 
-            <div>
-              <button id="flipQA">Flip QA</button>
-              <button id="confirmationButton">Confirmation</button>
-            </div>
-
-            <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="finalConfirmationModal" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h2 class="modal-title" id="modalTitle">Modal Title</h2>
-                    <button type="button" class="close" id="modalClose" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="modal-inner">
-                      <div class="question-side d-none">Question Side</div>
-                      <div id="modalQuestion"></div>
-                      <div id="modalAnswer" class="hidden"></div>
-                      <div id="modalValue" class="hidden"></div>
-                      <div id="modalId" class="hidden"></div>
-                      <form>
-                        <div class="form-group">
-                          <label for="aInput" style="color: white;">Answer: </label>
-                          <input type="textbox" id="aInput" name="aInput" class="form-control">
-                        </div>
-                        <button type="submit" id="modalButton" class="btn btn-primary">Submit</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
+          <div>
+            <button aria-label="Flip Questions and Answers" class="jeoplit-btn" id="flipQA">Flip QA</button>
+            <button aria-label="Study Set" class="jeoplit-btn" id="confirmationButton">Study Set</button>
+          </div>
+      </div>
+      <div class="container" id="qaPhone">
+        <%for (e of rows){%>
+          <%for (s of e.s){%>
+            <div class="card mb-3" id='card<%= s.id%>' tabindex="0">
+              <div class="card-body text-white bg-dark">
+                <p>Question: <span class="questionPhone" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false"><%=s.q%></span></p>
+                <p>Answer: <span class="answerPhone" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false"><%=s.a%></span></p>
+              </div>
+              <div class="card-footer text-center" onclick="deletePair(this)" contenteditable="false"  id='card<%= s.id%>' tabindex="0">
+                  <span style="color: red; font-size: 1.3rem;" class="xButton" >X</span>
               </div>
             </div>
-       <%} else {%>
-        <h1>Something went wrong!</h1>
+          <%}%>
         <%}%>
-       </div>
-       
+        <div class="text-center">
+          <button aria-label="Flip Questions and Answers" class="jeoplit-btn" id="flipQAPhone">Flip QA</button>
+          <button aria-label="Study Set" class="jeoplit-btn" id="confirmationButtonPhone">Study Set</button>
+        </div>
+      </div>
   </section>
+       <%} else {%>
+        <h1>Something went wrong, please try again!</h1>
+        <%}%>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
