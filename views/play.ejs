@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="/css/home.css">
     <title>JeopLit</title>
 </head>
-<body class="bp-gradient">
-  <nav class="navbar navbar-expand-lg navbar-dark bp-gradient text-light">
+<body class="bp-starry-gradient">
+  <nav class="navbar navbar-expand-lg navbar-dark bp-starry-gradient text-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="home">JeoPlit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@
       </div>
     </div>
   </nav>
-    <div class="categories bp-gradient p-2">
+    <div class="categories bp-starry-gradient p-2">
         <% if (locals.title) { %>
             <h1 class="text-center text-white"><%=title%></h1>
         <%}else{ %>
@@ -54,12 +54,12 @@
           <h4>Category 5</h4>
         </div>
     </div>
-    <div class="d-flex container flex-row flex-wrap justify-content-start bp-gradient p-2 mr-45px">
+    <div class="d-flex flex-row flex-wrap bp-starry-gradient p-2 ">
       <div class="hidden" id="index">0</div>
-      <div class="text-white">Score: <span id="score">0</span></div>
+      <div class="container text-white text-left">Score: <span id="score">0</span></div>
       <div class="hidden" id="cardCount"><%= size%></div>
         <%for (e of rows){%>
-          <div class="d-flex w-100 gap-2">
+          <div class="d-flex justify-content-center w-100 gap-2">
             <%for (s of e.s){%>
               <div class="w-20 question-box" id='card<%= s.id%>' tabindex="0">
                 <span class='hidden id'> <%= s.id%> </span>

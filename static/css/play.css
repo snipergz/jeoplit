@@ -18,6 +18,12 @@
   margin-top: 50px;
 }
 
+@media screen and (max-width:649px) {
+  .categories h4{
+    font-size: 0.9rem!important;
+  }
+}
+
 .gameset {
   margin-right: 45px;
   position: relative;
