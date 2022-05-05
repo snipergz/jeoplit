@@ -13,7 +13,12 @@
   text-align: center;
   background-color: rgb(235, 235, 235);
   position: relative;
+  cursor: pointer;
 }
+.question-box:hover {
+  background-color: lightblue;
+}
+
 .question-text {
   margin-top: 50px;
 }
