@@ -90,12 +90,12 @@ document.querySelector('#confirmationButton').addEventListener('click', async fu
     questions.forEach(question => questionArr.push(question.innerText));
     answers.forEach(answer => answerArr.push(answer.innerText));
 
-    await fetch('/testingWithNewSet', {
+    await fetch('/playWithNewSet', {
         headers: {'Content-Type': 'application/json'},
         method: 'POST',
         body: JSON.stringify({questions: questionArr, answers: answerArr})
     }).then(async (res) => {
-        window.location.assign('/testingPlay');
+        window.location.assign('/playSet');
     }).catch(async (res) => {
         window.location.assign('/returnHome');
     })
@@ -112,12 +112,12 @@ document.querySelector('#confirmationButtonPhone').addEventListener('click', asy
     questions.forEach(question => questionArr.push(question.innerText));
     answers.forEach(answer => answerArr.push(answer.innerText));
 
-    await fetch('/testingWithNewSet', {
+    await fetch('/playWithNewSet', {
         headers: {'Content-Type': 'application/json'},
         method: 'POST',
         body: JSON.stringify({questions: questionArr, answers: answerArr})
     }).then(async (res) => {
-        window.location.assign('/testingPlay');
+        window.location.assign('/playSet');
     }).catch(async (res) => {
         window.location.assign('/returnHome');
     })

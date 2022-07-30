@@ -17,26 +17,31 @@ const User = require('./models/user');
 const Set = require('./models/sets');
 const { title } = require('process');
 
+// Used to seed the questions and answers scraped from quizlet
+const setDBSeed = "$%&*!@#";
+
 console.log(`Directory is ${static_dir}`);
 
 // Connecting to the databases
 let userDB;
 (async () => {
+	console.log("Connecting to User database...")
 	userDB = await open({
 		filename: 'users.sqlite',
 		driver: sqlite3.Database
 	});
+	console.log("User database connected: true");
 })();
-console.log("User database connected: true");
 
 let setsDB;
 (async () => {
+	console.log("Connecting to Sets database...")
 	setsDB = await open({
 		filename: 'sets.sqlite',
 		driver: sqlite3.Database
 	});
+	console.log("Sets database connected: true");
 })();
-console.log("Sets database connected: true");
 /////////////////////////////////////////////
 // express and middleware setup
 
@@ -66,18 +71,26 @@ async function scrapeProduct(url){
 		console.log("\nScraping in progress...");
 		console.log("Scraping Title...");
 		try{
-			setTitle = await page.$$eval('h1.UIHeading', el => el.map(el => el.textContent));
+			setTitle = await page.$$eval('div.SetPage-titleWrapper > h1', el => el.map(el => el.textContent));
+			console.log(`Title of the set is: ${setTitle}`);
 		}catch(e){
 			console.log(e);
-			setTitle = "FAILED";
+			setTitle = "FAILED-SCRAPING";
 		}
-		console.log(`Title of the set is: ${setTitle}`);
-		questions = await page.$$eval('a.SetPageTerm-wordText > span.TermText', el => el.map(el => el.textContent));
-		console.log("Questions Scraped...");
-		answers = await page.$$eval('a.SetPageTerm-definitionText > span.TermText', el => el.map(el => el.textContent));
-		console.log("Answers Scraped");
-		// console.log(wordText);
-		// console.log(defText);
+		try {
+			questions = await page.$$eval('a.SetPageTerm-wordText > span.TermText', el => el.map(el => el.textContent));
+			console.log("Questions Scraped...");
+		} catch (e) {
+			console.log(e);
+			questions = "FAILED-SCRAPING";
+		}
+		try {
+			answers = await page.$$eval('a.SetPageTerm-definitionText > span.TermText', el => el.map(el => el.textContent));
+			console.log("Answers Scraped");	
+		} catch (e) {
+			console.log(e);
+			answers = "FAILED-SCRAPING";
+		}
 		console.log("Finished Scraping...\n");
 		browser.close();
 		return [questions, answers, setTitle];
@@ -86,42 +99,14 @@ async function scrapeProduct(url){
 	}
 }
 
-// Messing around with displaying questions and answers -------------------------------------------------------------------------------
-app.get('/testing', async(req, res) => {
-	res.render('TESTING');
-})
-
-app.post('/testing', async(req, res) => {
-	
-	let size = 5;
-	let rows = [];
-	
-	dbQuestions = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"];
-	dbAnswers = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15"];
-
-	let [success, deck] = await Set.createRandomSet(dbQuestions, dbAnswers);
-	if(success) {
-		for (let i = 0; i < size; i++) {
-			rows.push({
-				s: deck.splice(0, 5),
-				v: ((i + 1)*100)
-			})
-		}
-	}
-
-	numOfCards = 15;
-
-	res.render('TESTINGCHECK', {success: success, rows: rows});
-})
-
-app.get('/testingPlay', async (req, res) => {
+app.get('/playSet', async (req, res) => {
 	if (req.session.set)
 		res.render('play', {rows: req.session.set, size: req.session.size})
 	else
 		res.redirect('home');
 })
 
-app.post('/testingWithNewSet', async (req, res) => {
+app.post('/playWithNewSet', async (req, res) => {
 	//Get the Length of the Set
 	const size = req.body.questions.length / 5;
 	let rows = [];
@@ -149,7 +134,7 @@ app.post('/testingWithNewSet', async (req, res) => {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 
-app.post('/play', async(req, res) => {
+app.post('/submitSet', async(req, res) => {
 	
 	//Game begins
 	console.log("\nPerson is now playing");
@@ -159,9 +144,11 @@ app.post('/play', async(req, res) => {
 	console.log("Checking Database");
 	const dbSet = await Set.findLink(req.body.quizletLink , setsDB);
 	if(dbSet){
+		console.log("Set is in the Database\n");
+
 		// console.log(dbSet);
-		const dbQuestions = dbSet.questions.split(',');
-		const dbAnswers = dbSet.answers.split(',');
+		const dbQuestions = dbSet.questions.split(setDBSeed);
+		const dbAnswers = dbSet.answers.split(setDBSeed);
 		// console.log(dbQuestions);
 		// console.log(dbAnswers);
 
@@ -184,9 +171,10 @@ app.post('/play', async(req, res) => {
 		}
 
 		const numOfCards = parseInt(size) * 5;
-
+		
+		console.log("Game Started - User Set Configuration...\n");
 		// Send it to user checking
-		res.render('TESTINGCHECK', {success: success, rows:rows});
+		res.render('configureSet', {success: success, rows:rows});
 
 		// res.render('play', {title: dbSet.title, rows: rows, size: numOfCards});
 	}else{
@@ -198,43 +186,45 @@ app.post('/play', async(req, res) => {
 		if(questions == undefined || questions == null)
 			return res.send("Bad Link");
 		const set = {
-			q: questions,
-			a: answers,
-			t: setTitle
+			questions: questions,
+			answers: answers,
+			title: setTitle
 		};
-		console.log("Questions Scraped ", set.q);
-		console.log("Answers Scraped ", set.a);
+		console.log("Scraping ", set.title);
+		console.log("Questions Scraped ", set.questions);
+		console.log("Answers Scraped ", set.answers);
 		console.log("Scrape Succeeded...\n");
 
 		//Get the Length of the Set
-		const size = set.q.length / 5;
+		const size = set.questions.length / 5;
 		let rows = [];
 
 		//Adjust the data
-		for(let question of set.q){
-			question += "$%&*!@#";
+		for(let question of set.questions){
+			question += setDBSeed;
 		}
-		for(let answer of set.a){
-			answer += "$%&*!@#";
+		for(let answer of set.answers){
+			answer += setDBSeed;
 		}
 		// console.log("Questions Adjusted ", set.q);
 		// console.log("Answers Adjusted ", set.a);
 
 		//Insert into database
 		console.log("Inserting into the sets database...");
-		const questionsString = set.q.join("$%&*!@#");
-		const answersString = set.a.join("$%&*!@#");
-		const deckTitle = set.t;
+		const questionsString = set.questions.join(setDBSeed);
+		const answersString = set.answers.join(setDBSeed);
+		const deckTitle = set.title;
 		if(questionsString != "" && answersString != "" && deckTitle != ""){
 			const newSet = await setsDB.run(
 				`INSERT INTO sets (link, questions, answers, title)
 				VALUES(?, ?, ?, ?);`, [req.body.quizletLink, questionsString, answersString, deckTitle]
 				);
+			console.log("Set inserted into database...\n");
 		}
 
 		// Randomize the Set
 		console.log("Randomizing the Set...\n");
-		let [success, deck] = await Set.createRandomSet(set.q, set.a);
+		let [success, deck] = await Set.createRandomSet(set.questions, set.answers);
 		if(success) {
 			for (let i = 0; i < size; i++) {
 				rows.push({
@@ -246,13 +236,11 @@ app.post('/play', async(req, res) => {
 			res.send("Bad Set\n");
 		}
 
-		console.log("Set inserted into database...\n");
-		
-		console.log("Game Started...\n")
+		console.log("Game Started - User Set Configuration...\n");
 		//Render the playing page
 		const numOfCards = parseInt(size) * 5;
 		// Send it to user checking
-		res.render('TESTINGCHECK', {success: success, rows:rows});
+		res.render('configureSet', {success: success, rows:rows});
 		// res.render('play', {title: set.t, rows: rows, size: numOfCards});
 	}
 })
@@ -281,17 +269,17 @@ app.get('/data/:link', async (req, res) =>{
 		if(questions == undefined || questions == null)
 			return res.send("Bad Link");
 		const set = {
-			q: questions,
-			a: answers,
-			t: setTitle
+			questions: questions,
+			answers: answers,
+			title: setTitle
 		};
 		console.log("Scrape Succeeded...\n");
 
 		//Insert into database
 		console.log("Inserting into the sets database...");
-		const questionsString = set.q.join();
-		const answersString = set.a.join();
-		const deckTitle = set.t;
+		const questionsString = set.questions.join();
+		const answersString = set.answers.join();
+		const deckTitle = set.title;
 		if(questionsString != "" && answersString != "" && deckTitle != ""){
 			const newSet = await setsDB.run(
 				`INSERT INTO sets (link, questions, answers, title)
@@ -306,7 +294,7 @@ app.get('/data/:link', async (req, res) =>{
 	res.json(data);
 });
 
-app.get('/play', async (req, res) =>{
+app.get('/playSet', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
 	else 
