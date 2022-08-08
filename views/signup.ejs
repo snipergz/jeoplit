@@ -38,19 +38,32 @@
       </div>
     </div>
   </nav>
-      <div class="container text-light p-2 text-center" style="max-width: 550px;">
-            <h1>Welcome to Jeoplit 👋</h1>
+      <div class="container text-light p-2" style="max-width: 550px;">
+            <h1 class="text-center">Welcome to Jeoplit 👋</h1>
             <div class="card center-box">
               <div class="card-body">
-                <form method="POST" action="/signup">
+                <form id="signupForm">
                   <div class="form-group mb-3">
                     <label for="username" style="color: black">Username</label>
-                    <input type="textbox" name="username" value="<%= locals.uname %>" class="form-control" placeholder="Username">
+                    <input id="username" type="textbox" name="username" value="<%= locals.uname %>" class="form-control">
+                    <label id="usernameAlert" role="alert" for="email" class="mt-2 d-none" style="color: red;"></label>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="email" style="color: black">Email</label>
+                    <input id="email" type="textbox" name="email" class="form-control" >
+                    <label id="emailAlert" role="alert" for="email" class="mt-2 d-none" style="color: red;"></label>
                   </div>
                   <div class="form-group mb-3">
                     <label for="password" style="color: black">Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Password"> 
+                    <input id="password" type="password" name="password" class="form-control" > 
+                    <label id="passwordAlert" role="alert" for="password" class="mt-2 d-none" style="color: red;"></label>
                   </div>
+                  <div class="form-group mb-3">
+                    <label for="confirmPassword" style="color: black">Confirm Your Password</label>
+                    <input id="confirmPassword" type="password" name="confirmPassword" class="form-control"> 
+                    <label id="confirmPasswordAlert" role="alert" for="confirmPassword" class="mt-2 d-none" style="color: red;"></label>
+                  </div>
+                  <p style="color:rgba(0,0,0,.8); text-align:left;"> <span style="color:rgba(0,0,0,.7); font-weight:600;">Note:</span> Password must contain at least eight characters, including at least 1 Capital letter, 1 lowercase letter, and 1 number.</p>
                   <% if (locals.errors) { %>
                     <div class="alert-danger rounded p-3 mt-3 mb-2">
                       <ul>
@@ -70,6 +83,6 @@
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-      <script src="login.js"></script>
+      <script src="/scripts/signup.js"></script>
 </body>
 </html>

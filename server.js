@@ -406,8 +406,9 @@ app.get('/signup', async(req, res) => {
 
 app.post('/signup', async(req, res) => {
 	const username = req.body.username;
+	const email = req.body.email;
 	const password = req.body.password;
-	let [success, user, errors] = await User.signup(username, password, userDB);
+	let [success, user, errors] = await User.signup(username, email, password, userDB);
 	
 	if(success) {
 		req.session.user = user
