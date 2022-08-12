@@ -1,7 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const puppeteer = require('puppeteer');
 const nodemailer = require('nodemailer');
-
 
 const path = require('path');
 const PORT=8080;
@@ -345,6 +345,7 @@ app.get('/contact', async(req, res) => {
 app.post('/contact', async(req, res) => {
 	
 	console.log(req.body.name, req.body.emailAddress, req.body.message);
+	console.log(process.env.CONTACT_EMAIL, process.env.EMAIL_PASSWORD);
 	const output = `
 		<p>You have a new contact request</p>
 		<h3>Contact Details</h3>
