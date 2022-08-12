@@ -279,7 +279,21 @@ app.get('/home', async (req, res) =>{
 		res.render('home');
 });
 
-//Database API
+// User Database check for duplicate username
+app.get('/userSet/:username', async (req, res) => {
+	const username = req.params['username']
+	console.log(`Searching user database for: ${username}`)
+	let found = await User.findByUsername(username, userDB);
+	if(found != null){
+		console.log(`${username} is in the db`);
+		res.json({status: "Found"});
+	}else{
+		console.log(`${username} is not in the db`);
+		res.json({status: "Not Found"});
+	}
+});
+
+//Sets Database API
 app.get('/data/:link', async (req, res) =>{
 	const url = req.params['link'];
 	let link = url.split('%');
@@ -433,14 +447,10 @@ app.post('/signup', async(req, res) => {
 	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
+	console.log(username, email, password);
 	let [success, user, errors] = await User.signup(username, email, password, userDB);
-	
-	if(success) {
-		req.session.user = user
-		res.render('home', {user: user});
-	}
-	else 
-		res.render('signup', {errors: errors, uname: req.body.username}); // and then include errors
+	req.session.user = user
+	res.render('home', {user: user});
 })
 
 app.get('/logout', async(req, res) => {

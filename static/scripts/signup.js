@@ -24,11 +24,25 @@ async function checkInputs(){
     const emailValue = email.value;
     const passwordValue = password.value;
     const confirmPasswordValue = confirmPassword.value;
+    const usernameDuplicateResponse = await fetch(`/userSet/${usernameValue}`);
+    const usernameDuplicateResponseJson = await usernameDuplicateResponse.json();
+    console.log("Status: ", usernameDuplicateResponseJson);
 
     if(usernameValue === ""){
         console.log("Username cannot be empty");
         usernameAlert.classList.remove("d-none");
         usernameAlert.innerText = "Username cannot be empty";
+        errorsCount += 1;
+    }else{
+        if(!usernameAlert.classList.contains("d-none")){
+            usernameAlert.classList.add("d-none");
+            usernameAlert.innerText = "";
+        }
+    }
+    if(usernameDuplicateResponseJson.status === "Found"){
+        console.log("Username is already taken");
+        usernameAlert.classList.remove("d-none");
+        usernameAlert.innerText = "Username is already taken";
         errorsCount += 1;
     }else{
         if(!usernameAlert.classList.contains("d-none")){

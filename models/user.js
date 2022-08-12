@@ -18,11 +18,23 @@ class User {
 }
 
 static async signup(username, email, password, db) {
-
+    let testCap = /[A-Z]/;
+    let testLower = /[a-z]/;
+    let testDigit = /[0-9]/;
+    
     const errors = [];
-    // Unsure how to do this check on the client side
-    if (await User.findByUsername(username, db))
-        errors.push("Username already taken");
+    if (username.length == "")
+        errors.push("Username cannot be blank");
+    if (password.length < 8)
+        errors.push("Password must have at least 8 characters");
+    if (!testCap.test(password))
+        errors.push("Password must have a capital letter");
+    if (!testLower.test(password))
+        errors.push("Password must have a lowercase letter");
+    if (!testDigit.test(password))
+        errors.push("Password must have a digit");
+
+    // If any errors, return false/errors etc
     if (errors.length != 0)
         return [false, null, errors];
 
