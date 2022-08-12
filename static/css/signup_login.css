@@ -1,0 +1,13 @@
+.signup_login_container{
+    max-width: 550px;
+}
+
+@media screen and (max-width:991px) {
+   .signup_login_container{
+        position: fixed;
+        top: 7%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: -999;
+   }
+}
