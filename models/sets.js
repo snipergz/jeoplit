@@ -56,7 +56,8 @@ class Set {
             set.push({
                 id: i,
                 q: questionsArray[i],
-                a: answersArray[i]
+                a: answersArray[i],
+                answered: false
             });
         }
 

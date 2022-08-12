@@ -17,8 +17,8 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "nodemailer": "^6.7.3",
-    "puppeteer": "^13.5.1",
+    "puppeteer": "^13.7.0",
     "sqlite": "^4.0.25",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.11"
   }
 }

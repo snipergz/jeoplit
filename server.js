@@ -101,7 +101,7 @@ async function scrapeProduct(url){
 
 app.get('/playSet', async (req, res) => {
 	if (req.session.set)
-		res.render('play', {rows: req.session.set, size: req.session.size})
+		res.render('play', {rows: req.session.set, size: req.session.size, score: req.session.score})
 	else
 		res.redirect('home');
 })
@@ -128,6 +128,30 @@ app.post('/playWithNewSet', async (req, res) => {
 
 	req.session.set = rows;
 	req.session.size = numOfCards;
+	req.session.score = 0;
+
+	res.json({status: "OK"})
+})
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+
+// Update the set of cards in session when one is answered: 
+app.post('/updateSet' , async(req, res) => {
+
+	req.session.set.forEach(e => {
+		for (card of e.s) {
+			if (card.id == req.body.cardID) {
+				card.answered = true;
+			}
+		}
+	});
+	
+	res.json({status: "OK"})
+})
+
+app.post('/updateScore', async(req, res) => {
+
+	req.session.score = req.body.score;
 
 	res.json({status: "OK"})
 })

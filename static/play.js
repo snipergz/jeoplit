@@ -46,6 +46,7 @@ document.querySelector('#modalButton').addEventListener('click', (e) => {
 
         // Updating score if correct answer
         document.querySelector('#score').innerText = parseInt(document.querySelector('#score').innerText) + parseInt(value);
+        updateScore(parseInt(document.querySelector('#score').innerText));
 
         // Show the check answer modal
         $('#checkModal').modal('show');
@@ -86,6 +87,7 @@ document.querySelector('#modalButton').addEventListener('click', (e) => {
 
     // Hide the card that was picked
     document.querySelector(`#card${id}`).classList.add('cardHidden');
+    updateSession(id);
 
     // Add one to index
     index.innerText = parseInt(index.innerText) + 1;
@@ -150,6 +152,7 @@ document.querySelector('#checkIssueButton').addEventListener('click', (e) => {
 
     // Overwriting score if correct answer
     document.querySelector('#score').innerText = parseInt(document.querySelector('#score').innerText) + parseInt(value);
+    updateScore(parseInt(document.querySelector('#score').innerText));
 
     $('#checkModal').modal('hide');
 
@@ -168,5 +171,26 @@ function endGame(score) {
 
     // Update the values for the modal
     document.querySelector('#endModalScore').innerText = "Score: " + score;
+}
+
+// Function to update set in session (to prevent refresh from taking away data)
+async function updateSession(cardID) {
+
+    // Send an update to server file 
+    await fetch('/updateSet', {
+        headers: {'Content-Type': 'application/json'},
+        method: 'POST',
+        body: JSON.stringify({cardID: cardID})
+    })
+}
+
+async function updateScore(score) {
+
+    // Send an update to server file 
+    await fetch('/updateScore', {
+        headers: {'Content-Type': 'application/json'},
+        method: 'POST',
+        body: JSON.stringify({score: score})
+    })
 }
 

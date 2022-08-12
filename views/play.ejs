@@ -56,8 +56,15 @@
     </div>
     <div class="d-flex flex-row flex-wrap bp-starry-gradient p-2 ">
       <div class="hidden" id="index">0</div>
+
+      <!-- 
       <div class="container text-white text-left">Score: <span id="score">0</span></div>
+      -->
+
+      <div class="container text-white text-left">Score: <span id="score"><%= score%> </span></div>
       <div class="hidden" id="cardCount"><%= size%></div>
+
+      <!-- 
         <%for (e of rows){%>
           <div class="d-flex justify-content-center w-100 gap-2">
             <%for (s of e.s){%>
@@ -67,6 +74,32 @@
                 <span class='hidden answer'> <%= s.a%> </span>
                 <h3 class="question-text"><%= e.v %></h3>
               </div>
+            <%}%>
+          </div>
+        <%}%>
+        -->
+
+
+        <!-- TESTING OUT SESSION STUFF-->
+        <%for (e of rows){%>
+
+          <div class="d-flex justify-content-center w-100 gap-2">
+            <%for (s of e.s){%>
+              <% if (s.answered) { %> 
+              <div class="w-20 question-box cardHidden" id='card<%= s.id%>' tabindex="0">
+                <span class='hidden id'> <%= s.id%> </span>
+                <span class='hidden question'> <%= s.q%> </span> 
+                <span class='hidden answer'> <%= s.a%> </span>
+                <h3 class="question-text"><%= e.v %></h3>
+              </div>
+              <%}else{ %>
+                <div class="w-20 question-box" id='card<%= s.id%>' tabindex="0">
+                  <span class='hidden id'> <%= s.id%> </span>
+                  <span class='hidden question'> <%= s.q%> </span> 
+                  <span class='hidden answer'> <%= s.a%> </span>
+                  <h3 class="question-text"><%= e.v %></h3>
+                </div>
+              <%}%>
             <%}%>
           </div>
         <%}%>
