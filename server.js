@@ -343,9 +343,6 @@ app.get('/contact', async(req, res) => {
 });
 
 app.post('/contact', async(req, res) => {
-	
-	console.log(req.body.name, req.body.emailAddress, req.body.message);
-	console.log(process.env.CONTACT_EMAIL, process.env.EMAIL_PASSWORD);
 	const output = `
 		<p>You have a new contact request</p>
 		<h3>Contact Details</h3>
@@ -364,8 +361,8 @@ app.post('/contact', async(req, res) => {
 		port: 587,
 		secure: false,
 		auth:{
-			user: 'jeoplitContact@gmail.com',
-			pass: 'QuizletJeopardy3!!!'
+			user: process.env.CONTACT_EMAIL,
+			pass: process.env.EMAIL_PASSWORD
 		},
 		tls: {
 			rejectUnauthorized: false
