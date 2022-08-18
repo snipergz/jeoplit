@@ -68,6 +68,8 @@ app.use(express.json())
 // serve static files
 app.use(express.static(path.join(__dirname, 'static')));
 
+app.use('', require('./routes/userRoutes'));
+
 /////////////////////////////////////////////
 // routes
 
@@ -398,68 +400,6 @@ app.get('/about', async(req, res) => {
 	else
 		res.render('about');
 });
-
-app.get('/login', async(req, res) => {
-	if (req.session.user)
-		res.redirect('/home');
-	else
-		res.render('login');
-});
-
-app.post('/login', async(req, res) => {
-	const username = req.body.username;
-	const password = req.body.password;
-	let user = await User.login(username, password, userDB);
-	if (user) {
-		console.log(`${username} just logged in`);
-		req.session.user = user;
-		res.redirect('/home'); // and then add user object
-	}
-	else{ 
-		const errors = [];
-		// rule 1: Username cannot be blank
-		// rule 2: Username cannot already be used (hint: use findByUsername to check this)
-		// rule 3: Password must be at least eight characters
-		if(!await User.findByUsername(username, userDB))
-		  errors.push("Username does not exist");
-		if(await User.findByUsername(username, userDB))
-		  errors.push("Incorrect Password please try again");
-		res.render('login', {errors: errors});
-	}
-});
-
-app.get('/signup', async(req, res) => {
-	if(req.session.user) 
-		res.redirect('/home');
-	else
-		res.render('signup');
-});
-
-app.post('/signup', async(req, res) => {
-	const username = req.body.username;
-	const email = req.body.email;
-	const password = req.body.password;
-	console.log(username, email, password);
-	let [success, user, errors] = await User.signup(username, email, password, userDB);
-	req.session.user = user
-	res.render('home', {user: user});
-});
-
-app.post("/forgot", async (req, res) => {
-	const user = User.findByUsername(req.body.emailAddress, userDB);
-	if(user){
-		const id = randomUUID();
-		const request = {
-			id,
-			email: user.email
-		};
-	}
-});
-
-app.get('/logout', async(req, res) => {
-	delete req.session.user;
-	res.redirect('/home');
-})
 
 /////////////////////////////////////////////
 // start up server
