@@ -119,7 +119,7 @@ const getLogout = (req, res) => {
 
 // Password Reset Routes
 const postForgot = asyncHandler(async(req, res) => {
-	const user = findByUsername(req.body.emailAddress);
+	const user = findByUsername(req.body.emailAddress, userDB);
 	if(user){
 		const id = randomUUID();
 		const request = {

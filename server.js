@@ -61,14 +61,16 @@ const app = express();
 app.use(express.static(static_dir));
 app.use(express.urlencoded({extended: false})); 
 app.set('view engine', 'ejs');
-app.use(session({secret: 'superSecret', resave: false, saveUninitialized: false}));
+app.use(session({secret: process.env.SESSION_KEY, resave: false, saveUninitialized: false}));
 app.use('/favicon.ico', express.static('images/favicon.ico'));
 app.use(express.json())
 
 // serve static files
 app.use(express.static(path.join(__dirname, 'static')));
 
+// Routes
 app.use('', require('./routes/userRoutes'));
+app.use('', require('./routes/generalRoutes'));
 
 /////////////////////////////////////////////
 // routes
@@ -281,55 +283,6 @@ app.post('/submitSet', async(req, res) => {
 	}
 })
 
-app.get('/home', async (req, res) =>{
-	if(req.session.user)
-		res.render('home', {user: req.session.user});
-	else 
-		res.render('home');
-});
-
-//Sets Database API
-// app.get('/data/:link', async (req, res) =>{
-// 	const url = req.params['link'];
-// 	let link = url.split('%');
-// 	let finalLink = link.join();
-// 	console.log("final link is:", finalLink);
-// 	let found = await Set.findLink(finalLink, setsDB);
-// 	if(found){
-// 		data = await setsDB.get(`SELECT * FROM sets WHERE link = '${finalLink}' `);
-// 	}else{
-// 		console.log("Link was not Found\n");
-// 		//Scrape the Set
-// 		console.log("\nBeginning the Scrape...");
-// 		[questions, answers, setTitle] = await scrapeProduct(finalLink);
-// 		if(questions == undefined || questions == null)
-// 			return res.send("Bad Link");
-// 		const set = {
-// 			questions: questions,
-// 			answers: answers,
-// 			title: setTitle
-// 		};
-// 		console.log("Scrape Succeeded...\n");
-
-// 		//Insert into database
-// 		console.log("Inserting into the sets database...");
-// 		const questionsString = set.questions.join();
-// 		const answersString = set.answers.join();
-// 		const deckTitle = set.title;
-// 		if(questionsString != "" && answersString != "" && deckTitle != ""){
-// 			const newSet = await setsDB.run(
-// 				`INSERT INTO sets (link, questions, answers, title)
-// 				VALUES(?, ?, ?, ?);`, [finalLink, questionsString, answersString, deckTitle]
-// 				);
-// 		}
-
-// 		//Fetch it back
-// 		data = await setsDB.get(`SELECT * FROM sets WHERE link = '${finalLink}' `);
-// 	}
-// 	console.log(data);
-// 	res.json(data);
-// });
-
 app.get('/playSet', async (req, res) =>{
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
@@ -337,55 +290,6 @@ app.get('/playSet', async (req, res) =>{
 		res.render('home');
 });
 
-app.post('/returnHome', async(req, res) => {
-	delete req.session.set;
-	delete req.session.size;
-	res.redirect('/home');
-})
-
-//ROUTES AT THE MOMENT DO NOT NEED CHANGE
-app.get('/contact', async(req, res) => {
-	if (req.session.user)
-		res.render('contact', {user: req.session.user});
-	else 
-		res.render('contact');
-});
-
-app.post('/contact', async(req, res) => {
-	let transporter = nodemailer.createTransport({
-		service: 'gmail',
-		auth: {
-			type: 'OAUTH2',
-			user: process.env.CONTACT_EMAIL,
-			pass: process.env.EMAIL_PASSWORD,
-			clientId: process.env.OAUTH_CLIENTID,
-			clientSecret: process.env.OAUTH_CLIENT_SECRET,
-			refreshToken: process.env.OAUTH_REFRESH_TOKEN
-		}
-	});
-
-	var message = {
-		from: req.body.emailAddress,
-		to: process.env.CONTACT_EMAIL,
-		subject: 'Quack Quack',
-		text: `${req.body.name} said, ${req.body.message}`,
-	  };
-
-	transporter.sendMail(message, (error, info) => {
-	if (error) {
-		return console.log(error);
-	}
-	console.log("Message Successfully sent");
-	res.render('contact', {msg: true});
-	});
-})
-
-app.get('/about', async(req, res) => {
-	if (req.session.user)
-		res.render('about', {user: req.session.user});
-	else
-		res.render('about');
-});
 
 /////////////////////////////////////////////
 // start up server
