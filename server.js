@@ -288,20 +288,6 @@ app.get('/home', async (req, res) =>{
 		res.render('home');
 });
 
-// User Database check for duplicate username
-app.get('/userSet/:username', async (req, res) => {
-	const username = req.params['username']
-	console.log(`Searching user database for: ${username}`)
-	let found = await User.findByUsername(username, userDB);
-	if(found != null){
-		console.log(`${username} is in the db`);
-		res.json({status: "Found"});
-	}else{
-		console.log(`${username} is not in the db`);
-		res.json({status: "Not Found"});
-	}
-});
-
 //Sets Database API
 // app.get('/data/:link', async (req, res) =>{
 // 	const url = req.params['link'];
