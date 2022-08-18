@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const puppeteer = require('puppeteer');
 const nodemailer = require('nodemailer');
-
+const bcrypt = require('bcryptjs');
 const path = require('path');
 const PORT=8080;
 const static_dir = path.join(__dirname, 'static');
@@ -16,6 +16,7 @@ const session = require('express-session');
 const User = require('./models/user');
 const Set = require('./models/sets');
 const { title } = require('process');
+const { randomUUID } = require('crypto');
 
 // Used to seed the questions and answers scraped from quizlet
 const setDBSeed = "$%&*!@#";
@@ -156,11 +157,6 @@ app.post('/updateScore', async(req, res) => {
 	res.json({status: "OK"})
 })
 
-// ----------------------------------------------------------------------------------------------------------------------------------
-// TESTing to see if I can push
-
-// HELLO?
-
 app.post('/submitSet', async(req, res) => {
 	
 	//Game begins
@@ -294,46 +290,46 @@ app.get('/userSet/:username', async (req, res) => {
 });
 
 //Sets Database API
-app.get('/data/:link', async (req, res) =>{
-	const url = req.params['link'];
-	let link = url.split('%');
-	let finalLink = link.join();
-	console.log("final link is:", finalLink);
-	let found = await Set.findLink(finalLink, setsDB);
-	if(found){
-		data = await setsDB.get(`SELECT * FROM sets WHERE link = '${finalLink}' `);
-	}else{
-		console.log("Link was not Found\n");
-		//Scrape the Set
-		console.log("\nBeginning the Scrape...");
-		[questions, answers, setTitle] = await scrapeProduct(finalLink);
-		if(questions == undefined || questions == null)
-			return res.send("Bad Link");
-		const set = {
-			questions: questions,
-			answers: answers,
-			title: setTitle
-		};
-		console.log("Scrape Succeeded...\n");
+// app.get('/data/:link', async (req, res) =>{
+// 	const url = req.params['link'];
+// 	let link = url.split('%');
+// 	let finalLink = link.join();
+// 	console.log("final link is:", finalLink);
+// 	let found = await Set.findLink(finalLink, setsDB);
+// 	if(found){
+// 		data = await setsDB.get(`SELECT * FROM sets WHERE link = '${finalLink}' `);
+// 	}else{
+// 		console.log("Link was not Found\n");
+// 		//Scrape the Set
+// 		console.log("\nBeginning the Scrape...");
+// 		[questions, answers, setTitle] = await scrapeProduct(finalLink);
+// 		if(questions == undefined || questions == null)
+// 			return res.send("Bad Link");
+// 		const set = {
+// 			questions: questions,
+// 			answers: answers,
+// 			title: setTitle
+// 		};
+// 		console.log("Scrape Succeeded...\n");
 
-		//Insert into database
-		console.log("Inserting into the sets database...");
-		const questionsString = set.questions.join();
-		const answersString = set.answers.join();
-		const deckTitle = set.title;
-		if(questionsString != "" && answersString != "" && deckTitle != ""){
-			const newSet = await setsDB.run(
-				`INSERT INTO sets (link, questions, answers, title)
-				VALUES(?, ?, ?, ?);`, [finalLink, questionsString, answersString, deckTitle]
-				);
-		}
+// 		//Insert into database
+// 		console.log("Inserting into the sets database...");
+// 		const questionsString = set.questions.join();
+// 		const answersString = set.answers.join();
+// 		const deckTitle = set.title;
+// 		if(questionsString != "" && answersString != "" && deckTitle != ""){
+// 			const newSet = await setsDB.run(
+// 				`INSERT INTO sets (link, questions, answers, title)
+// 				VALUES(?, ?, ?, ?);`, [finalLink, questionsString, answersString, deckTitle]
+// 				);
+// 		}
 
-		//Fetch it back
-		data = await setsDB.get(`SELECT * FROM sets WHERE link = '${finalLink}' `);
-	}
-	console.log(data);
-	res.json(data);
-});
+// 		//Fetch it back
+// 		data = await setsDB.get(`SELECT * FROM sets WHERE link = '${finalLink}' `);
+// 	}
+// 	console.log(data);
+// 	res.json(data);
+// });
 
 app.get('/playSet', async (req, res) =>{
 	if(req.session.user)
@@ -357,45 +353,30 @@ app.get('/contact', async(req, res) => {
 });
 
 app.post('/contact', async(req, res) => {
-	const output = `
-		<p>You have a new contact request</p>
-		<h3>Contact Details</h3>
-		<ul>
-			<li>Name: ${req.body.name}</li>
-			<li>Email: ${req.body.emailAddress}</li>
-		</ul>
-		<h3>Message</h3>
-		<p>${req.body.message}</p>
-	`;
-	//FIX ME FOR SECURITY 
-	//https://www.youtube.com/watch?v=nF9g1825mwk
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
-		host: 'smtp.gmail.com',
-		port: 587,
-		secure: false,
-		auth:{
+		auth: {
+			type: 'OAUTH2',
 			user: process.env.CONTACT_EMAIL,
-			pass: process.env.EMAIL_PASSWORD
-		},
-		tls: {
-			rejectUnauthorized: false
-		  },
+			pass: process.env.EMAIL_PASSWORD,
+			clientId: process.env.OAUTH_CLIENTID,
+			clientSecret: process.env.OAUTH_CLIENT_SECRET,
+			refreshToken: process.env.OAUTH_REFRESH_TOKEN
+		}
 	});
 
 	var message = {
-		from: 'jeoplitContact@gmail.com',
-		to: 'rknobel27@gmail.com, mikepanuelos928@gmail.com',
+		from: req.body.emailAddress,
+		to: process.env.CONTACT_EMAIL,
 		subject: 'Quack Quack',
-		text: 'You have been chosen to be a Beta Tester for JeoPlit',
-		html: output
+		text: `${req.body.name} said, ${req.body.message}`,
 	  };
 
 	transporter.sendMail(message, (error, info) => {
 	if (error) {
 		return console.log(error);
 	}
-	console.log('Message sent: %s', info.messageId);
+	console.log("Message Successfully sent");
 	res.render('contact', {msg: true});
 	});
 })
@@ -451,7 +432,18 @@ app.post('/signup', async(req, res) => {
 	let [success, user, errors] = await User.signup(username, email, password, userDB);
 	req.session.user = user
 	res.render('home', {user: user});
-})
+});
+
+app.post("/forgot", async (req, res) => {
+	const user = User.findByUsername(req.body.emailAddress, userDB);
+	if(user){
+		const id = randomUUID();
+		const request = {
+			id,
+			email: user.email
+		};
+	}
+});
 
 app.get('/logout', async(req, res) => {
 	delete req.session.user;
