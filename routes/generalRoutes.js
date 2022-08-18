@@ -3,15 +3,15 @@ const router = express.Router();
 
 const {getHome, postHome, getContact, postContact, getAbout} = require('../controllers/generalController');
 
+// Home Page Routes
 router.get('/home', getHome);
 
 router.post('/returnHome', postHome);
 
-//ROUTES AT THE MOMENT DO NOT NEED CHANGE
-router.get('/contact', getContact);
+// Contact Page Routes
+router.route('/contact').get(getContact).post(postContact);
 
-router.post('/contact', postContact);
-
+// About Page Route
 router.get('/about', getAbout);
 
 module.exports = router;

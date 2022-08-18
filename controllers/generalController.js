@@ -1,4 +1,6 @@
-// Home Routes
+const nodemailer = require('nodemailer');
+
+// Home Page Routes
 const getHome = (req, res) => {
 	if(req.session.user)
 		res.render('home', {user: req.session.user});
@@ -12,7 +14,7 @@ const postHome = (req, res) => {
 	res.redirect('/home');
 };
 
-// Contact Route
+// Contact Page Routes
 const getContact = (req, res) => {
 	if (req.session.user)
 		res.render('contact', {user: req.session.user});
