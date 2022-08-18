@@ -7,6 +7,7 @@ const path = require('path');
 const PORT=8080;
 const static_dir = path.join(__dirname, 'static');
 
+const mongoose = require('mongoose');
 const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
 // const req = require('express/lib/request');
@@ -24,6 +25,16 @@ const setDBSeed = "$%&*!@#";
 console.log(`Directory is ${static_dir}`);
 
 // Connecting to the databases
+let mongoDB;
+(async () => {
+	try{
+		mongoDB = await mongoose.connect(process.env.MONGO_URI);
+		console.log(`MongoDB Connected: ${mongoDB.connection.host}`);
+	} catch (error){
+		console.log(error);
+	}
+})();
+
 let userDB;
 (async () => {
 	console.log("Connecting to User database...")
