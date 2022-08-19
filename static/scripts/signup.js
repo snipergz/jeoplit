@@ -13,9 +13,9 @@ let testCap = /[A-Z]/;
 let testLower = /[a-z]/;
 let testDigit = /[0-9]/;
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    checkInputs();
+    await checkInputs();
 });
 
 async function checkInputs(){
@@ -24,11 +24,14 @@ async function checkInputs(){
     const emailValue = email.value;
     const passwordValue = password.value;
     const confirmPasswordValue = confirmPassword.value;
-    const usernameDuplicateResponse = await fetch(`/userSet/${usernameValue}`);
-    const usernameDuplicateResponseJson = await usernameDuplicateResponse.json();
-    console.log("Status: ", usernameDuplicateResponseJson);
-
-    if(usernameValue === ""){
+    usernameDuplicateResponseJson = false;
+    if(usernameValue != ""){
+        const usernameDuplicateResponse = await fetch(`/userSet/${usernameValue}`);
+        usernameDuplicateResponseJson = true;
+        const usernameDuplicateResponseJson = await usernameDuplicateResponse.json();
+        console.log("Status: ", usernameDuplicateResponseJson);
+    }
+    if(usernameValue === "" || usernameValue === " "){
         console.log("Username cannot be empty");
         usernameAlert.classList.remove("d-none");
         usernameAlert.innerText = "Username cannot be empty";
@@ -39,7 +42,7 @@ async function checkInputs(){
             usernameAlert.innerText = "";
         }
     }
-    if(usernameDuplicateResponseJson.status === "Found"){
+    if(usernameDuplicateResponseJson && usernameDuplicateResponseJson.status === "Found"){
         console.log("Username is already taken");
         usernameAlert.classList.remove("d-none");
         usernameAlert.innerText = "Username is already taken";

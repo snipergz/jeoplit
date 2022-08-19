@@ -1,13 +1,15 @@
 const asyncHandler = require('express-async-handler');
+const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs')
 
 const User = require('../models/userModel');
+const Reset = require('../models/resetModel');
 
 async function findByUsername(username) {
     const user = await User.find({"username" : username});
     try {
-        if(user[0].username != null)
-            return user;
+        if(user[0].username != undefined)
+            return user[0];
     } catch (error) {
         const emailNameUser = await User.find({"email" : username});
         if(emailNameUser[0].username != null){
@@ -31,6 +33,7 @@ async function login(username, password) {
         const checkpw = await bcrypt.compare(password, user[0].password);
         if(!checkpw)
             errors.push("Password is Incorrect, please try again");
+        console.log(errors);
         return [user, errors];
     }
     else
@@ -72,6 +75,56 @@ async function signup(username, email, password) {
 
     return [true, user, errors];
 }
+
+async function createResetRequest(request){
+    try {
+        await Reset.create({
+            id: request.id,
+            email: request.email
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function getResetRequest(id) {
+    const thisRequest = Reset.find({"id":id});
+    try {
+        if(thisRequest[0])
+            return thisRequest[0];
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function sendResetLink(email, id){
+	let transporter = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			type: 'OAUTH2',
+			user: process.env.CONTACT_EMAIL,
+			pass: process.env.EMAIL_PASSWORD,
+			clientId: process.env.OAUTH_CLIENTID,
+			clientSecret: process.env.OAUTH_CLIENT_SECRET,
+			refreshToken: process.env.OAUTH_REFRESH_TOKEN
+		}
+	});
+
+	var message = {
+		from: process.env.CONTACT_EMAIL,
+		to: req.body.emailAddress,
+		subject: 'Reset password instructions',
+		text: `To reset your password, please click on this link: http://localhost:8080/reset/${id}`
+	  };
+
+	transporter.sendMail(message, (error, info) => {
+	if (error) {
+		return console.log(error);
+	}
+	console.log("Message Successfully sent");
+	res.render('forgot', {msg: true});
+	});
+};
 
 // Login Routes
 const getLogin = (req, res) => {
@@ -118,15 +171,25 @@ const getLogout = (req, res) => {
 }
 
 // Password Reset Routes
+const getForgot = (req, res) => {
+    res.render('forgot');
+}
+
 const postForgot = asyncHandler(async(req, res) => {
-	const user = findByUsername(req.body.emailAddress, userDB);
-	if(user){
-		const id = randomUUID();
-		const request = {
-			id,
-			email: user.email
-		};
-	}
+	const user = findByUsername(req.body.emailAddress);
+    console.log(user);
+    try {
+        if(user[0].email === req.body.emailAddress){
+            const id = randomUUID();
+            const request = {
+                id,
+                email: user[0].email
+            };
+            createResetRequest(request);
+        }   
+    } catch (error) {
+
+    }
 })
 
 // API Routes
@@ -143,4 +206,4 @@ const checkUsernameDuplicates = asyncHandler(async(req, res) => {
 	}
 });
 
-module.exports = {getLogin, postLogin, getSignup, postSignup, getLogout, postForgot, checkUsernameDuplicates};
+module.exports = {getLogin, postLogin, getSignup, postSignup, getLogout, getForgot, postForgot, checkUsernameDuplicates};
