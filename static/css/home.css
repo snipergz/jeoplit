@@ -16,7 +16,8 @@ background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;background-p
 body {
   position: relative;
   margin: 0;
-  padding: 0;
+  padding: 0 0;
+  padding-top: 3rem;
   min-height: 100%;
   width: 100%;
 }

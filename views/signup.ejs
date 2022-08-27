@@ -11,7 +11,7 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
   rel="stylesheet"  type='text/css'>
 <body class="bp-starry-gradient">
-  <nav class="navbar navbar-expand-lg navbar-dark text-light" style="background-image: linear-gradient(to right, #051834, #051834);">
+  <nav class="navbar navbar-expand-lg navbar-dark text-light fixed-top" style="background-image: linear-gradient(to right, #051834, #051834);">
     <div class="container-fluid">
       <a class="navbar-brand" href="home">JeoPlit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@
                   <div class="form-group mb-3">
                     <label class="mb-1" for="username" style="color: black">Username</label>
                     <input id="username" type="textbox" name="username" value="<%= locals.uname %>" class="form-control">
-                    <label id="usernameAlert" role="alert" for="email" class="mt-2 d-none" style="color: red;"></label>
+                    <label id="usernameAlert" role="alert" for="username" class="mt-2 d-none" style="color: red;"></label>
                   </div>
                   <div class="form-group mb-3">
                     <label class="mb-1" for="email" style="color: black">Email</label>

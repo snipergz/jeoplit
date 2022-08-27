@@ -6,17 +6,20 @@ const User = require('../models/userModel');
 const Reset = require('../models/resetModel');
 
 async function findByUsername(username) {
-    const user = await User.find({"username" : username});
+    const user = await User.findOne({"username" : username});
+    const emailNameUser = await User.findOne({"email" : username});
     try {
-        if(user[0].username != undefined)
-            return user[0];
-    } catch (error) {
-        const emailNameUser = await User.find({"email" : username});
-        if(emailNameUser[0].username != null){
-            return emailNameUser;
-        }
-        else
+        console.log(user);
+        console.log(emailNameUser);
+        if(user != null){
+            return user.username;
+        }else if(emailNameUser != null){
+            return emailNameUser.username;
+        }else{
             return null;
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -30,7 +33,7 @@ async function login(username, password) {
     if (!user)
         errors.push("Account does not exist with that username/email")
     if(user){
-        const checkpw = await bcrypt.compare(password, user[0].password);
+        const checkpw = await bcrypt.compare(password, user.password);
         if(!checkpw)
             errors.push("Password is Incorrect, please try again");
         console.log(errors);
@@ -41,6 +44,7 @@ async function login(username, password) {
 }
 
 async function signup(username, email, password) {
+    console.log("Signing Up");
     let testCap = /[A-Z]/;
     let testLower = /[a-z]/;
     let testDigit = /[0-9]/;
@@ -159,7 +163,8 @@ const postSignup = asyncHandler(async(req, res) => {
 	const username = req.body.username;
 	const email = req.body.email;
 	const password = req.body.password;
-	let [success, user, errors] = await signup(username, email, password);
+    const usernameValueLowerCased = username.toString().toLowerCase();
+	let [success, user, errors] = await signup(usernameValueLowerCased, email, password);
 	req.session.user = user
 	res.render('home', {user: user});
 });
@@ -179,7 +184,7 @@ const postForgot = asyncHandler(async(req, res) => {
 	const user = findByUsername(req.body.emailAddress);
     console.log(user);
     try {
-        if(user[0].email === req.body.emailAddress){
+        if(user.email === req.body.emailAddress){
             const id = randomUUID();
             const request = {
                 id,
@@ -196,8 +201,8 @@ const postForgot = asyncHandler(async(req, res) => {
 const checkUsernameDuplicates = asyncHandler(async(req, res) => {
 	const username = req.params['username']
 	console.log(`Searching user database for: ${username}`)
-	let [user, errors] = await findByUsername(username);
-	if(user != null){
+	const user = await findByUsername(username);
+	if(user){
 		console.log(`${username} is in the db`);
 		res.json({status: "Found"});
 	}else{

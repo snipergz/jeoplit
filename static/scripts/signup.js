@@ -24,35 +24,30 @@ async function checkInputs(){
     const emailValue = email.value;
     const passwordValue = password.value;
     const confirmPasswordValue = confirmPassword.value;
-    usernameDuplicateResponseJson = false;
+    // Check if the username value is not empty and not a duplicate else return an error
     if(usernameValue != ""){
-        const usernameDuplicateResponse = await fetch(`/userSet/${usernameValue}`);
-        usernameDuplicateResponseJson = true;
+        const usernameValueLowerCased = usernameValue.toString().toLowerCase();
+        const usernameDuplicateResponse = await fetch(`/userSet/${usernameValueLowerCased}`);
         const usernameDuplicateResponseJson = await usernameDuplicateResponse.json();
         console.log("Status: ", usernameDuplicateResponseJson);
-    }
-    if(usernameValue === "" || usernameValue === " "){
+        if(usernameDuplicateResponseJson.status === "Found"){
+            console.log("Username is already taken");
+            usernameAlert.classList.remove("d-none");
+            usernameAlert.innerText = "Username is already taken";
+            errorsCount += 1;
+        }
+    }else if(usernameValue === "" || usernameValue === " "){
         console.log("Username cannot be empty");
         usernameAlert.classList.remove("d-none");
         usernameAlert.innerText = "Username cannot be empty";
         errorsCount += 1;
-    }else{
+    } else {
         if(!usernameAlert.classList.contains("d-none")){
             usernameAlert.classList.add("d-none");
             usernameAlert.innerText = "";
         }
     }
-    if(usernameDuplicateResponseJson && usernameDuplicateResponseJson.status === "Found"){
-        console.log("Username is already taken");
-        usernameAlert.classList.remove("d-none");
-        usernameAlert.innerText = "Username is already taken";
-        errorsCount += 1;
-    }else{
-        if(!usernameAlert.classList.contains("d-none")){
-            usernameAlert.classList.add("d-none");
-            usernameAlert.innerText = "";
-        }
-    }
+    // Check if the email value is not empty and is a valid email else return an error
     if(emailValue === "" || !isEmail(emailValue)){
         console.log("Invalid Email Input");
         emailAlert.classList.remove("d-none");
@@ -64,6 +59,7 @@ async function checkInputs(){
             emailAlert.innerText = "";
         }
     }
+    // Check if the password value is not empty and follows the requirements else return an error
     if(!testCap.test(passwordValue) || !testLower.test(passwordValue) || !testDigit.test(passwordValue)){
         console.log("Incorrect Password Input");
         passwordAlert.classList.remove("d-none");
@@ -75,6 +71,7 @@ async function checkInputs(){
             passwordAlert.innerText = "";
         }
     }
+    // Confirm that the reinput password matches the original
     if(confirmPasswordValue != passwordValue){
         console.log("Incorrect Password Confirmation")
         confirmPasswordAlert.classList.remove("d-none");
