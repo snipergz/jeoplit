@@ -39,38 +39,36 @@
       </div>
     </div>
   </nav>
-  <div class="container py-4 text-light signup_login_container">
-    <h1 class="text-center">We want to hear from you</h1>
+  <div class="container py-4 signup_login_container">
+    <h1 class="text-center text-light">We want to hear from you</h1>
     <%if (locals.msg) {%>
       <h3 style="color:greenyellow" class="text-center"> Your Email has been sent, thank you!</h3>
     <%}%>
-    <!-- Bootstrap 5 starter form -->
-    <form method="POST" action="/contact">
-  
-      <!-- Name input -->
-      <div class="mb-3">
-        <label class="form-label" for="name">Name</label>
-        <input class="form-control" name="name" type="text" placeholder="Name" />
+    <div class="card center-box text-dark">
+      <div class="card-body">
+        <form method="POST" action="/contact">
+          <!-- Name input -->
+          <div class="mb-3">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" name="name" type="text" placeholder="Name" />
+          </div>
+          <!-- Email address input -->
+          <div class="mb-3">
+            <label class="form-label" for="emailAddress">Email Address</label>
+            <input class="form-control" name="emailAddress" type="email" placeholder="Email Address" />
+          </div>
+          <!-- Message input -->
+          <div class="mb-3">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-control" name="message" type="text" placeholder="Message" style="height: 10rem;"></textarea>
+          </div>
+          <!-- Form submit button -->
+          <div class="d-grid">
+            <button class="btn btn-primary w-100" type="submit">Submit</button>
+          </div>
+        </form>
       </div>
-  
-      <!-- Email address input -->
-      <div class="mb-3">
-        <label class="form-label" for="emailAddress">Email Address</label>
-        <input class="form-control" name="emailAddress" type="email" placeholder="Email Address" />
-      </div>
-  
-      <!-- Message input -->
-      <div class="mb-3">
-        <label class="form-label" for="message">Message</label>
-        <textarea class="form-control" name="message" type="text" placeholder="Message" style="height: 10rem;"></textarea>
-      </div>
-  
-      <!-- Form submit button -->
-      <div class="d-grid">
-        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
-      </div>
-  
-    </form>
+    </div>
   
     <img id="logo" src="/images/jeoplit-logo-v2.png">
   </div>
