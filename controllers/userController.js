@@ -9,8 +9,6 @@ async function findByUsername(username) {
     const user = await User.findOne({"username" : username});
     const emailNameUser = await User.findOne({"email" : username});
     try {
-        console.log(user);
-        console.log(emailNameUser);
         if(user != null){
             return user.username;
         }else if(emailNameUser != null){
@@ -29,7 +27,6 @@ async function login(username, password) {
         errors.push("Username cannot be blank");
 
     const user = await findByUsername(username);
-    console.log(user);
     if (!user)
         errors.push("Account does not exist with that username/email")
     if(user){
@@ -182,7 +179,6 @@ const getForgot = (req, res) => {
 
 const postForgot = asyncHandler(async(req, res) => {
 	const user = findByUsername(req.body.emailAddress);
-    console.log(user);
     try {
         if(user.email === req.body.emailAddress){
             const id = randomUUID();

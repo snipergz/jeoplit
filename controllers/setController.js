@@ -11,10 +11,10 @@ function getRandomInt(num) {
 
 async function findLink(link) {
     // look up the link in the database
-    const set = await Set.find({"link":link});
+    const set = await Set.findOne({"link":link});
     // if it exists, return it otherwise return null
     try {
-        if(set[0].link != null)
+        if(set.link != null)
             return set;
     } catch (error) {
             return null;
@@ -130,13 +130,12 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 	//Check first if the set is in the database
 	console.log("Checking Database");
 	const dbSet = await findLink(req.body.quizletLink);
-	console.log(dbSet);
 	if(dbSet){
 		console.log("Set is in the Database\n");
 
 		// console.log(dbSet);
-		const dbQuestions = dbSet[0].questions.split(setDBSeed);
-		const dbAnswers = dbSet[0].answers.split(setDBSeed);
+		const dbQuestions = dbSet.questions.split(setDBSeed);
+		const dbAnswers = dbSet.answers.split(setDBSeed);
 		// console.log(dbQuestions);
 		// console.log(dbAnswers);
 
