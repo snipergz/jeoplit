@@ -11,6 +11,10 @@ a {
 .mike{
     background-image: url(/images/mike.jpg);
 }
+
+.ryan{
+    background-image: url(/images/ryan.jpg);
+}
 .person-bio, .person-bio-flip{
     width: 70%; 
     min-height: 300px; 
