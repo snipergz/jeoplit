@@ -59,4 +59,13 @@ const getAbout = (req, res) => {
 		res.render('about');
 };
 
-module.exports = {getHome, postHome, getContact, postContact, getAbout};
+// Profile Page Route
+const getProfile = (req, res) => {
+	if (req.session.user)
+		res.render('profile', {user: req.session.user});
+	else
+		res.render('home');
+};
+
+
+module.exports = {getHome, postHome, getContact, postContact, getAbout, getProfile};
