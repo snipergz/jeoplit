@@ -14,6 +14,9 @@ const userSchema = mongoose.Schema(
         password: {
             type: String,
             required: [true, "Password value cannot be missing"]
+        },
+        setsPlayed: {
+            type: Array
         }
     }, 
     {

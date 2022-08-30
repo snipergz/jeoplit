@@ -12,6 +12,7 @@ console.log(`Directory is ${static_dir}`);
 let mongoDB;
 (async () => {
 	try{
+		console.log("Connecting to MongoDB");
 		mongoDB = await mongoose.connect(process.env.MONGO_URI);
 		console.log(`MongoDB Connected: ${mongoDB.connection.host}`);
 	} catch (error){

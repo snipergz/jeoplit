@@ -10,9 +10,9 @@ async function findByUsername(username) {
     const emailNameUser = await User.findOne({"email" : username});
     try {
         if(user != null){
-            return user.username;
+            return user;
         }else if(emailNameUser != null){
-            return emailNameUser.username;
+            return emailNameUser;
         }else{
             return null;
         }
@@ -33,7 +33,7 @@ async function login(username, password) {
         const checkpw = await bcrypt.compare(password, user.password);
         if(!checkpw)
             errors.push("Password is Incorrect, please try again");
-        console.log(errors);
+        console.log(`Errors logging in: ${errors}`);
         return [user, errors];
     }
     else
@@ -61,7 +61,7 @@ async function signup(username, email, password) {
     if (!testDigit.test(password))
         errors.push("Password must have a digit");
 
-    console.log(errors);
+    console.log(`Errors Signing Up: ${errors}`);
     // If any errors, return false/errors etc
     if (errors.length != 0)
         return [false, null, errors];

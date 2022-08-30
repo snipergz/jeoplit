@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const puppeteer = require('puppeteer');
 const Set = require('../models/setModel');
+const User = require('../models/userModel');
 
 // Used to seed the questions and answers scraped from quizlet
 const setDBSeed = "$%&*!@#";
@@ -133,6 +134,18 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 	if(dbSet){
 		console.log("Set is in the Database\n");
 
+		// Insert set into user's setsPlayed array if logged in
+		if(req.session.user){
+			try {
+				await User.updateOne(
+					{"username" : req.session.user.username},
+					{"setsPlayed" : [...req.session.user.setsPlayed, req.body.quizletLink]}
+					);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+
 		// console.log(dbSet);
 		const dbQuestions = dbSet.questions.split(setDBSeed);
 		const dbAnswers = dbSet.answers.split(setDBSeed);
@@ -163,7 +176,6 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 		// Send it to user checking
 		res.render('configureSet', {success: success, rows:rows});
 
-		// res.render('play', {title: dbSet.title, rows: rows, size: numOfCards});
 	}else{
 		console.log("Set is not in Database\n");
 
@@ -192,18 +204,35 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 		// console.log("Questions Adjusted ", set.q);
 		// console.log("Answers Adjusted ", set.a);
 
-		//Insert into database
+		// Insert into database
 		console.log("Inserting into the sets database...");
 		const questionsString = questions.join(setDBSeed);
 		const answersString = answers.join(setDBSeed);
 		if(questionsString != "" && answersString != "" && setTitle != ""){
-            const newSet = await Set.create({
-                title: (String(setTitle)),
-                link: req.body.quizletLink,
-                questions: questionsString,
-                answers: answersString
-            });
+			try {
+				const newSet = await Set.create({
+					title: (String(setTitle)),
+					link: req.body.quizletLink,
+					questions: questionsString,
+					answers: answersString
+				});
+			} catch (error) {
+				console.log(error);
+			}
 			console.log("Set inserted into database...\n");
+		}
+
+		// Insert set into user's setsPlayed array if logged in
+		if(req.session.user){
+			console.log(req.session.user)
+			try {
+				await User.updateOne(
+					{"username" : req.session.user.username},
+					{"setsPlayed" : [...req.session.user.setsPlayed, req.body.quizletLink]}
+					);
+			} catch (error) {
+				console.log(error);
+			}
 		}
 
 		// Randomize the Set
