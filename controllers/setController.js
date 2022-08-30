@@ -174,8 +174,10 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 		
 		console.log("Game Started - User Set Configuration...\n");
 		// Send it to user checking
-		res.render('configureSet', {success: success, rows:rows});
-
+		if(req.session.user)
+			res.render('configureSet', {user: req.session.user, success: success, rows:rows});
+		else
+			res.render('configureSet', {success: success, rows:rows});
 	}else{
 		console.log("Set is not in Database\n");
 
@@ -253,7 +255,10 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 		//Render the playing page
 		const numOfCards = parseInt(size) * 5;
 		// Send it to user checking
-		res.render('configureSet', {success: success, rows:rows});
+		if(req.session.user)
+			res.render('configureSet', {user: req.session.user, success: success, rows:rows});
+		else
+			res.render('configureSet', {success: success, rows:rows});
 		// res.render('play', {title: set.t, rows: rows, size: numOfCards});
 	}
 });
