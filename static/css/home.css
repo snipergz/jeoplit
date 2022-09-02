@@ -124,23 +124,6 @@ footer {
   transform: translate3d(-50%, -50%, 0);
   will-change: transform;
 }
-
-@media screen and (max-width: 768px) {
-  .home-cta {
-    top: 11rem;
-  }
-}
-.link-box {
-  width: 500px;
-  height: 35px;
-  background-color: #071834;
-  margin: auto;
-}
-@media screen and (max-width: 500px) {
-  .link-box {
-    width: 100%;
-  }
-}
 input {
   color: white;
   border: 1px solid #2a00a9;
@@ -155,4 +138,29 @@ button {
 
 .center-box {
   margin: auto;
+}
+.link-box {
+  width: 500px;
+  height: 35px;
+  background-color: #071834;
+  margin: auto;
+}
+@media screen and (max-width: 768px) {
+  .home-cta {
+    top: 11rem;
+  }
+}
+@media screen and (max-width: 595px){
+  .jeoplit-btn{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .link-box{
+    margin-top: 1rem;
+  }
+}
+@media screen and (max-width: 500px) {
+  .link-box {
+    width: 100%;
+  }
 }
