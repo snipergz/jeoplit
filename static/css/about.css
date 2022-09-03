@@ -8,6 +8,9 @@
 a {
     color: white;
 }
+a:hover{
+    color: antiquewhite;
+}
 .mike{
     background-image: url(/images/mike.jpg);
 }
