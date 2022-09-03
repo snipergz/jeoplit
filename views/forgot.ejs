@@ -40,10 +40,12 @@
       </div>
     </div>
   </nav>
+  <% if (locals.msg) { %>
+    <div class="container text-light p-2 mt-2">
+      <h2 class="text-center mt-5">If that account exists, you will receive an email from jeoplitContact@gmail.com with further instructions</h2>
+    </div>
+    <%}else{%>
       <div class="container text-light p-2 signup_login_container">
-        <% if (locals.msg) { %>
-          <h2 class="text-center">If that account exists, you will receive an email from jeoplitContact@gmail.com with further instructions</h2>
-        <%}else{%>
         <h2 class="text-center">Reset your password</h2>
             <div class="card center-box">
               <div class="card-body">
