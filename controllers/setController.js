@@ -263,10 +263,13 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 });
 
 const getPlaySet = (req, res) => {
-	if (req.session.set)
+	if(req.session.set && req.session.user){
+		res.render('play', {user:req.session.user, rows: req.session.set, size: req.session.size, score: req.session.score})
+	} else if (req.session.set){
 		res.render('play', {rows: req.session.set, size: req.session.size, score: req.session.score})
-	else
+	}else{
 		res.redirect('home');
+	}
 }
 
 const postNewSet = asyncHandler(async (req, res) => {
