@@ -1,5 +1,5 @@
 .bp-gradient {
-  background-image: linear-gradient(to right, #00003d, #1c006e);
+  background-image: linear-gradient(to right, #051834, #051834);
 }
 .bp-starry-gradient{
 background-color: #061834;
@@ -11,6 +11,21 @@ background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;background-p
 }
 .color-lavender {
   color: #8170f4;
+}
+.text-light-blue{
+  color:#a3caff;
+}
+.text-load-blue{
+  color:#5aa0ff;
+}
+.text-load-purple{
+  color:#c35cff;
+}
+.pass-green{
+  color:rgb(59, 253, 0);
+}
+.fail-red{
+  color:rgb(255, 25, 0);
 }
 
 body {

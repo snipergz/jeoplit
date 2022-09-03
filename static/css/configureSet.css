@@ -1,7 +1,9 @@
 .hidden {
     visibility: hidden;
 }
-
+.text-light-blue{
+  color:#a3caff;
+}
 @media screen and (max-width:768px) {
   #qaTable{
     display: none;

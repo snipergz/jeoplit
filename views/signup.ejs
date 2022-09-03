@@ -12,7 +12,7 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
   rel="stylesheet"  type='text/css'>
 <body class="bp-starry-gradient">
-  <nav class="navbar navbar-expand-lg navbar-dark text-light fixed-top" style="background-image: linear-gradient(to right, #051834, #051834);">
+  <nav class="navbar navbar-expand-lg navbar-dark text-light fixed-top bp-gradient">
     <div class="container-fluid">
       <a class="navbar-brand" href="home">JeoPlit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,24 +47,24 @@
               <div class="card-body">
                 <form id="signupForm">
                   <div class="form-group mb-3">
-                    <label class="mb-1" for="username" style="color: black">Username</label>
+                    <label class="mb-1 text-dark" for="username">Username</label>
                     <input id="username" type="textbox" name="username" value="<%= locals.uname %>" class="form-control">
-                    <label id="usernameAlert" role="alert" for="username" class="mt-2 d-none" style="color: red;"></label>
+                    <label id="usernameAlert" role="alert" for="username" class="mt-2 d-none fail-red"></label>
                   </div>
                   <div class="form-group mb-3">
-                    <label class="mb-1" for="email" style="color: black">Email</label>
+                    <label class="mb-1 text-dark" for="email" >Email</label>
                     <input id="email" type="textbox" name="email" class="form-control" >
-                    <label id="emailAlert" role="alert" for="email" class="mt-2 d-none" style="color: red;"></label>
+                    <label id="emailAlert" role="alert" for="email" class="mt-2 d-none fail-red"></label>
                   </div>
                   <div class="form-group mb-3">
-                    <label class="mb-1" for="password" style="color: black">Password</label>
+                    <label class="mb-1 text-dark" for="password">Password</label>
                     <input id="password" type="password" name="password" class="form-control" > 
-                    <label id="passwordAlert" role="alert" for="password" class="mt-2 d-none" style="color: red;"></label>
+                    <label id="passwordAlert" role="alert" for="password" class="mt-2 d-none fail-red"></label>
                   </div>
                   <div class="form-group mb-3">
-                    <label class="mb-1" for="confirmPassword" style="color: black">Confirm Your Password</label>
+                    <label class="mb-1 text-dark" for="confirmPassword">Confirm Your Password</label>
                     <input id="confirmPassword" type="password" name="confirmPassword" class="form-control"> 
-                    <label id="confirmPasswordAlert" role="alert" for="confirmPassword" class="mt-2 d-none" style="color: red;"></label>
+                    <label id="confirmPasswordAlert" role="alert" for="confirmPassword" class="mt-2 d-none fail-red"></label>
                   </div>
                   <p style="color:rgba(0,0,0,.8); text-align:left;"> <span style="color:rgba(0,0,0,.7); font-weight:600;">Note:</span> Password must contain at least eight characters, including at least 1 Capital letter, 1 lowercase letter, and 1 number.</p>
                   <% if (locals.errors) { %>
@@ -77,7 +77,7 @@
                     </div>
                     <% } %>
                   <button type="submit" class="btn btn-primary w-100">Sign Up</button>
-                  <hr class="w-100" style="color: black">
+                  <hr class="w-100 text-dark">
                 </form>
             <img id="logo" src="/images/jeoplit-logo-v2.png">
 

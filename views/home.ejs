@@ -11,7 +11,7 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
 </head>
 <body class="bp-starry-gradient">
-  <nav class="navbar navbar-expand-lg navbar-dark text-light fixed-top" style="background-image: linear-gradient(to right, #051834, #051834);">
+  <nav class="navbar navbar-expand-lg navbar-dark text-light fixed-top bp-gradient">
     <div class="container-fluid">
       <a class="navbar-brand" href="home">JeoPlit</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
   </nav>
   <section>
       <div class="home-cta text-light p-2" id="playForm">
-          <h1 style="color:#a3caff">Let's Learn it with JeoPlit</h1>
+          <h1 class="text-light-blue">Let's Learn it with JeoPlit</h1>
           <h3>👇Paste a Quizlet Link Below👇</h3>
           <form method="POST" action="submitSet" class="d-inline">
             <input type="text" placeholder="Quizlet Link: " id="link-box" class="link-box" name = "quizletLink"></input>
@@ -54,12 +54,12 @@
         <div class="spinner">
           <div class="spin"></div>
         </div>
-        <h1 style="color:#5aa0ff">Your Set Is currently being loaded...</h1>
+        <h1 class="text-load-blue">Your Set Is currently being loaded...</h1>
         <div class="hwrap">
           <div class="hmove">
             <div class="hslide">
               <h3>You are seeing this message because you are creating history.
-                <span style="color:#c35cff">#FirstToUseThisSet 🥳🎉</span>.
+                <span class="text-load-purple">#FirstToUseThisSet 🥳🎉</span>.
               </h3>
             </div>
             <div class="hslide">

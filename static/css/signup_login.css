@@ -2,6 +2,16 @@
     max-width: 550px;
 }
 
+.message-box{
+    height: 10rem;
+    overflow-y: scroll;
+}
+
+.btn-new-account{
+    background-color: #4f4aa6; 
+    margin-left: 25%;
+}
+
 /* @media screen and (max-width:991px) {
    .signup_login_container{
         position: fixed;
