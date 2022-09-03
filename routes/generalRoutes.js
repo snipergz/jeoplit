@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {getHome, postHome, getContact, postContact, getAbout, getProfile} = require('../controllers/generalController');
+const {getHome, postHome, getContact, postContact, getAbout, getProfile, get404} = require('../controllers/generalController');
 
 // Home Page Routes
 router.get('/home', getHome);
@@ -16,5 +16,8 @@ router.get('/about', getAbout);
 
 // Profile Page Route
 router.get('/profile', getProfile);
+
+// 404 Route
+router.get('/404', get404);
 
 module.exports = router;

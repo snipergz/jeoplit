@@ -81,7 +81,7 @@ async function scrapeProduct(url){
 		const page = (await browser.pages())[0];
 		await page.setRequestInterception(true);
 		page.on('request', (req) => {
-			if(req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image'){
+			if(req.resourceType() == 'font' || req.resourceType() == 'image'){
 				req.abort();
 			} else {
 				req.continue();
@@ -167,7 +167,7 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 				})
 			}
 		}else{
-			res.send("Bad Set\n");
+			res.render('404');
 		}
 
 		const numOfCards = parseInt(size) * 5;
@@ -182,10 +182,10 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 		console.log("Set is not in Database\n");
 
 		//Scrape the Set
-		console.log("\nBeginning the Scrape...");
+		console.log(`\nBeginning the Scrape for ${req.body.quizletLink}...`);
 		[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
 		if(questions == undefined || questions == null)
-			return res.send("Bad Link");
+			return res.render('404');
 
 		console.log("Scraping ", setTitle);
 		console.log("Questions Scraped ", questions);
@@ -226,7 +226,6 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 
 		// Insert set into user's setsPlayed array if logged in
 		if(req.session.user){
-			console.log(req.session.user)
 			try {
 				await User.updateOne(
 					{"username" : req.session.user.username},
@@ -248,7 +247,7 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 				})
 			}
 		}else{
-			res.send("Bad Set\n");
+			res.render('404');
 		}
 
 		console.log("Game Started - User Set Configuration...\n");
@@ -285,7 +284,7 @@ const postNewSet = asyncHandler(async (req, res) => {
 			})
 		}
 	}else{
-		res.send("Bad Set\n");
+		res.render('404');
 	}
 
 	const numOfCards = parseInt(size) * 5;

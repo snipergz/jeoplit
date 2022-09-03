@@ -68,5 +68,10 @@ const getProfile = (req, res) => {
 		res.render('home');
 };
 
+// 404 Page Route
+const get404 = (req, res) => {
+	res.render('404');
+}
 
-module.exports = {getHome, postHome, getContact, postContact, getAbout, getProfile};
+
+module.exports = {getHome, postHome, getContact, postContact, getAbout, getProfile, get404};
