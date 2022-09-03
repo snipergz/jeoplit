@@ -36,6 +36,8 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use('', require('./routes/generalRoutes'));
 app.use('', require('./routes/userRoutes'));
 app.use('', require('./routes/setRoutes'));
+app.use((req, res, next) => {
+    res.render('404');})
 
 // start up server
 console.log("Javascript running on the server");
