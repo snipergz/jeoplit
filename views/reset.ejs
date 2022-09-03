@@ -47,16 +47,24 @@
         <h2 class="text-center">Reset your password</h2>
             <div class="card center-box">
               <div class="card-body">
-                <form method="POST" action="/forgot">
-                  <div class="form-group">
-                    <label class="mb-1" for="email" style="color: black">Please enter your account's email address below</label>
-                    <input type="textbox" name="email" class="form-control" placeholder="Email">
+                <form id="resetForm">
+                  <span id="requestID"><%=locals.id%></span>
+                  <div class="form-group mb-3">
+                    <label class="mb-1" for="password" style="color: black">Password</label>
+                    <input id="resetPassword" type="password" name="password" class="form-control" > 
+                    <label id="resetPasswordAlert" role="alert" for="password" class="mt-2 d-none" style="color: red;"></label>
                   </div>
-                  <button type="submit" class="btn btn-primary w-100 mt-3 mb-4">Send Password Reset Email</button>
+                  <div class="form-group mb-3">
+                    <label class="mb-1" for="confirmPassword" style="color: black">Confirm Your Password</label>
+                    <input id="resetConfirmPassword" type="password" name="confirmPassword" class="form-control"> 
+                    <label id="resetConfirmPasswordAlert" role="alert" for="confirmPassword" class="mt-2 d-none" style="color: red;"></label>
+                  </div>
+                  <button type="submit" class="mt-3 mb-2 btn btn-primary w-100">Reset Password</button>
                 </form>
             <img id="logo" src="/images/jeoplit-logo-v2.png">
         <%}%>
       </div>
+      <script src="/scripts/reset.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

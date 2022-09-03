@@ -44,7 +44,8 @@ const postContact = (req, res) => {
 
 	transporter.sendMail(message, (error, info) => {
 	if (error) {
-		return console.log(error);
+		console.log(error);
+		res.render('contact', {failed: true});
 	}
 	console.log("Message Successfully sent");
 	res.render('contact', {msg: true});

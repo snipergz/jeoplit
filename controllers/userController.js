@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs')
+const { v4: uuidv4 } = require('uuid');
+const validate = require('uuid-validate');
 
 const User = require('../models/userModel');
 const Reset = require('../models/resetModel');
@@ -19,6 +21,19 @@ async function findByUsername(username) {
     } catch (error) {
         console.log(error);
     }
+}
+
+async function findEmail(email){
+    const user = await User.findOne({"email" : email});
+    try {
+        if(user != null){
+            return user;
+        }else{
+            return null;
+        }
+    } catch (error) {
+        console.log(error);
+    }  
 }
 
 async function login(username, password) {
@@ -78,27 +93,30 @@ async function signup(username, email, password) {
 }
 
 async function createResetRequest(request){
+    console.log("Creating reset request...");
     try {
         await Reset.create({
             id: request.id,
             email: request.email
         });
+        console.log("Reset request created");
     } catch (error) {
         console.log(error);
     }
 }
 
-function getResetRequest(id) {
-    const thisRequest = Reset.find({"id":id});
+async function getResetRequest(id) {
+    const thisRequest = await Reset.findOne({"id":id});
     try {
-        if(thisRequest[0])
-            return thisRequest[0];
+        if(thisRequest)
+            return thisRequest;
     } catch (error) {
         console.log(error);
     }
 }
 
 function sendResetLink(email, id){
+    console.log("Sending Reset Link...")
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
@@ -113,7 +131,7 @@ function sendResetLink(email, id){
 
 	var message = {
 		from: process.env.CONTACT_EMAIL,
-		to: req.body.emailAddress,
+		to: email,
 		subject: 'Reset password instructions',
 		text: `To reset your password, please click on this link: http://localhost:8080/reset/${id}`
 	  };
@@ -122,8 +140,7 @@ function sendResetLink(email, id){
 	if (error) {
 		return console.log(error);
 	}
-	console.log("Message Successfully sent");
-	res.render('forgot', {msg: true});
+	console.log("Reset Link sent");
 	});
 };
 
@@ -136,7 +153,7 @@ const getLogin = (req, res) => {
 }
 
 const postLogin = asyncHandler(async(req, res) =>{
-    const username = req.body.username;
+    const username = req.body.username.toString().toLowerCase();
 	const password = req.body.password;
 	let [user, errors] = await login(username, password);
 	if (user) {
@@ -178,20 +195,50 @@ const getForgot = (req, res) => {
 }
 
 const postForgot = asyncHandler(async(req, res) => {
-	const user = findByUsername(req.body.emailAddress);
+    console.log("Reset Password Flow started");
+	const user = await findEmail(req.body.email);
     try {
-        if(user.email === req.body.emailAddress){
-            const id = randomUUID();
-            const request = {
-                id,
-                email: user[0].email
-            };
-            createResetRequest(request);
-        }   
+        const id = uuidv4();
+        const request = {
+            id,
+            email: user.email
+        };
+        createResetRequest(request);
+        sendResetLink(user.email, id);
     } catch (error) {
-
+        console.log(error)
     }
+	res.render('forgot', {msg: true});
 })
+
+const getReset = (req, res) => {
+    if(validate(req.params['id'], 4) && getResetRequest(req.params['id'])){
+        res.render(`reset`, {id: req.params['id']});
+    } else {
+        res.render(`home`);
+    }
+}
+
+const patchPassword = asyncHandler(async(req, res) => {
+    console.log("Patching Password for request: ", req.params['id']);
+    const thisRequest = await getResetRequest(req.params['id']);
+    if (thisRequest) {
+        const user = await findEmail(thisRequest.email);
+        hashed = await bcrypt.hash(req.body.password, 10);
+        try {
+            await User.updateOne(
+                {"username": user.username},
+                {"password": hashed});
+            console.log("Patch Success");
+        } catch (error) {
+            console.log(error)
+        }
+        res.status(204).json();
+
+    } else {
+        res.status(404).json();
+    }
+});
 
 // API Routes
 const checkUsernameDuplicates = asyncHandler(async(req, res) => {
@@ -207,4 +254,4 @@ const checkUsernameDuplicates = asyncHandler(async(req, res) => {
 	}
 });
 
-module.exports = {getLogin, postLogin, getSignup, postSignup, getLogout, getForgot, postForgot, checkUsernameDuplicates};
+module.exports = {getLogin, postLogin, getSignup, postSignup, getLogout, getForgot, postForgot, getReset, patchPassword, checkUsernameDuplicates};

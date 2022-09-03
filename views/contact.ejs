@@ -43,7 +43,10 @@
   <div class="container py-4 signup_login_container">
     <h1 class="text-center text-light">We want to hear from you</h1>
     <%if (locals.msg) {%>
-      <h3 style="color:greenyellow" class="text-center"> Your Email has been sent, thank you!</h3>
+      <h3 style="color:rgb(59, 253, 0)" class="text-center"> Your Email has been sent, thank you!</h3>
+    <%}%>
+    <%if (locals.failed) {%>
+      <h3 style="color:rgb(255, 25, 0)" class="text-center"> Your Email failed to send. Sorry, please try another time.</h3>
     <%}%>
     <div class="card center-box text-dark">
       <div class="card-body">

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getLogin, postLogin, getSignup, postSignup, getLogout, getForgot, postForgot, checkUsernameDuplicates} = require('../controllers/userController');
+const {getLogin, postLogin, getSignup, postSignup, getLogout, getForgot, postForgot, getReset, patchPassword, checkUsernameDuplicates} = require('../controllers/userController');
 
 // Login Routes
 router.route('/login').get(getLogin).post(postLogin);
@@ -13,7 +13,9 @@ router.get('/logout', getLogout);
 
 // Password Reset
 router.get('/forgot', getForgot);
-router.post("/forgot", postForgot);
+router.post('/forgot', postForgot);
+router.get('/reset/:id', getReset);
+router.patch('/reset/:id', patchPassword);
 
 // API
 // User Database check for duplicate username
