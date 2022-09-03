@@ -44,7 +44,11 @@
   <section">
       <div class="text-center text-light p-2" id="qaTable">
         <%if (locals.success) {%>
-          <h1 class="text-light-blue">Check answers:</h1>
+          <%if (locals.title != null && locals.title != "") {%>
+            <h1 class="text-light-blue">Check Questions and Answers for <span id="setTitle"><%= locals.title%></span></h1>
+          <%}else{%>
+            <h1 class="text-light-blue">Check Questions and Answers</h1>
+          <%}%>
           <div class="container">
           <table class="table table-dark table-bordered table-striped">
             <thead>

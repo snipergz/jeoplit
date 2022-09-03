@@ -83,6 +83,7 @@ document.querySelector('#flipQAPhone').addEventListener('click', function() {
 document.querySelector('#confirmationButton').addEventListener('click', async function() {
     let questions = document.querySelectorAll('.question');
     let answers = document.querySelectorAll('.answer');
+    let setTitle = document.getElementById('setTitle').innerText;
 
     let questionArr = [];
     let answerArr = [];
@@ -93,7 +94,7 @@ document.querySelector('#confirmationButton').addEventListener('click', async fu
     await fetch('/playWithNewSet', {
         headers: {'Content-Type': 'application/json'},
         method: 'POST',
-        body: JSON.stringify({questions: questionArr, answers: answerArr})
+        body: JSON.stringify({title: setTitle, questions: questionArr, answers: answerArr})
     }).then(async (res) => {
         window.location.assign('/playSet');
     }).catch(async (res) => {
@@ -105,6 +106,7 @@ document.querySelector('#confirmationButton').addEventListener('click', async fu
 document.querySelector('#confirmationButtonPhone').addEventListener('click', async function() {
     let questions = document.querySelectorAll('.questionPhone');
     let answers = document.querySelectorAll('.answerPhone');
+    let setTitle = document.getElementById('setTitle').innerText;
 
     let questionArr = [];
     let answerArr = [];
@@ -115,7 +117,7 @@ document.querySelector('#confirmationButtonPhone').addEventListener('click', asy
     await fetch('/playWithNewSet', {
         headers: {'Content-Type': 'application/json'},
         method: 'POST',
-        body: JSON.stringify({questions: questionArr, answers: answerArr})
+        body: JSON.stringify({title: setTitle, questions: questionArr, answers: answerArr})
     }).then(async (res) => {
         window.location.assign('/playSet');
     }).catch(async (res) => {

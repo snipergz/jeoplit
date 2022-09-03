@@ -175,9 +175,9 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 		console.log("Game Started - User Set Configuration...\n");
 		// Send it to user checking
 		if(req.session.user)
-			res.render('configureSet', {user: req.session.user, success: success, rows:rows});
+			res.render('configureSet', {title: dbSet.title, user: req.session.user, success: success, rows:rows});
 		else
-			res.render('configureSet', {success: success, rows:rows});
+			res.render('configureSet', {title: dbSet.title, success: success, rows:rows});
 	}else{
 		console.log("Set is not in Database\n");
 
@@ -255,18 +255,24 @@ const postSubmitSet = asyncHandler(async(req, res) =>{
 		const numOfCards = parseInt(size) * 5;
 		// Send it to user checking
 		if(req.session.user)
-			res.render('configureSet', {user: req.session.user, success: success, rows:rows});
+			res.render('configureSet', {title: setTitle, user: req.session.user, success: success, rows:rows});
 		else
-			res.render('configureSet', {success: success, rows:rows});
+			res.render('configureSet', {title: setTitle, success: success, rows:rows});
 		// res.render('play', {title: set.t, rows: rows, size: numOfCards});
 	}
 });
 
 const getPlaySet = (req, res) => {
 	if(req.session.set && req.session.user){
-		res.render('play', {user:req.session.user, rows: req.session.set, size: req.session.size, score: req.session.score})
+		if(req.session.title)
+			res.render('play', {user:req.session.user, title: req.session.title, rows: req.session.set, size: req.session.size, score: req.session.score})
+		else
+			res.render('play', {user:req.session.user, rows: req.session.set, size: req.session.size, score: req.session.score})
 	} else if (req.session.set){
-		res.render('play', {rows: req.session.set, size: req.session.size, score: req.session.score})
+		if(req.session.title)
+			res.render('play', {title: req.session.title, rows: req.session.set, size: req.session.size, score: req.session.score})
+		else
+			res.render('play', {rows: req.session.set, size: req.session.size, score: req.session.score})
 	}else{
 		res.redirect('home');
 	}
@@ -295,6 +301,7 @@ const postNewSet = asyncHandler(async (req, res) => {
 	req.session.set = rows;
 	req.session.size = numOfCards;
 	req.session.score = 0;
+	req.session.title = req.body.title;
 
 	res.json({status: "OK"})
 });
