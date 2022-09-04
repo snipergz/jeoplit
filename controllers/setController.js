@@ -77,7 +77,9 @@ async function createRandomSet(questions, answers) {
 async function scrapeProduct(url){
 	console.log("Scraping Browser Started...");
 	try{
-		const browser = await puppeteer.launch();
+		const browser = await puppeteer.launch({
+			executablePath: '/usr/local/bin/chromium'
+		  });
 		const page = (await browser.pages())[0];
 		await page.setRequestInterception(true);
 		page.on('request', (req) => {
