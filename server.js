@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const PORT=8080;
+const PORT= server.listen(process.env.PORT || 8080);
 const static_dir = path.join(__dirname, 'static');
 const mongoose = require('mongoose');
 const session = require('express-session');
