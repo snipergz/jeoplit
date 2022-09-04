@@ -78,7 +78,8 @@ async function scrapeProduct(url){
 	console.log("Scraping Browser Started...");
 	try{
 		const browser = await puppeteer.launch({
-			executablePath: '/usr/local/bin/chromium'
+			headless: true, 
+			executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 		  });
 		const page = (await browser.pages())[0];
 		await page.setRequestInterception(true);
