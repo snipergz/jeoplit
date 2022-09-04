@@ -78,9 +78,9 @@ async function scrapeProduct(url){
 	console.log("Scraping Browser Started...");
 	try{
 		const browser = await puppeteer.launch({
-			headless: true, 
-			executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-		  });
+			headless:false,
+			args: ["--no-sandbox"]
+		});
 		const page = (await browser.pages())[0];
 		await page.setRequestInterception(true);
 		page.on('request', (req) => {
