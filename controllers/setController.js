@@ -126,143 +126,150 @@ async function scrapeProduct(url){
 
 // Routes
 const postSubmitSet = asyncHandler(async(req, res) =>{
+
+	// Check the link to make sure the link is valid
+	if (!req.body.quizletLink || !/quizlet.com/.test(req.body.quizletLink))
+		res.render('home', {errors: ["Please input a Quizlet link!"]})
 	
-	//Game begins
-	console.log("\nPerson is now playing");
-	console.log("Quizlet Link is: " , req.body.quizletLink);
+	else {
 
-	//Check first if the set is in the database
-	console.log("Checking Database");
-	const dbSet = await findLink(req.body.quizletLink);
-	if(dbSet){
-		console.log("Set is in the Database\n");
-
-		// Insert set into user's setsPlayed array if logged in
-		if(req.session.user){
-			try {
-				await User.updateOne(
-					{"username" : req.session.user.username},
-					{"setsPlayed" : [...req.session.user.setsPlayed, req.body.quizletLink]}
-					);
-			} catch (error) {
-				console.log(error);
-			}
-		}
-
-		// console.log(dbSet);
-		const dbQuestions = dbSet.questions.split(setDBSeed);
-		const dbAnswers = dbSet.answers.split(setDBSeed);
-		// console.log(dbQuestions);
-		// console.log(dbAnswers);
-
-		//Get the Length of the Set
-		const size = dbQuestions.length / 5;
-		let rows = [];
-
-		// Randomize the Set
-		console.log("Randomizing the Set...\n");
-		let [success, deck] = await createRandomSet(dbQuestions, dbAnswers);
-		if(success) {
-			for (let i = 0; i < size; i++) {
-				rows.push({
-					s: deck.splice(0, 5),
-					v: ((i + 1)*100)
-				})
-			}
-		}else{
-			res.render('404');
-		}
-
-		const numOfCards = parseInt(size) * 5;
+		//Game begins
+		console.log("\nPerson is now playing");
+		console.log("Quizlet Link is: " , req.body.quizletLink);
 		
-		console.log("Game Started - User Set Configuration...\n");
-		// Send it to user checking
-		if(req.session.user)
-			res.render('configureSet', {title: dbSet.title, user: req.session.user, success: success, rows:rows});
-		else
-			res.render('configureSet', {title: dbSet.title, success: success, rows:rows});
-	}else{
-		console.log("Set is not in Database\n");
+		//Check first if the set is in the database
+		console.log("Checking Database");
+		const dbSet = await findLink(req.body.quizletLink);
+		if(dbSet){
+			console.log("Set is in the Database\n");
 
-		//Scrape the Set
-		console.log(`\nBeginning the Scrape for ${req.body.quizletLink}...`);
-		[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
-		if(questions == undefined || questions == null)
-			return res.render('404');
-
-		console.log("Scraping ", setTitle);
-		console.log("Questions Scraped ", questions);
-		console.log("Answers Scraped ", answers);
-		console.log("Scrape Succeeded...\n");
-
-		//Get the Length of the Set
-		const size = questions.length / 5;
-		let rows = [];
-
-		//Adjust the data
-		for(let question of questions){
-			question += setDBSeed;
-		}
-		for(let answer of answers){
-			answer += setDBSeed;
-		}
-		// console.log("Questions Adjusted ", set.q);
-		// console.log("Answers Adjusted ", set.a);
-
-		// Insert into database
-		console.log("Inserting into the sets database...");
-		const questionsString = questions.join(setDBSeed);
-		const answersString = answers.join(setDBSeed);
-		if(questionsString != "" && answersString != "" && setTitle != ""){
-			try {
-				const newSet = await Set.create({
-					title: (String(setTitle)),
-					link: req.body.quizletLink,
-					questions: questionsString,
-					answers: answersString
-				});
-			} catch (error) {
-				console.log(error);
+			// Insert set into user's setsPlayed array if logged in
+			if(req.session.user){
+				try {
+					await User.updateOne(
+						{"username" : req.session.user.username},
+						{"setsPlayed" : [...req.session.user.setsPlayed, req.body.quizletLink]}
+						);
+				} catch (error) {
+					console.log(error);
+				}
 			}
-			console.log("Set inserted into database...\n");
-		}
 
-		// Insert set into user's setsPlayed array if logged in
-		if(req.session.user){
-			try {
-				await User.updateOne(
-					{"username" : req.session.user.username},
-					{"setsPlayed" : [...req.session.user.setsPlayed, req.body.quizletLink]}
-					);
-			} catch (error) {
-				console.log(error);
-			}
-		}
+			// console.log(dbSet);
+			const dbQuestions = dbSet.questions.split(setDBSeed);
+			const dbAnswers = dbSet.answers.split(setDBSeed);
+			// console.log(dbQuestions);
+			// console.log(dbAnswers);
 
-		// Randomize the Set
-		console.log("Randomizing the Set...\n");
-		let [success, deck] = await createRandomSet(questions, answers);
-		if(success) {
-			for (let i = 0; i < size; i++) {
-				rows.push({
-					s: deck.splice(0, 5),
-					v: ((i + 1)*100)
-				})
+			//Get the Length of the Set
+			const size = dbQuestions.length / 5;
+			let rows = [];
+
+			// Randomize the Set
+			console.log("Randomizing the Set...\n");
+			let [success, deck] = await createRandomSet(dbQuestions, dbAnswers);
+			if(success) {
+				for (let i = 0; i < size; i++) {
+					rows.push({
+						s: deck.splice(0, 5),
+						v: ((i + 1)*100)
+					})
+				}
+			}else{
+				res.render('404');
 			}
+
+			const numOfCards = parseInt(size) * 5;
+				
+			console.log("Game Started - User Set Configuration...\n");
+			// Send it to user checking
+			if(req.session.user)
+				res.render('configureSet', {title: dbSet.title, user: req.session.user, success: success, rows:rows});
+			else
+				res.render('configureSet', {title: dbSet.title, success: success, rows:rows});
 		}else{
-			res.render('404');
-		}
+			console.log("Set is not in Database\n");
+			//Scrape the Set
+			console.log(`\nBeginning the Scrape for ${req.body.quizletLink}...`);
+			[questions, answers, setTitle] = await scrapeProduct(req.body.quizletLink);
+			if(questions == undefined || questions == null)
+				return res.render('404');
 
-		console.log("Game Started - User Set Configuration...\n");
-		//Render the playing page
-		const numOfCards = parseInt(size) * 5;
-		// Send it to user checking
-		if(req.session.user)
-			res.render('configureSet', {title: setTitle, user: req.session.user, success: success, rows:rows});
-		else
-			res.render('configureSet', {title: setTitle, success: success, rows:rows});
-		// res.render('play', {title: set.t, rows: rows, size: numOfCards});
+			console.log("Scraping ", setTitle);
+			console.log("Questions Scraped ", questions);
+			console.log("Answers Scraped ", answers);
+			console.log("Scrape Succeeded...\n");
+
+			//Get the Length of the Set
+			const size = questions.length / 5;
+			let rows = [];
+
+			//Adjust the data
+			for(let question of questions){
+				question += setDBSeed;
+			}
+			for(let answer of answers){
+				answer += setDBSeed;
+			}
+			// console.log("Questions Adjusted ", set.q);
+			// console.log("Answers Adjusted ", set.a);
+			// Insert into database
+			console.log("Inserting into the sets database...");
+			const questionsString = questions.join(setDBSeed);
+			const answersString = answers.join(setDBSeed);
+			if(questionsString != "" && answersString != "" && setTitle != ""){
+				try {
+					const newSet = await Set.create({
+						title: (String(setTitle)),
+						link: req.body.quizletLink,
+						questions: questionsString,
+						answers: answersString
+					});
+				} catch (error) {
+					console.log(error);
+				}
+				console.log("Set inserted into database...\n");
+			}
+
+			// Insert set into user's setsPlayed array if logged in
+			if(req.session.user){
+				try {
+					await User.updateOne(
+						{"username" : req.session.user.username},
+						{"setsPlayed" : [...req.session.user.setsPlayed, req.body.quizletLink]}
+						);
+				} catch (error) {
+					console.log(error);
+				}
+			}
+
+			// Randomize the Set
+			console.log("Randomizing the Set...\n");
+			let [success, deck] = await createRandomSet(questions, answers);
+			if(success) {
+				for (let i = 0; i < size; i++) {
+					rows.push({
+						s: deck.splice(0, 5),
+						v: ((i + 1)*100)
+					})
+				}
+			}else{
+				res.render('404');
+			}
+
+			console.log("Game Started - User Set Configuration...\n");
+			//Render the playing page
+			const numOfCards = parseInt(size) * 5;
+			// Send it to user checking
+			if(req.session.user)
+				res.render('configureSet', {title: setTitle, user: req.session.user, success: success, rows:rows});
+			else
+				res.render('configureSet', {title: setTitle, success: success, rows:rows});
+			// res.render('play', {title: set.t, rows: rows, size: numOfCards});
+		}
 	}
+
+	
 });
 
 const getPlaySet = (req, res) => {

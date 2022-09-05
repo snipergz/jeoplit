@@ -48,6 +48,14 @@
             <input type="text" placeholder="Quizlet Link: " id="link-box" class="link-box" name = "quizletLink"></input>
             <button class="jeoplit-btn" id="play-button">Play</button>
           </form>
+
+          <% if (locals.errors) { %>
+                <% for (let error of errors) { %>
+                <p style="color:rgba(255, 255, 255, 0.8); text-align:center;"><b><%= error %> </b></p>
+                <% } %>
+                <p style="color:rgba(180,180,180,.8); text-align:center;"> <span style="color:rgba(180,180,180,.7); font-weight:600;">Hint:</span> https://quizlet.com/<b>...</b></p>
+          <% } %>
+
           <img id="logo" src="/images/jeoplit-logo-v2.png">
       </div>
       <div class="home-cta text-light p-2 d-none" id="notice">
