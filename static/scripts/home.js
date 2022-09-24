@@ -16,20 +16,47 @@ var quotes = [
 
 var i = 0;
 
-setInterval(function() {
-    loadingText.innerHTML = quotes[i];
-    loadingText.style.animation = "fadeIn 5s ease-in-out";
-    i++;
-    if(i == quotes.length){
-        i = 0;
-    }
-}, 5000);
-
-button.addEventListener('click', async () => 
-{
-    console.log("Btn Clicked");
-    notice.classList.remove('d-none');
-    playForm.classList.add('d-none');
+function checkFields() {
+    quizletLink = document.getElementById("link-box").value;
     
-});
+    // Check the link to make sure the link is valid
+	if (!/quizlet.com/.test(quizletLink)) {
+        document.getElementById("linkErrorMessage").classList.remove('d-none');
+        return false;
+    }
+    else {
+
+        if (!document.getElementById("linkErrorMessage").classList.contains('d-none'))
+            document.getElementById("linkErrorMessage").classList.add('d-none');
+
+        notice.classList.remove('d-none');
+        playForm.classList.add('d-none');
+
+        setInterval(function() {
+            loadingText.innerHTML = quotes[i];
+            loadingText.style.animation = "fadeIn 5s ease-in-out";
+            i++;
+            if(i == quotes.length){
+                i = 0;
+            }
+        }, 5000);
+    }
+}
+
+// setInterval(function() {
+//     loadingText.innerHTML = quotes[i];
+//     loadingText.style.animation = "fadeIn 5s ease-in-out";
+//     i++;
+//     if(i == quotes.length){
+//         i = 0;
+//     }
+// }, 5000);
+
+// button.addEventListener('click', async () => 
+// {
+//     console.log("Btn Clicked");
+//     notice.classList.remove('d-none');
+//     playForm.classList.add('d-none');
+    
+// });
 
