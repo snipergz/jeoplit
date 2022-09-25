@@ -98,3 +98,48 @@
     margin: auto;
   }
   
+
+.test-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  text-align: left;
+  margin-left: 10%; 
+  margin-right: 10%;
+} 
+
+.test-card {
+  border: solid; 
+  border-color: black;
+  background-color: white;
+  margin-top: 3%; 
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+  color: black;
+
+  position: relative;
+  width: 80%;
+}
+
+.test-card-row {
+  display: flex; 
+  flex-direction: row;
+}
+
+.test-card-head {
+  min-width: 100px;
+  font-size: 20px;
+  text-align: right;
+}
+
+.test-card-content {
+  padding-left: 1.5%;
+  font-size: 20px;
+}
+
+.test-delete-button {
+  align-self: center;
+  width: 10%;
+}
+
