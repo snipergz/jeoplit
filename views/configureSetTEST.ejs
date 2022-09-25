@@ -42,7 +42,7 @@
     </div>
   </nav>
   <section>
-      <div class="text-center text-light p-2" id="qaTable">
+      <div class="text-center text-light p-2">
         <%if (locals.success) {%>
           <%if (locals.title != null && locals.title != "") {%>
             <h1 class="text-light-blue">Check Questions and Answers for <span id="setTitle"><%= locals.title%></span></h1>
@@ -50,17 +50,14 @@
             <h1 class="text-light-blue">Check Questions and Answers</h1>
           <%}%>
           
-          <div class="test-container">
-            <div class="test-card-row">
-              <h4 style="margin-top: 5%; text-align: center; color: whitesmoke">Click on a Question or Answer to Edit!</h1>
-            </div>
-            <div class="test-card-row">
-              <h4 style="margin-top: 5%; text-align: center; color: whitesmoke">Delete a card!</h3>
-            </div>
+          <div class="test-card-row-header">
+              <h4 id="test-qa-header">Click on a Question or Answer to Edit!</h4>
+              <h4 id="test-delete-card-header">Delete a card!</h4>
           </div>
+          
           <% for (e of rows) { %> 
             <% for (s of e.s) { %> 
-              <div class="test-container" onmouseover="displayX(this)" onmouseleave="hideX(this)"> 
+              <div class="test-container" onfocusin="displayX(this)" onmouseover="displayX(this)" onmouseleave="hideX(this)"> 
                 <div id='card<%= s.id%>' class="test-card checkQAEntry">
                   <div class="test-card-row" style="padding-top: 1.5%;"> 
                       <p class="test-card-head"><b>Question:</b></p>
@@ -72,7 +69,7 @@
                   </div>
                 </div>
                 
-                <button class="test-delete-button hidden xButton" id="deletecard<%= s.id %>" tabindex="0" onclick="deletePair(this)" contenteditable="false">Delete Card</button>
+                <button class="test-delete-button hidden xButton" id="deletecard<%= s.id %>" tabindex="0" onblur="hideXButton(this)" onclick="deletePair(this)" onkeypress="deletePair(this)">Delete Card</button>
               </div>
             <% } %>
           <% } %>

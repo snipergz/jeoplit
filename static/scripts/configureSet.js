@@ -1,5 +1,4 @@
 function displayX(pair) {
-    console.log(pair);
     if (pair.querySelector(".xButton").classList.contains('hidden'))
         pair.querySelector(".xButton").classList.remove('hidden');
 }
@@ -12,12 +11,37 @@ function hideX(pair) {
 
 function displayXTab(pair) {
     if (pair.parentNode.querySelector(".xButton").classList.contains('hidden'))
-    pair.parentNode.querySelector(".xButton").classList.remove('hidden');
+        pair.parentNode.querySelector(".xButton").classList.remove('hidden');
+}
+
+// TEST FUNCTION: 
+function displayXTabTest(pair) {
+    if (pair.parentNode.parentNode.parentNode.querySelector(".xButton").classList.contains('hidden'))
+        pair.parentNode.parentNode.parentNode.querySelector(".xButton").classList.remove('hidden');
+}
+
+// TEST FUNCTION: 
+function displayXButton(button) {
+    console.log(button);
+    if (button.classList.contains('hidden'))
+        button.classList.remove('hidden');
 }
 
 function hideXTab(pair) {
     if (!pair.parentNode.querySelector(".xButton").classList.contains('hidden'))
         pair.parentNode.querySelector(".xButton").classList.add('hidden');
+}
+
+// TEST FUNCTION: 
+function hideXTabTest(pair) {
+    if (!pair.parentNode.parentNode.parentNode.querySelector(".xButton").classList.contains('hidden'))
+        pair.parentNode.parentNode.parentNode.querySelector(".xButton").classList.add('hidden');
+}
+
+// TEST FUNCTION: 
+function hideXButton(button) {
+    if (!button.classList.contains('hidden')) 
+        button.classList.add('hidden');
 }
 
 function deletePair(pair) {
