@@ -1,5 +1,5 @@
 function displayX(pair) {
-
+    console.log(pair);
     if (pair.querySelector(".xButton").classList.contains('hidden'))
         pair.querySelector(".xButton").classList.remove('hidden');
 }

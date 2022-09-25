@@ -340,4 +340,39 @@ const postUpdateScore = (req, res) => {
 	res.json({status: "OK"})
 }
 
-module.exports = {postSubmitSet, getPlaySet, postNewSet, postUpdateSet, postUpdateScore};
+// ROUTE TO TEST THE FORMATTING
+const test = async (req, res) => {
+	const dbSet = await findLink("https://quizlet.com/170241260/movies-flash-cards/");
+	if(dbSet){
+
+		// console.log(dbSet);
+		const dbQuestions = dbSet.questions.split(setDBSeed);
+		const dbAnswers = dbSet.answers.split(setDBSeed);
+		// console.log(dbQuestions);
+		// console.log(dbAnswers);
+
+		//Get the Length of the Set
+		const size = dbQuestions.length / 5;
+		let rows = [];
+
+		// Randomize the Set
+		let [success, deck] = await createRandomSet(dbQuestions, dbAnswers);
+		if(success) {
+			for (let i = 0; i < size; i++) {
+				rows.push({
+					s: deck.splice(0, 5),
+					v: ((i + 1)*100)
+				})
+			}
+		}else{
+			res.render('404');
+		}
+
+		const numOfCards = parseInt(size) * 5;
+			
+		
+		res.render('configureSetTEST', {title: dbSet.title, success: true, rows:rows});
+	}
+}
+
+module.exports = {postSubmitSet, getPlaySet, postNewSet, postUpdateSet, postUpdateScore, test};
