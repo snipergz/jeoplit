@@ -51,11 +51,13 @@
           <%}%>
           
           <div class="test-card-row-header">
-              <h4 id="test-qa-header">Click on a Question or Answer to Edit!</h4>
-              <h4 id="test-delete-card-header">Delete a card!</h4>
+              <!-- <h4 id="test-qa-header">Click on a Question or Answer to Edit!</h4>
+              <h4 id="test-delete-card-header">Delete a card!</h4> -->
+
+              <h4 style="width: 100%; text-align: center;">Click on a Question or Answer to Edit!</h4>
           </div>
           
-          <% for (e of rows) { %> 
+          <!-- <% for (e of rows) { %> 
             <% for (s of e.s) { %> 
               <div class="test-container" onfocusin="displayX(this)" onmouseover="displayX(this)" onmouseleave="hideX(this)"> 
                 <div id='card<%= s.id%>' class="test-card checkQAEntry">
@@ -72,30 +74,30 @@
                 <button class="test-delete-button hidden xButton" id="deletecard<%= s.id %>" tabindex="0" onblur="hideXButton(this)" onclick="deletePair(this)" onkeypress="deletePair(this)">Delete Card</button>
               </div>
             <% } %>
+          <% } %> -->
+
+          <% for (e of rows) { %> 
+            <% for (s of e.s) { %> 
+              <div class="test-container-v2" onfocusin="displayX(this)" onmouseover="displayX(this)" onmouseleave="hideX(this)"> 
+                  <div id='card<%= s.id%>' class="test-card checkQAEntry">
+                    <div class="test-card-row" style="padding-top: 1.5%;"> 
+                        <p class="test-card-head"><b>Question:</b></p>
+                        <p tabindex="0" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" class="test-card-content question"> <%= s.q %> </p>
+                    </div>
+                    <div class="test-card-row">
+                      <p class="test-card-head"><b>Answer:</b></p>
+                      <p tabindex="0" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" class="test-card-content answer" class="test-card-content"> <%= s.a %> </p> 
+                    </div>
+                  </div>
+                  <div style="width: 10%; margin-top: 1.5%;">
+                    <!-- <button class="test-delete-button-v2 hidden xButton" id="deletecard<%= s.id %>" tabindex="0" onblur="hideXButton(this)" onclick="deletePair(this)" onkeypress="deletePair(this)">DELETE</button> -->
+                    <button style="width: 100%;" class="test-delete-button-v2 hidden xButton" id="deletecard<%= s.id %>" onclick="deletePair(this)" onkeypress="deletePair(this)">Delete</button>
+                    <button style="width: 100%;" class="test-flipQA-button-v2 hidden flipButton" id="deletecard<%= s.id %>" onclick="flipQA(this)" onkeypress="flipQA" onblur="hideXButton(this)">Flip</button>
+                  </div>
+                </div>
+            <% } %>
           <% } %>
-          <!-- <div class="container">
-          <table class="table table-dark table-bordered table-striped">
-            <thead>
-              <tr>
-                <th scope="col" ><h3>Questions</h3></th>
-                <th scope="col"><h3>Answers</h3></th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-            <%for (e of rows){%>
-              <%for (s of e.s){%>
-                <tr id='card<%= s.id%>' onmouseover="displayX(this)" onmouseleave="hideX(this)" class="checkQAEntry" id='card<%= s.id%>'>
-                  <td tabindex="0" onfocus="displayXTab(this)" onblur="hideXTab(this)" class="align-middle question" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="font-size: 1.25rem; width:48%"> <%= s.q%> </td> 
-                  <td tabindex="0" onfocus="displayXTab(this)" onblur="hideXTab(this)" class="align-middle answer" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" style="font-size: 1.25rem; width: 48%;"> <%= s.a%> </td>
-                  <td tabindex="0" onclick="deletePair(this)" onfocus="displayX(this)" onblur="hideX(this)" contenteditable="false" style="cursor: default; color: red; font-size: 40px; width: 4%"> <span class="hidden xButton" ><b>X</b></span> </td>
-                </tr>
-              <%}%>
-            <%}%>
-          </tbody>
-          </table> 
-          </div>
-        -->
+          
           <div>
             <button style="margin-top: 3%;" aria-label="Flip Questions and Answers" class="jeoplit-btn" id="flipQA">Flip QA</button>
             <button style="margin-top: 3%;" aria-label="Study Set" class="jeoplit-btn" id="confirmationButton">Study Set</button>

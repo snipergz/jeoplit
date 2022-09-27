@@ -1,12 +1,20 @@
 function displayX(pair) {
     if (pair.querySelector(".xButton").classList.contains('hidden'))
         pair.querySelector(".xButton").classList.remove('hidden');
+
+    // More code!
+    if (pair.querySelector(".flipButton").classList.contains('hidden'))
+        pair.querySelector(".flipButton").classList.remove('hidden');
 }
 
 function hideX(pair) {
 
     if (!pair.querySelector(".xButton").classList.contains('hidden'))
         pair.querySelector(".xButton").classList.add('hidden');
+
+    // More code!
+    if (!pair.querySelector(".flipButton").classList.contains('hidden'))
+        pair.querySelector(".flipButton").classList.add('hidden');
 }
 
 function displayXTab(pair) {
@@ -40,16 +48,31 @@ function hideXTabTest(pair) {
 
 // TEST FUNCTION: 
 function hideXButton(button) {
-    if (!button.classList.contains('hidden')) 
-        button.classList.add('hidden');
+    if (!button.parentNode.querySelector('.xButton').classList.contains('hidden')) 
+        button.parentNode.querySelector('.xButton').classList.add('hidden');
+
+    // MORE CODE!
+    if (!button.parentNode.querySelector('.flipButton').classList.contains('hidden')) 
+        button.parentNode.querySelector('.flipButton').classList.add('hidden');
 }
 
 function deletePair(pair) {
-    pair.parentNode.remove();
+    // pair.parentNode.remove();
+
+    pair.parentNode.parentNode.remove();
 }
 
 function deletePairTab(e, pair) { 
     console.log(e);
+}
+
+// TEST CODE:
+function flipQA(card) {
+    questionText = card.parentNode.parentNode.querySelector('.question').innerText;
+    answerText = card.parentNode.parentNode.querySelector('.answer').innerText;
+
+    card.parentNode.parentNode.querySelector('.question').innerText = answerText;
+    card.parentNode.parentNode.querySelector('.answer').innerText = questionText;
 }
 
 document.querySelector('#flipQA').addEventListener('click', function() {
