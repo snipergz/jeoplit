@@ -89,10 +89,12 @@
                       <p tabindex="0" contenteditable="true" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" class="test-card-content answer" class="test-card-content"> <%= s.a %> </p> 
                     </div>
                   </div>
-                  <div style="width: 10%; margin-top: 1.5%;">
-                    <!-- <button class="test-delete-button-v2 hidden xButton" id="deletecard<%= s.id %>" tabindex="0" onblur="hideXButton(this)" onclick="deletePair(this)" onkeypress="deletePair(this)">DELETE</button> -->
-                    <button style="width: 100%;" class="test-delete-button-v2 hidden xButton" id="deletecard<%= s.id %>" onclick="deletePair(this)" onkeypress="deletePair(this)">Delete</button>
-                    <button style="width: 100%;" class="test-flipQA-button-v2 hidden flipButton" id="deletecard<%= s.id %>" onclick="flipQA(this)" onkeypress="flipQA" onblur="hideXButton(this)">Flip</button>
+                  <div style="width: 10%; margin-top: 1.5%; display: flex; flex-flow: column">
+                    <img class="test-delete-button-slide xButton" id="deletecard<%= s.id %>" onclick="deletePair(this)" onkeypress="deletePair(this)" src="images/red-x.png"/>
+                    <img class="test-flipQA-button-slide flipButton" id="deletecard<%= s.id %>" onclick="flipQA(this)" onkeypress="flipQA" onblur="hideXButton(this)" src="images/flip.png"/>
+                  
+                    <!-- <img class="test-delete-button-v2 hidden xButton" id="deletecard<%= s.id %>" onclick="deletePair(this)" onkeypress="deletePair(this)" src="images/red-x.png"/>
+                    <img class="test-flipQA-button-v2 hidden flipButton" id="deletecard<%= s.id %>" onclick="flipQA(this)" onkeypress="flipQA" onblur="hideXButton(this)" src="images/flip.png"/> -->
                   </div>
                 </div>
             <% } %>

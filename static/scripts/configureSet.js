@@ -1,20 +1,28 @@
 function displayX(pair) {
-    if (pair.querySelector(".xButton").classList.contains('hidden'))
-        pair.querySelector(".xButton").classList.remove('hidden');
+    // if (pair.querySelector(".xButton").classList.contains('hidden'))
+    //     pair.querySelector(".xButton").classList.remove('hidden');
 
-    // More code!
-    if (pair.querySelector(".flipButton").classList.contains('hidden'))
-        pair.querySelector(".flipButton").classList.remove('hidden');
+    // // More code!
+    // if (pair.querySelector(".flipButton").classList.contains('hidden'))
+    //     pair.querySelector(".flipButton").classList.remove('hidden');
+
+    // Testing code for sliding transition
+    pair.querySelector('.xButton').style.width = "100%";
+    pair.querySelector('.flipButton').style.width = "100%";
 }
 
 function hideX(pair) {
 
-    if (!pair.querySelector(".xButton").classList.contains('hidden'))
-        pair.querySelector(".xButton").classList.add('hidden');
+    // if (!pair.querySelector(".xButton").classList.contains('hidden'))
+    //     pair.querySelector(".xButton").classList.add('hidden');
 
-    // More code!
-    if (!pair.querySelector(".flipButton").classList.contains('hidden'))
-        pair.querySelector(".flipButton").classList.add('hidden');
+    // // More code!
+    // if (!pair.querySelector(".flipButton").classList.contains('hidden'))
+    //     pair.querySelector(".flipButton").classList.add('hidden');
+
+    // Testing code for sliding transition
+    pair.querySelector('.xButton').style.width = "0%";
+    pair.querySelector('.flipButton').style.width = "0%";
 }
 
 function displayXTab(pair) {
