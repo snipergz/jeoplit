@@ -56,12 +56,16 @@ function hideXTabTest(pair) {
 
 // TEST FUNCTION: 
 function hideXButton(button) {
-    if (!button.parentNode.querySelector('.xButton').classList.contains('hidden')) 
-        button.parentNode.querySelector('.xButton').classList.add('hidden');
+    // if (!button.parentNode.querySelector('.xButton').classList.contains('hidden')) 
+    //     button.parentNode.querySelector('.xButton').classList.add('hidden');
 
-    // MORE CODE!
-    if (!button.parentNode.querySelector('.flipButton').classList.contains('hidden')) 
-        button.parentNode.querySelector('.flipButton').classList.add('hidden');
+    // // MORE CODE!
+    // if (!button.parentNode.querySelector('.flipButton').classList.contains('hidden')) 
+    //     button.parentNode.querySelector('.flipButton').classList.add('hidden');
+
+    // Testing code for sliding transition
+    pair.querySelector('.xButton').style.width = "0%";
+    pair.querySelector('.flipButton').style.width = "0%";
 }
 
 function deletePair(pair) {
